@@ -19,11 +19,12 @@ $fullhd-enabled: false;
 
 // Update some of Bulma's component variables
 $body-background-color: $beige-lighter;
-$control-border-width: 2px;
-$input-border-color: transparent;
-$input-shadow: none;
+// $control-border-width: 2px;
+// $input-border-color: transparent;
+// $input-shadow: none;
 
 // by vishal
 $box-padding : 1rem;
 
 @import "../node_modules/bulma/bulma.sass";
+@import "../node_modules/bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.sass"

@@ -1,9 +1,8 @@
 <template>
-  <div class="columns is-multiline box">
-    <h2 class="subtitle">My Profile</h2>
-    <div class="column is-full card">
+ 
+    <div class=" card">
       <div class="card-header">
-        <div class="card-header-title">Vishal</div>
+        <div class="card-header-title title">Vishal</div>
       </div>
       <div class="card-content">
         <p
@@ -26,7 +25,7 @@
         </p>
       </footer>
     </div>
-  </div>
+
 </template>
 
 <script>

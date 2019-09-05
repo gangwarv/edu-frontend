@@ -58,6 +58,21 @@ export default {
           module: "Home"
         },
         {
+          text: "Register",
+          path: "/register",
+          module: "Home"
+        },
+        {
+          text: "Courses",
+          path: "/courses",
+          module: "Master"
+        },
+        {
+          text: "Course",
+          path: "/course",
+          module: "Master"
+        },
+        {
           text: "Profile",
           path: "/profile",
           module: "My Account"
