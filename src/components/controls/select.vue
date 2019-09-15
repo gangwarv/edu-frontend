@@ -3,20 +3,32 @@
   <div class="field">
     <label class="label">{{ label }}</label>
     <div class="control">
-      <div class="select is-fullwidth">
-        <select :value="value" @input="handleInput">
-          <option value>Select</option>
-          <option :key="item[text]" v-for="item in items" :value="item[val]" >{{ item[text] }}</option>
+      <div class="select is-fullwidth" :class="[{ 'is-multiple':multiple }]">
+        <select :value="value" @change="handleInput" :multiple="multiple" :size="size">
+          <option :hidden="multiple" value>{{ defaultLabel }}</option>
+          <option :selected="value==item[val]" :key="item[text]" v-for="item in items" :value="item[val]">{{ item[text] }}</option>
         </select>
       </div>
     </div>
+    <p class="help is-danger"> {{ errors && errors[0] }}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: "CSelect",
-  props: ["name", "options", "label", "type", "value", "placeholder"],
+  props: {
+    options: Array,
+    label: String,
+    errors: Array,
+    defaultLabel: {
+      type: String,
+      default:"Select"
+    },
+    value: String,
+    multiple: Boolean,
+    size: Number
+  },
   methods: {
     handleInput: function(e) {
       this.$emit("input", e.target.value);
@@ -24,13 +36,13 @@ export default {
   },
   computed: {
     items: function() {
-        return this.options[0];
-    },
-    text: function() {
-        return this.options[2];
+      return this.options[0];
     },
     val: function() {
-        return this.options[1];
+      return this.options[1];
+    },
+    text: function() {
+      return this.options[2];
     }
   }
 };

@@ -5,9 +5,10 @@ import "./global.scss";
 import App from './App.vue'
 import router from './router'
 import store from '@/store'
-import { date, isodate } from './filters'
+import filters from './filters'
 import controls from "@/components/controls";
-import { ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import sharedComponents from "@/components/shared";
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import { extend } from 'vee-validate'
 
 Vue.config.productionTip = false
@@ -17,9 +18,15 @@ extend('secret', {
 });
 
 Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('ValidationObserver', ValidationObserver)
 
-Vue.filter('date', date);
-Vue.filter('isodate', isodate);
+sharedComponents.forEach(cmp =>
+  Vue.component(cmp.name, cmp)
+)
+
+filters.forEach(filter =>
+  Vue.filter(filter.name, filter)
+)
 
 controls.forEach(element => {
   Vue.component(element.name, element)

@@ -4,7 +4,7 @@
       <p class="control has-icons-left">
         <input class="input" v-model="searchMenu" type="email" placeholder="Search" />
         <span class="icon is-small is-left">
-          <i class="fas fa-search"></i>
+          <i class="fa fa-search"></i>
         </span>
       </p>
     </div>

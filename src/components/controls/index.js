@@ -1,15 +1,11 @@
 import input from './input'
 import select from './select'
-import field from './field'
 import checkbox from './checkbox'
-import fieldSelect from './field-select'
-import fieldCheck from './field-check'
+import btnGroup from './btn-group'
 
 export default [
     input,
     select,
     checkbox,
-    field,
-    fieldSelect,
-    fieldCheck
+    btnGroup
 ]

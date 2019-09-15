@@ -1,16 +1,16 @@
+import Router from 'vue-router'
+import Vue from 'vue'
+
 const HelloWorld = () => import('@/views/HelloWorld')
-const Profile = () => import('@/views/Profile')
 const Home = () => import('@/views/Home')
 const Login = () => import('@/views/Login')
 const Dash = () => import('@/components/layout/dash')
-const NotFound = () => import('@/components/layout/404')
-// admission
-const Register = () => import('@/views/admission/student-register')
-const Course = () => import('@/views/master/course')
-const Courses = () => import('@/views/master/courses')
+const NotFound = () => import('@/views/404')
 
-import Router from 'vue-router'
-import Vue from 'vue'
+// routes
+import masterRoutes from './master'
+import edpRoutes from './edp'
+import admissionRoutes from './admission'
 
 Vue.use(Router)
 
@@ -28,123 +28,21 @@ const router = new Router({
           path: '',
           component: Home,
           meta: {
-            breadcrumbs: [
-              {
-                text: 'Home'
-              }
-            ],
+            breadcrumbs: ['Home'],
             caption: 'Home'
           }
         },
         {
-          path: 'profile',
-          component: Profile,
-          meta: {
-            breadcrumbs: [
-              {
-                text: 'Home',
-                path: '/'
-              },
-              {
-                text: 'Profile'
-              }
-            ],
-            caption: 'Profile'
-          }
-        },
-        {
           path: 'hello',
           component: HelloWorld,
           meta: {
-            breadcrumbs: [
-              {
-                text: 'Home',
-                path: '/'
-              },
-              {
-                text: 'Hello'
-              }
-            ],
+            breadcrumbs: ['Home', 'Hello'],
             caption: 'Hello'
           }
         },
-        {
-          path: 'hello',
-          component: HelloWorld,
-          meta: {
-            breadcrumbs: [
-              {
-                text: 'Home',
-                path: '/'
-              },
-              {
-                text: 'Hello'
-              }
-            ],
-            caption: 'Hello'
-          }
-        },
-        {
-          path: 'register',
-          component: Register,
-          meta: {
-            breadcrumbs: [
-              {
-                text: 'Home',
-                path: '/'
-              },
-              {
-                text: 'Admission',
-                path: '/'
-              },
-              {
-                text: 'Register'
-              }
-            ],
-            caption: 'Register'
-          }
-        },
-        {
-          path: 'courses',
-          component: Courses,
-          meta: {
-            breadcrumbs: [
-              {
-                text: 'Home',
-                path: '/'
-              },
-              {
-                text: 'Master',
-                path: '/'
-              },
-              {
-                text: 'Courses'
-              }
-            ],
-            caption: 'Courses'
-          }
-
-        },
-        {
-          path: 'course',
-          component: Course,
-          meta: {
-            breadcrumbs: [
-              {
-                text: 'Home',
-                path: '/'
-              },
-              {
-                text: 'Master',
-                path: '/'
-              },
-              {
-                text: 'Course'
-              }
-            ],
-            caption: 'Course'
-          }
-        }
+        ...admissionRoutes,
+        ...edpRoutes,
+        ...masterRoutes
       ]
     },
     {
@@ -153,8 +51,7 @@ const router = new Router({
     }
   ],
   mode: 'history',
-  linkExactActiveClass: 'is-active',
-  // linkActiveClass:'is-active'
+  linkExactActiveClass: 'is-active'
 })
 
 // router.beforeEach((to, from, next) => {

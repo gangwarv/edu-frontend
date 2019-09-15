@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { GET_COURSES } from '@/graphql/courses'
+import { GET_COURSES } from '@/graphql/course'
 export default {
   name: "StudentRegister",
   apollo: {

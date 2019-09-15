@@ -1,34 +1,89 @@
 <template>
-  <div class="columns is-multiline box">
-    <div class="column is-full">
-      <h2 class="subtitle">Course Details</h2>
-    </div>
-    <div class="column is-3">
-      <c-input v-model="courseName" label="Field Name" type="text" />
-    </div>
-    <div class="column is-3">
-      <c-select label="Field Name" v-model="id" :options="[numbers, 'value', 'text']"></c-select>
-    </div>
-    <div class="column is-3">
-      <c-check v-model="active" id="s" label="Active" indeterminate />
-    </div>
-  </div>
+  <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
+    <form @submit.prevent="passes(onSubmit)">
+      <PageHeader header-text="Course Details" to="/courses" link-text="Course List" />
+      <Loader v-if="$route.query.id && !course._id" />
+      <div class="columns is-multiline" v-else>
+        <div class="column is-3">
+          <ValidationProvider name="username" rules="required|email" v-slot="{ errors }">
+            <c-input v-model="course.name" label="Course Name" type="text" :errors="errors" />
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="username" rules="required" v-slot="{ errors }">
+            <c-select
+              label="Department"
+              v-model="course.department"
+              :options="[depts, '_id', 'name']"
+              :errors="errors"
+            ></c-select>
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <c-check v-model="course.isActive" id="s" label="Active" indeterminate />
+        </div>
+        <div class="column is-3"></div>
+        <BtnGroup @reset="reset" />
+      </div>
+    </form>
+  </ValidationObserver>
 </template>
 
 <script>
+import gql from "graphql-tag";
+import { GET_COURSE_BY_ID } from "@/graphql/course";
+import { GET_AC_DEPT } from "@/graphql/academic-departments";
 export default {
   name: "Course",
   data: function() {
     return {
-      courseName: "kk",
-      id: "1",
-      active: true,
-      numbers: [
-        { text: "Zero", value: "0" },
-        { text: "One", value: "1" },
-        { text: "Two", value: "2" }
-      ]
+      course: {
+        _id: null,
+        name: "",
+        isActive: true,
+        department: null
+      },
+      depts: []
     };
+  },
+  methods: {
+    onSubmit: function() {
+      console.log(this.course);
+    },
+    reset: function() {
+      this.course = {
+        _id: null,
+        name: "",
+        isActive: false,
+        department: null
+      };
+      this.$refs.observer.reset();
+    }
+  },
+  apollo: {
+    course: {
+      query: GET_COURSE_BY_ID,
+      variables() {
+        return {
+          id: this.$route.query.id
+        };
+      },
+      skip() {
+        return !this.$route.query.id;
+      }
+    },
+    acDepts: {
+      query: GET_AC_DEPT,
+      variables: {
+        isActive: true
+      },
+      manual: true,
+      result({ data, loading }) {
+        if (!loading) {
+          this.depts = data.acDepts;
+        }
+      }
+    }
   }
 };
 </script>

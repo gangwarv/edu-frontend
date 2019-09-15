@@ -11,6 +11,7 @@
         :placeholder="placeholder"
       />
     </div>
+    <p class="help is-danger"> {{ errors && errors[0] }}</p>
   </div>
 </template>
 
@@ -23,10 +24,10 @@ export default {
       type: String,
       value: String,
       placeholder: String,
+      errors: Array
   },
   methods: {
     handleInput: function(e) {
-      console.log(e)
       this.$emit("input", e.target.value);
     }
   }

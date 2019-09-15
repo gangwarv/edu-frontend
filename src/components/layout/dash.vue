@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar :menus="menus" />
-    <section class="section" style="padding: 20px 20px">
+    <section class="section" style="padding: 15px 10px">
       <div class="container is-fluid">
         <div class="columns">
           <div class="column is-2">
@@ -9,17 +9,17 @@
             <SideMenu :menus="menus" />
           </div>
           <div class="column">
-            <div class="level" >
+            <div class="level" style="margin-bottom: 10px">
               <div class="level-left">
                 <div class="level-item">
-                  <div class="title is-3">{{ $route.meta.caption }}</div>
+                  <div class="subtitle is-4 has-text-dark">{{ $route.meta.caption }}</div>
                 </div>
               </div>
               <div class="level-right">
-                <nav class="breadcrumb" aria-label="breadcrumbs">
+                <nav class="breadcrumb is-centered" aria-label="breadcrumbs">
                   <ul>
-                    <li v-for="bd in $route.meta.breadcrumbs" :key="bd.text" :class="{'is-active':!bd.path}">
-                      <router-link :to="bd.path || '#'">{{ bd.text }}</router-link>
+                    <li v-for="bd in $route.meta.breadcrumbs" :key="bd" >
+                      <router-link :to="'#'" class="has-text-grey">{{ bd }}</router-link>
                     </li>
                   </ul>
                 </nav>
@@ -68,9 +68,9 @@ export default {
           module: "Master"
         },
         {
-          text: "Course",
-          path: "/course",
-          module: "Master"
+          text: "Roles",
+          path: "/roles",
+          module: "EDP"
         },
         {
           text: "Profile",
