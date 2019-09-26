@@ -3,33 +3,41 @@ import gql from 'graphql-tag'
 export const GET_COURSES = gql`
     query GetCourses{
         courses{
-            _id,
+            id,
+            code,
+            type,
             name,
             isActive,
             departmentName,
-            department
+            duration
         }
     }
 `
 export const GET_COURSE_BY_ID = gql`
     query GetCourse($id: String!){
-        course(_id: $id){
-            _id,
+        course(id: $id){
+            id,
+            code,
+            type,
             name,
             isActive,
+            isLateral,
+            duration,
             departmentName,
             department
         }
     }
 `
-// export const GET_COURSES = gql`
-//     mutation AddCourse($name:String, $type:String, $isActive:Boolean, $department:String){
-//         addCourse(course:$name){
-//             _id,
-//             name,
-//             isActive,
-//             departmentName,
-//             department
-//         }
-//     }
-// `
+export const UPSERT_COURSE = gql`
+    mutation AddCourse($id:String, $name:String!, $code: String!, $type:String!, $department:String!, $duration:String!, $isActive:Boolean){
+        addCourse(course: {id:$id,name:$name,code:$code,type:$type,department:$department,duration:$duration,isActive:$isActive}){
+            id,
+            code,
+            type,
+            name,
+            isActive,
+            departmentName,
+            duration
+        }
+    }
+`

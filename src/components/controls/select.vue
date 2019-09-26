@@ -6,7 +6,9 @@
       <div class="select is-fullwidth" :class="[{ 'is-multiple':multiple }]">
         <select :value="value" @change="handleInput" :multiple="multiple" :size="size">
           <option :hidden="multiple" value>{{ defaultLabel }}</option>
-          <option :selected="value==item[val]" :key="item[text]" v-for="item in items" :value="item[val]">{{ item[text] }}</option>
+          <option :selected="value==item[val]||item" :key="item[text]||item" v-for="item in items" 
+          :value="item[val]||item">
+          {{ item[text]||item }}</option>
         </select>
       </div>
     </div>
