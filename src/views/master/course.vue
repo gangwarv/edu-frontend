@@ -2,17 +2,6 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Course Details" to="/courses" link-text="Course List" />
-<<<<<<< HEAD
-      <Loader v-if="$route.query.id && !course.id" />
-      <div class="columns is-multiline" v-else>
-        <div class="column is-3">
-          <ValidationProvider name="name" rules="required" v-slot="{ errors }">
-            <c-input v-model="course.name" label="Course Name" type="text" :errors="errors" />
-          </ValidationProvider>
-        </div>
-        <div class="column is-3">
-          <ValidationProvider name="Department" rules="required" v-slot="{ errors }">
-=======
       <Alert v-model="show" :title="status" :message="message" />
       {{  }}
       <Loader v-if="($route.query.id && !course.id) || !depts.length" />
@@ -29,7 +18,6 @@
         </div>
         <div class="column is-3">
           <ValidationProvider name="department" rules="required" v-slot="{ errors }">
->>>>>>> origin/HEAD
             <c-select
               label="Department"
               v-model="course.department"
@@ -77,14 +65,8 @@ export default {
   data: function() {
     return {
       course: {
-<<<<<<< HEAD
-        id: undefined,
-        code: "XX",
-        type: "UG",
-=======
         code: "",
         type: "",
->>>>>>> origin/HEAD
         name: "",
         duration: "",
         isActive: true,
@@ -98,18 +80,6 @@ export default {
   },
   methods: {
     onSubmit: function() {
-<<<<<<< HEAD
-      console.log({...this.course});
-      this.$apollo.mutate({
-        mutation: UPSERT_COURSE,
-        variables:{
-          ...this.course
-        }
-      })
-      .then(res=>{
-        console.log(res)
-      })
-=======
       console.log({ ...this.course });
       this.status = "loading";
       this.$apollo
@@ -130,19 +100,14 @@ export default {
           this.status = "Failed";
           this.message = err.networkError.result.errors[0].message;
         });
->>>>>>> origin/HEAD
     },
     reset: function() {
       if(this.$route.query.id){
         return this.$router.push('/courses')
       }
       this.course = {
-<<<<<<< HEAD
-        id: null,
-=======
         code: "",
         type: "",
->>>>>>> origin/HEAD
         name: "",
         duration: "",
         isActive: true,
