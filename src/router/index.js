@@ -54,13 +54,15 @@ const router = new Router({
   linkExactActiveClass: 'is-active'
 })
 
-// router.beforeEach((to, from, next) => {
-//   // ...
-//   console.warn('to', to);
-//   console.log('from', from);
-
-//   next()
-// })
+router.beforeEach((to, from, next) => {
+  // ...
+  // console.warn('to', to);
+  // console.log('from', from);
+  // setTimeout(() => {
+  //   next()
+  // }, 1500);
+next()
+})
 
 export default router
 

@@ -1,7 +1,19 @@
 <template>
 <div>
   <h1>Courses</h1>
-  {{ JSON.stringify(courses) }}
+  <p class="is-family-sans-serif">
+    This is is-family-sans-serif
+  </p>
+  <p class="is-family-monospace">
+    This is is-family-monospace
+  </p>
+  <p class="is-family-primary">
+    This is is-family-primary
+  </p>
+  <p class="is-family-secondary">
+    This is is-family-secondary
+  </p>
+  <!-- {{ JSON.stringify(courses) }} -->
 </div>
 </template>
 
