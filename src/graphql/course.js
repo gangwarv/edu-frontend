@@ -1,8 +1,21 @@
 import gql from 'graphql-tag'
 
 export const GET_COURSES = gql`
-    query GetCourses{
-        courses{
+    query GetCourses($isActive: Boolean, $department: String){
+        courses(isActive: $isActive, department: $department){
+            id,
+            code,
+            type,
+            name,
+            isActive,
+            departmentName,
+            duration
+        }
+    }
+`
+export const GET_ACTIVE_COURSES = gql`
+    query GetActiveCourses{
+        courses(isActive: true){
             id,
             code,
             type,
@@ -41,3 +54,11 @@ export const UPSERT_COURSE = gql`
         }
     }
 `
+
+export const getCourseById = function (variables, skip = false) {
+    return {
+        query: GET_COURSE_BY_ID,
+        variables,
+        skip: skip
+    }
+}

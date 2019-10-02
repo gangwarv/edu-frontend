@@ -52,8 +52,8 @@
 
 <script>
 import gql from "graphql-tag";
-import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
-import { GET_AC_DEPTS } from "@/graphql/ac-dept";
+import { getCourseById, UPSERT_COURSE } from "@/graphql/course";
+import { getAcDepts } from "@/graphql/ac-dept";
 export default {
   name: "Course",
   data: function() {
@@ -107,33 +107,19 @@ export default {
         department: null
       };
       this.$refs.observer.reset();
-      // this.$router.push('/course')
     }
   },
   apollo: {
-    course: {
-      query: GET_COURSE_BY_ID,
-      variables() {
-        return {
-          id: this.$route.query.id
-        };
+    course: getCourseById.bind(
+      this,
+      function() {
+        return { id: this.$route.query.id };
       },
-      skip() {
+      function() {
         return !this.$route.query.id;
       }
-    },
-    acDepts: {
-      query: GET_AC_DEPTS,
-      variables: {
-        isActive: true
-      },
-      manual: true,
-      result({ data, loading }) {
-        if (!loading) {
-          this.depts = data.acDepts;
-        }
-      }
-    }
+    ),
+    acDepts: getAcDepts.bind(this, true)
   },
   computed: {
     types() {

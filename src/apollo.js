@@ -13,9 +13,12 @@ const httpLink = new HttpLink({
 
 const apolloClient = new ApolloClient({
     link: httpLink,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
 })
 
 export const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
+    errorHandler(err) {
+        console.log('gloabl',err.message)
+    }
 })

@@ -102,19 +102,21 @@ export default {
     data: Array,
     buttons: {
       type: Array
-      // default: []
     },
     sizes: {
       type: Array,
       default: function() {
         return [3, 5, 10];
       }
+    },
+    size: {
+      type: Number,
+      default: 10
     }
   },
   data() {
     return {
       sortBy: "",
-      size: 5,
       page: 0,
       asc: true,
       searchText: ""
