@@ -172,11 +172,11 @@ export default {
       if (this.page + 1 < maxPages) this.page = +this.page + 1;
     },
     prev() {
-      if (this.page > 0)
-      this.page = +this.page - 1;
+      if (this.page > 0) this.page = +this.page - 1;
     },
     flat(obj) {
-      return Object.keys(obj)
+      return this.cols
+        .map(c => c[1] || c[0])
         .reduce((ac, s) => {
           ac.push(obj[s]);
           return ac;

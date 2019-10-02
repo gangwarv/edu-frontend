@@ -53,7 +53,7 @@
 <script>
 import gql from "graphql-tag";
 import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
-import { GET_AC_DEPT } from "@/graphql/academic-departments";
+import { GET_AC_DEPTS } from "@/graphql/ac-dept";
 export default {
   name: "Course",
   data: function() {
@@ -123,7 +123,7 @@ export default {
       }
     },
     acDepts: {
-      query: GET_AC_DEPT,
+      query: GET_AC_DEPTS,
       variables: {
         isActive: true
       },

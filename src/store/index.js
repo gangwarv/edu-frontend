@@ -113,10 +113,15 @@ export default new Vuex.Store({
                 path: "/hello",
                 module: "Home"
             },
+            // {
+            //     text: "Register",
+            //     path: "/register",
+            //     module: "Home"
+            // },
             {
-                text: "Register",
-                path: "/register",
-                module: "Home"
+                text: "Academic Departments",
+                path: "/acdepts",
+                module: "EDP"
             },
             {
                 text: "Courses",
@@ -128,11 +133,11 @@ export default new Vuex.Store({
                 path: "/roles",
                 module: "EDP"
             },
-            {
-                text: "Profile",
-                path: "/profile",
-                module: "My Account"
-            }
+            // {
+            //     text: "Profile",
+            //     path: "/profile",
+            //     module: "My Account"
+            // }
         ]
     },
     getters: {

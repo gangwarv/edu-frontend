@@ -23,13 +23,21 @@ export const GET_AC_DEPT_BY_ID = gql`
     }
 `
 export const UPSERT_AC_DEPT = gql`
-    mutation AddAcDept($id:String, $name:String!, $isActive:Boolean){
-        addAcDept(id:$id,name:$name,isActive:$isActive){
+    mutation AddAcDept($id:String, $name:String!, $isActive:Boolean!){
+        addAcDept(dept:{id:$id,name:$name,isActive:$isActive}){
             id,
             name,
             isActive,
             createdAt,
             updatedAt
+        }
+    }
+`
+export const REMOVE_AC_DEPT = gql`
+    mutation RemoveAcDept($id:String!){
+        deleteAcDept(id: $id){
+            id,
+            name
         }
     }
 `
