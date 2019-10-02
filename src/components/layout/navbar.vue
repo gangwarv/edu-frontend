@@ -32,7 +32,7 @@
     <nav class="navbar is-primary">
       <div class="container is-fluid">
         <div class="navbar-brand">
-          <router-link class="navbar-item is-active" to="/" style="font-weight:bold;">ERP {{counter}}</router-link>
+          <router-link class="navbar-item is-active" to="/" style="font-weight:bold;">ERP</router-link>
 
           <span class="navbar-burger burger" data-target="navMenu">
             <span></span>
@@ -74,17 +74,14 @@
 
 <script>
 export default {
-  name: "navbar",
-  props: ["menus"],
+  name: "Navbar",
   computed: {
-    modules: function() {
-      return this.menus
-        .map(x => x.module)
-        .filter((m, i, ar) => ar.indexOf(m) === i);
+    menus(){
+      return this.$store.getters.menus
     },
-    counter: function() {
-      return this.$store.state.count;
-    }
+    modules(){
+      return this.$store.getters.modules
+    } 
   },
   mounted: function() {
     var burger = document.querySelector(".burger");

@@ -32,4 +32,8 @@ export default [
     //     else
     //         return '';
     // }
+    function dtcolumn(data, args){
+        console.log(data,args)
+        return data;
+    }
 ];

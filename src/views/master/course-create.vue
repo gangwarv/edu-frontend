@@ -3,7 +3,6 @@
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Course Details" to="/courses" link-text="Course List" />
       <Alert v-model="show" :title="status" :message="message" />
-      {{  }}
       <Loader v-if="($route.query.id && !course.id) || !depts.length" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -28,12 +27,7 @@
         </div>
         <div class="column is-3">
           <ValidationProvider name="type" rules="required" v-slot="{ errors }">
-            <c-select
-              label="Type"
-              v-model="course.type"
-              :options="[['UG','PG','INT']]"
-              :errors="errors"
-            ></c-select>
+            <c-select label="Type" v-model="course.type" :options="[types]" :errors="errors"></c-select>
           </ValidationProvider>
         </div>
         <div class="column is-3">
@@ -41,7 +35,7 @@
             <c-select
               label="Duration"
               v-model="course.duration"
-              :options="[['2-S','4-S','6-S', '8-S']]"
+              :options="[durations]"
               :errors="errors"
             ></c-select>
           </ValidationProvider>
@@ -74,13 +68,12 @@ export default {
       },
       show: false,
       status: "",
-      message:"",
+      message: "",
       depts: []
     };
   },
   methods: {
     onSubmit: function() {
-      console.log({ ...this.course });
       this.status = "loading";
       this.$apollo
         .mutate({
@@ -92,7 +85,7 @@ export default {
         .then(res => {
           this.show = true;
           this.status = "Success";
-          this.message = "Data saved successfully!"
+          this.message = "Data saved successfully!";
           console.log("added", res);
         })
         .catch(err => {
@@ -102,8 +95,8 @@ export default {
         });
     },
     reset: function() {
-      if(this.$route.query.id){
-        return this.$router.push('/courses')
+      if (this.$route.query.id) {
+        return this.$router.push("/courses");
       }
       this.course = {
         code: "",
@@ -140,6 +133,14 @@ export default {
           this.depts = data.acDepts;
         }
       }
+    }
+  },
+  computed: {
+    types() {
+      return this.$store.getters.courseTypes;
+    },
+    durations() {
+      return this.$store.getters.courseDurations;
     }
   }
 };
