@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Navbar :menus="menus" />
+    <Navbar/>
     <section class="section" style="padding: 15px 10px">
       <div class="container is-fluid">
         <div class="columns">
           <div class="column is-2">
             <!--SideMenu-->
-            <SideMenu :menus="menus" />
+            <SideMenu/>
           </div>
           <div class="column">
             <div class="level" style="margin-bottom: 10px">
@@ -18,7 +18,7 @@
               <div class="level-right">
                 <nav class="breadcrumb is-centered" aria-label="breadcrumbs">
                   <ul>
-                    <li v-for="bd in $route.meta.breadcrumbs" :key="bd" >
+                    <li v-for="bd in $route.meta.breadcrumbs" :key="bd">
                       <router-link :to="'#'" class="has-text-grey">{{ bd }}</router-link>
                     </li>
                   </ul>
@@ -40,6 +40,7 @@
 import Navbar from "./navbar.vue";
 import SideMenu from "./sidemenu.vue";
 import Footer from "./footer.vue";
+import { constants } from 'crypto';
 
 export default {
   name: "Dash",
@@ -47,38 +48,6 @@ export default {
     Navbar,
     SideMenu,
     Footer
-  },
-  data: function() {
-    // console.log('data', this.$route)
-    return {
-      menus: [
-        {
-          text: "Hello",
-          path: "/hello",
-          module: "Home"
-        },
-        {
-          text: "Register",
-          path: "/register",
-          module: "Home"
-        },
-        {
-          text: "Courses",
-          path: "/courses",
-          module: "Master"
-        },
-        {
-          text: "Roles",
-          path: "/roles",
-          module: "EDP"
-        },
-        {
-          text: "Profile",
-          path: "/profile",
-          module: "My Account"
-        }
-      ]
-    };
   }
 };
 </script>
