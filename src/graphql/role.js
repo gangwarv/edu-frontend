@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 export const GET_ROLES = gql`
     query GetRoles{
         roles{
-            _id,
+            id,
             name,
             privileges
         }
@@ -13,7 +13,7 @@ export const GET_ROLES = gql`
 export const ADD_ROLE = gql`
     mutation AddRole($name: String!, $privileges: String!){
         addRole(name: $name, privileges: $privileges){
-            _id,
+            id,
             name,
             privileges
         }
