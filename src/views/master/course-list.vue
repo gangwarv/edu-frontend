@@ -29,7 +29,6 @@ export default {
   methods: {
     remove({ id }) {
       console.log("removed", id);
-      // this.$router.push({ path: 'course', query: { id } });
     },
     edit({ id }) {
       console.log("edited", id);

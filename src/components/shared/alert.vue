@@ -1,7 +1,7 @@
 <template>
-  <div v-if="value" :class="[{'is-success':title.toLowerCase()=='success', 'is-danger':title.toLowerCase()=='failed'},'notification']">
+  <div v-if="value" :class="[{'is-success': !error, 'is-danger':error},'notification']">
     <button class="delete" @click="close"></button>
-    <strong>{{title}}</strong>
+    <strong>{{title | uppercase }}:</strong>
     {{message}}
   </div>
 </template>
@@ -14,10 +14,15 @@ export default {
       closed: false
     };
   },
+  computed: {
+    error() {
+      return this.title.toLowerCase().includes("err") || this.title.toLowerCase().includes("fail");
+    }
+  },
   methods: {
     close() {
       this.closed = true;
-      this.$emit('input', !this.value)
+      this.$emit("input", !this.value);
     }
   }
 };
