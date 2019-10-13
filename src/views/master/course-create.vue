@@ -53,7 +53,7 @@
 <script>
 import gql from "graphql-tag";
 import observeHttp from "@/helpers/http-alert-observer";
-import { getCourseById, UPSERT_COURSE } from "@/graphql/course";
+import { GET_COURSES, getCourseById, UPSERT_COURSE } from "@/graphql/course";
 import { getAcDepts } from "@/graphql/ac-dept";
 
 export default {
@@ -83,6 +83,14 @@ export default {
           mutation: UPSERT_COURSE,
           variables: {
             ...this.course
+          },
+          update: (store, { data: { addCourse } }) => {
+            const data = store.readQuery({ query: GET_COURSES });
+            data.courses = data.courses.filter(x => x.id !== addCourse.id);
+            if (!data.courses.some(x => x.id === addCourse.id)) {
+              data.courses.push(addCourse);
+            }
+            store.writeQuery({ query: GET_COURSES, data });
           }
         })
       );

@@ -60,15 +60,23 @@ export default {
       this.role.privileges = privileges;
     },
     onSubmit() {
-      observeHttp.call(this,
-        this.$apollo
-          .mutate({
-            mutation: UPSERT_ROLE,
-            variables: {
-              ...this.role,
-              privileges: this.role.privileges.toString()
+      observeHttp.call(
+        this,
+        this.$apollo.mutate({
+          mutation: UPSERT_ROLE,
+          variables: {
+            ...this.role,
+            privileges: this.role.privileges.toString()
+          },
+          update: (store, { data: { addRole } }) => {
+            const data = store.readQuery({ query: GET_ROLES });
+            data.roles = data.roles.filter(x => x.id !== addRole.id);
+            if (!data.roles.some(x => x.id === addRole.id)) {
+              data.roles.push(addRole);
             }
-          }) 
+            store.writeQuery({ query: GET_ROLES, data });
+          }
+        })
       );
     },
     reset() {

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { GET_AC_DEPT_BY_ID, UPSERT_AC_DEPT } from "@/graphql/ac-dept";
+import { GET_AC_DEPTS, GET_AC_DEPT_BY_ID, UPSERT_AC_DEPT } from "@/graphql/ac-dept";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
@@ -42,13 +42,20 @@ export default {
     onSubmit: function() {
       observeHttp.call(
         this,
-        this.$apollo
-          .mutate({
-            mutation: UPSERT_AC_DEPT,
-            variables: {
-              ...this.acDept
+        this.$apollo.mutate({
+          mutation: UPSERT_AC_DEPT,
+          variables: {
+            ...this.acDept
+          },
+          update: (store, { data: { addAcDept } }) => {
+            const data = store.readQuery({ query: GET_AC_DEPTS });
+            data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
+            if (!data.acDepts.some(x => x.id === addAcDept.id)) {
+              data.acDepts.push(addAcDept);
             }
-          })
+            store.writeQuery({ query: GET_AC_DEPTS, data });
+          }
+        })
       );
     },
     reset: function() {

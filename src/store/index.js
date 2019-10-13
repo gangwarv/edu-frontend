@@ -129,6 +129,11 @@ export default new Vuex.Store({
                 module: "Master"
             },
             {
+                text: "Users",
+                path: "/users",
+                module: "EDP"
+            },
+            {
                 text: "Roles",
                 path: "/roles",
                 module: "EDP"
