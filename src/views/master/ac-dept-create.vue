@@ -2,7 +2,7 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Department Details" to="/acdepts" link-text="Department List" />
-      <Alert v-model="show" :title="status" :message="message" />
+      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="$route.query.id && !acDept.id" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -14,7 +14,7 @@
           <c-check v-model="acDept.isActive" id="acdept_active" label="Active" indeterminate />
         </div>
         <div class="column is-3"></div>
-        <BtnGroup :loading="status==='loading'" @reset="reset" />
+        <BtnGroup :loading="loading" @reset="reset" />
       </div>
     </form>
   </ValidationObserver>
@@ -22,6 +22,8 @@
 
 <script>
 import { GET_AC_DEPT_BY_ID, UPSERT_AC_DEPT } from "@/graphql/ac-dept";
+import observeHttp from "@/helpers/http-alert-observer";
+
 export default {
   name: "AcDept",
   data: function() {
@@ -30,38 +32,30 @@ export default {
         name: "",
         isActive: true
       },
-      show: false,
-      status: "",
-      message: ""
+      loading: false,
+      alertShow: false,
+      alertTitle: "",
+      alertMessage: ""
     };
   },
   methods: {
     onSubmit: function() {
-      this.status = "loading";
-      this.$apollo
-        .mutate({
-          mutation: UPSERT_AC_DEPT,
-          variables: {
-            ...this.acDept
-          }
-        })
-        .then(res => {
-          this.show = true;
-          this.status = "Success";
-          this.message = "Data saved successfully!";
-          
-        })
-        .catch(err => {
-          this.show = true;
-          this.status = "Failed";
-          this.message = err.networkError.result.errors[0].message;
-        });
+      observeHttp.call(
+        this,
+        this.$apollo
+          .mutate({
+            mutation: UPSERT_AC_DEPT,
+            variables: {
+              ...this.acDept
+            }
+          })
+      );
     },
     reset: function() {
       if (this.$route.query.id) {
         return this.$router.push("/acdepts");
       }
-      this.acDept= {
+      this.acDept = {
         name: "",
         isActive: true
       };

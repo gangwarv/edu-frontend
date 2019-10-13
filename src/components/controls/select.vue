@@ -1,18 +1,24 @@
 
 <template>
   <div class="field">
-    <label class="label">{{ label }}</label>
+    <label class="label">
+      {{ label }}
+      <span class="has-text-danger" v-if="required">*</span>
+    </label>
     <div class="control">
       <div class="select is-fullwidth" :class="[{ 'is-multiple':multiple }]">
         <select :value="value" @change="handleInput" :multiple="multiple" :size="size">
           <option :hidden="multiple" value>{{ defaultLabel }}</option>
-          <option :selected="value==item[val] || item" :key="item[text] || item" v-for="item in items" 
-          :value="item[val]||item">
-          {{ item[text]||item }}</option>
+          <option
+            :selected="value==item[val] || item"
+            :key="item[text] || item"
+            v-for="item in items"
+            :value="item[val]||item"
+          >{{ item[text]||item }}</option>
         </select>
       </div>
     </div>
-    <p class="help is-danger"> {{ errors && errors[0] }}</p>
+    <p class="help is-danger">{{ errors && errors[0] }}</p>
   </div>
 </template>
 
@@ -22,10 +28,11 @@ export default {
   props: {
     options: Array,
     label: String,
+    required: { type: Boolean, default: true },
     errors: Array,
     defaultLabel: {
       type: String,
-      default:"Select"
+      default: "Select"
     },
     value: String,
     multiple: Boolean,
@@ -41,10 +48,10 @@ export default {
       return this.options[0];
     },
     val: function() {
-      return this.options[1] || 'value';
+      return this.options[1] || "value";
     },
     text: function() {
-      return this.options[2] || this.options[1] || 'text';
+      return this.options[2] || this.options[1] || "text";
     }
   }
 };

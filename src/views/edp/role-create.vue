@@ -11,7 +11,7 @@
           </ValidationProvider>
         </div>
         <div class="column is-3">
-          <c-select label="Modules" :options="modules" />
+          <c-select label="Modules" :required="false" :options="modules" />
         </div>
       </div>
       <div class="columns">
