@@ -19,3 +19,13 @@ export const UPSERT_ROLE = gql`
         }
     }
 `
+
+export const DELETE_ROLE = gql`
+    mutation AddRole($id: String!){
+        deleteRole(id: $id){
+            id,
+            name,
+            privileges
+        }
+    }
+`

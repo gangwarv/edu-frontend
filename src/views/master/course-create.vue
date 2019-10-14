@@ -2,7 +2,7 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Course Details" to="/courses" link-text="Course List" />
-      <Alert v-model="show" :title="status" :message="message" />
+      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="($route.query.id && !course.id) || !depts.length" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -44,7 +44,7 @@
           <c-check v-model="course.isActive" id="s" label="Active" indeterminate />
         </div>
         <div class="column is-3"></div>
-        <BtnGroup :loading="status==='loading'" @reset="reset" />
+        <BtnGroup :loading="loading" @reset="reset" />
       </div>
     </form>
   </ValidationObserver>
@@ -52,8 +52,10 @@
 
 <script>
 import gql from "graphql-tag";
-import { getCourseById, UPSERT_COURSE } from "@/graphql/course";
+import observeHttp from "@/helpers/http-alert-observer";
+import { GET_COURSES, getCourseById, UPSERT_COURSE } from "@/graphql/course";
 import { getAcDepts } from "@/graphql/ac-dept";
+
 export default {
   name: "Course",
   data: function() {
@@ -66,37 +68,36 @@ export default {
         isActive: true,
         department: null
       },
-      show: false,
-      status: "",
-      message: "",
+      loading: false,
+      alertShow: false,
+      alertTitle: "",
+      alertMessage: "",
       depts: []
     };
   },
   methods: {
     onSubmit: function() {
-      this.status = "loading";
-      this.$apollo
-        .mutate({
+      observeHttp.call(
+        this,
+        this.$apollo.mutate({
           mutation: UPSERT_COURSE,
           variables: {
             ...this.course
+          },
+          update: (store, { data: { addCourse } }) => {
+            const data = store.readQuery({ query: GET_COURSES });
+            data.courses = data.courses.filter(x => x.id !== addCourse.id);
+            if (!data.courses.some(x => x.id === addCourse.id)) {
+              data.courses.push(addCourse);
+            }
+            store.writeQuery({ query: GET_COURSES, data });
           }
         })
-        .then(res => {
-          this.show = true;
-          this.status = "Success";
-          this.message = "Data saved successfully!";
-          console.log("added", res);
-        })
-        .catch(err => {
-          this.show = true;
-          this.status = "Failed";
-          this.message = err.networkError.result.errors[0].message;
-        });
+      );
     },
     reset: function() {
       if (this.$route.query.id) {
-        return this.$router.push("/courses");
+        return this.$router.back(); //push("/courses");
       }
       this.course = {
         code: "",

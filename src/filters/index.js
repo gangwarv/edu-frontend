@@ -26,14 +26,14 @@ export default [
     //     else
     //         return '';
     // },
-    // function uppercase(data) {
-    //     if (data)
-    //         return data.toUpperCase()
-    //     else
-    //         return '';
+    function uppercase(data) {
+        if (data)
+            return data.toUpperCase()
+        else
+            return '';
+    },
+    // function dtcolumn(data, args){
+    //     console.log(data,args)
+    //     return data;
     // }
-    function dtcolumn(data, args){
-        console.log(data,args)
-        return data;
-    }
 ];
