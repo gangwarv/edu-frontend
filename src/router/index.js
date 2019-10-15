@@ -18,7 +18,8 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/signin',
+      path: '/login',
+      name: 'login',
       component: Login
     },
     {
@@ -27,6 +28,7 @@ const router = new Router({
       children: [
         {
           path: '',
+          name: 'home',
           component: Home,
           meta: {
             breadcrumbs: ['Home'],
@@ -48,6 +50,7 @@ const router = new Router({
     },
     {
       path: '*',
+      name: 'notfound',
       component: NotFound
     }
   ],
@@ -56,11 +59,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path == '/signin' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
-    console.log(store.state.auth && store.state.auth.token)
+  if (to.name == 'login' || to.name == 'notfound' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
+    
     return next()
   }
-  next('/signin')
+  next('login')
 })
 
 export default router

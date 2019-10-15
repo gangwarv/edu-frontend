@@ -63,7 +63,7 @@
                 </div>
               </div>
             </template>
-            <router-link to="/signin" class="navbar-item">Log in</router-link>
+            <router-link to="/login" class="navbar-item">Sign Out</router-link>
             <!---->
           </div>
         </div>

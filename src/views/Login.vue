@@ -35,9 +35,7 @@
             :disabled="!userName || !password || loading"
             class="btn btn-primary"
             @click="signin"
-          >
-            {{ loading?'Checking':'Login' }}
-          </button>
+          >{{ loading?'Checking':'Login' }}</button>
         </form>
       </div>
     </div>
@@ -48,6 +46,9 @@
 import { LOGIN } from "@/graphql/auth";
 export default {
   name: "Login",
+  mounted() {
+    this.$store.commit("removeAuth");
+  },
   data: function() {
     return {
       userName: "vishal",
@@ -68,14 +69,14 @@ export default {
             password: this.password
           }
         })
-        .then(({data:{login}}) => {
+        .then(({ data: { login } }) => {
           this.loading = false;
           delete login.__typename;
           const auth = {
             ...login,
             expiringIn: new Date(login.expiresIn)
           };
-console.log('api',login.token)
+
           this.$store.commit("setAuth", auth);
           this.$router.push("/");
         })
@@ -101,7 +102,7 @@ $grey-light: hsl(0, 0%, 71%);
 $grey-lighter: hsl(0, 0%, 86%);
 
 .overlay {
-  position: fixed; 
+  position: fixed;
   display: block;
   width: 100%;
   height: 100%;

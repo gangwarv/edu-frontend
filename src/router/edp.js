@@ -8,6 +8,7 @@ const User = () => import('@/views/edp/user-create')
 export default [
   {
     path: 'users',
+    name: 'users',
     component: Users,
     meta: {
       breadcrumbs: ['Home', 'Users'],
@@ -16,6 +17,7 @@ export default [
   },
   {
     path: 'user/:id?',
+    name: 'user',
     component: User,
     meta: {
       breadcrumbs: ['Home', 'User'],
@@ -24,6 +26,7 @@ export default [
   },
   {
     path: 'roles',
+    name: 'roles',
     component: Roles,
     meta: {
       breadcrumbs: ['Home', 'Roles'],
@@ -32,6 +35,7 @@ export default [
   },
   {
     path: 'role/:id?',
+    name: 'role',
     component: Role,
     meta: {
       breadcrumbs: ['Home', 'Roles'],
@@ -40,6 +44,7 @@ export default [
   },
   {
     path: 'profile',
+    name: 'profile',
     component: Profile,
     meta: {
       breadcrumbs: ['Home', 'Profile'],

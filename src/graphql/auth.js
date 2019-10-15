@@ -12,13 +12,3 @@ export const LOGIN = gql`
         }
     }
 `
-
-// export const ADD_ROLE = gql`
-//     mutation AddRole($name: String!, $privileges: String!){
-//         addRole(name: $name, privileges: $privileges){
-//             _id,
-//             name,
-//             privileges
-//         }
-//     }
-// `
