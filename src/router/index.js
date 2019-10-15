@@ -40,7 +40,8 @@ const router = new Router({
           component: HelloWorld,
           meta: {
             breadcrumbs: ['Home', 'Hello'],
-            caption: 'Hello'
+            caption: 'Hello',
+            privilege: 'admin'
           }
         },
         ...admissionRoutes,
@@ -60,10 +61,15 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.name == 'login' || to.name == 'notfound' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
-    
-    return next()
+    //check role access
+    const privileges = store.state.auth.privileges.split(',');
+    if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege))
+      return next()
   }
-  next('login')
+  if (confirm('are u sure?'))
+    next()
+  else
+    next(from)
 })
 
 export default router

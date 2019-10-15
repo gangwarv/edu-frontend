@@ -39,7 +39,8 @@ export default [
     component: Role,
     meta: {
       breadcrumbs: ['Home', 'Roles'],
-      caption: 'Role Management'
+      caption: 'Role Management',
+      privilege: 'role-create'
     }
   },
   {
