@@ -1,5 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
+import store from '../store'
 
 const HelloWorld = () => import('@/views/HelloWorld')
 const Home = () => import('@/views/Home')
@@ -54,13 +55,13 @@ const router = new Router({
   linkExactActiveClass: 'is-active'
 })
 
-// router.beforeEach((to, from, next) => {
-//   // ...
-//   console.warn('to', to);
-//   console.log('from', from);
-
-//   next()
-// })
+router.beforeEach((to, from, next) => {
+  if (to.path == '/signin' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
+    console.log(store.state.auth && store.state.auth.token)
+    return next()
+  }
+  next('/signin')
+})
 
 export default router
 

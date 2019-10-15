@@ -6,10 +6,9 @@ export const LOGIN = gql`
             userId,
             userName,
             token,
-            role{
-                name,
-                privileges
-            }
+            expiresIn,
+            roleName,
+            privileges
         }
     }
 `

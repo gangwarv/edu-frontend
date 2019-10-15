@@ -54,8 +54,7 @@ export default {
       password: "123",
       rememberMe: true,
       loading: false,
-      login: null,
-      error: ""
+      error: null
     };
   },
   methods: {
@@ -69,12 +68,24 @@ export default {
             password: this.password
           }
         })
-        .then(res => {
+        .then(({data:{login}}) => {
+          this.loading = false;
+          delete login.__typename;
+          const auth = {
+            ...login,
+            expiringIn: new Date(login.expiresIn)
+          };
+console.log('api',login.token)
+          this.$store.commit("setAuth", auth);
           this.$router.push("/");
         })
         .catch(err => {
           this.loading = false;
-          this.error = err.networkError.result.errors[0].message;
+          try {
+            this.error = err.networkError.result.errors[0].message;
+          } catch (error) {
+            this.error = err.message;
+          }
         });
     }
   }
