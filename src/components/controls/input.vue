@@ -1,7 +1,10 @@
 
 <template>
   <div class="field">
-    <label class="label">{{ label }}</label>
+    <label class="label">
+      {{ label }}
+      <span class="has-text-danger" v-if="required">*</span>
+    </label>
     <div :class="[{'is-loading':isLoading}, 'control'] ">
       <input
         :value="value"
@@ -20,6 +23,7 @@ export default {
   name: "CInput",
   props: {
     label: String,
+    required: { type: Boolean, default: true },
     isLoading: Boolean,
     type: String,
     value: String,

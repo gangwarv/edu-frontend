@@ -46,6 +46,9 @@ export default {
     };
   },
   computed: {
+    menus(){
+      return this.$store.getters.menus
+    },
     filteredMenu: function() {
       const filtered = this.menus.filter(menu => {
         if (!this.searchMenu) {
@@ -61,7 +64,6 @@ export default {
       });
       return filtered;
     }
-  },
-  props: ["menus"]
+  }
 };
 </script>

@@ -9,8 +9,8 @@
                 <ul class="pagination-list">
                   <li>
                     <div class="select is-small">
-                      <select v-model="size" @change="resetPagination">
-                        <option v-for="s in sizes" :key="s" :value="s">{{s}}</option>
+                      <select v-model="pageSize" @change="resetPagination">
+                        <option v-for="s in pageSizeOptions" :key="s" :value="s">{{s}}</option>
                       </select>
                     </div>
                   </li>
@@ -47,7 +47,14 @@
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item[0]">
-            <td v-for="col in cols" :key="col[1]">{{item[col[1]]}}</td>
+            <td v-for="col in cols" :key="col[1]">
+              <template v-if="!col[2]">{{item[col[1]]}}</template>
+              <span v-else class="icon has-text-primary">
+                <i
+                  :class="[{'fa-check-circle':item[col[1]]},{'fa-times-circle':!item[col[1]]},'fa']"
+                ></i>
+              </span>
+            </td>
             <td v-if="buttons">
               <span
                 v-for="btn in buttons"
@@ -94,23 +101,26 @@ export default {
     cols: Array,
     data: Array,
     buttons: {
+      type: Array
+    },
+    pageSizeOptions: {
       type: Array,
-      // default: []
-    }
+      default: function() {
+        return [3, 5, 10];
+      }
+    },
+    // pageSize: {
+    //   type: Number,
+    //   default: 10
+    // }
   },
-
-  //["cols", "data"],
   data() {
     return {
-      // data: [], //new Array(10).fill(1).map((x,i)=>['id-'+i,'val-'+i]),
       sortBy: "",
-      sizes: [3, 5, 10],
-      size: 5,
       page: 0,
+      pageSize: 10,
       asc: true,
-      searchText: "",
-      //action
-      // buttons: ["edit", "remove"]
+      searchText: ""
     };
   },
   computed: {
@@ -128,28 +138,31 @@ export default {
         if (!this.asc) data = data.reverse();
       }
       const page = +this.page;
-      const size = +this.size;
-      return data.slice(page * size, page * size + size);
+      const pageSize = +this.pageSize;
+      return data.slice(page * pageSize, page * pageSize + pageSize);
     },
     hasNext() {
-      return this.filteredList.length > (this.page + 1) * this.size;
+      return this.filteredList.length > (this.page + 1) * this.pageSize;
     },
     hasPrev() {
       return this.page > 0;
     },
     pages() {
-      return new Array(Math.ceil(this.filteredList.length / +this.size))
+      return new Array(Math.ceil(this.filteredList.length / +this.pageSize))
         .fill(0)
         .map((x, i) => i);
     },
     colspan() {
-      return this.cols.length + (this.buttons && this.buttons.length > 0 ? 1 : 0);
+      return (
+        this.cols.length + (this.buttons && this.buttons.length > 0 ? 1 : 0)
+      );
     }
   },
   methods: {
     sort(col) {
       this.sortBy = col;
       this.asc = !this.asc;
+      this.page = 0;
     },
     comparer(a, b) {
       let r = 0;
@@ -158,13 +171,15 @@ export default {
       return r;
     },
     next() {
-      this.page = +this.page + 1;
+      const maxPages = Math.ceil(this.filteredList.length / +this.pageSize);
+      if (this.page + 1 < maxPages) this.page = +this.page + 1;
     },
     prev() {
-      this.page = +this.page - 1;
+      if (this.page > 0) this.page = +this.page - 1;
     },
     flat(obj) {
-      return Object.keys(obj)
+      return this.cols
+        .map(c => c[1] || c[0])
         .reduce((ac, s) => {
           ac.push(obj[s]);
           return ac;
