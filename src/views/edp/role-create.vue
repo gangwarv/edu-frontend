@@ -17,7 +17,7 @@
       <div class="columns">
         <div class="column is-3">
           <pre>
-           <p v-for="sp in role.privileges" :key="sp">{{ sp }}</p>
+           <p v-for="sp in role_privileges" :key="sp">{{ sp }}</p>
           </pre>
         </div>
         <div class="column is-9">
@@ -28,7 +28,7 @@
                   class="is-checkradio is-link"
                   :id="'check_'+p"
                   type="checkbox"
-                  :checked="role.privileges.includes(p)"
+                  :checked="role_privileges.includes(p)"
                   @change="toggle($event, p)"
                 />
                 <label :for="'check_'+p">{{ p }}</label>
@@ -45,19 +45,19 @@
 </template>
 
 <script>
-import { GET_ROLES, UPSERT_ROLE } from "@/graphql/role";
+import { GET_ROLES, GET_ROLE_BY_ID, UPSERT_ROLE } from "@/graphql/role";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "RoleCreate",
   methods: {
     toggle(e, args) {
-      const privileges = this.role.privileges;
+      const privileges = this.role.privileges.split(',');
 
       if (!e.target.checked) privileges.splice(privileges.indexOf(args), 1);
       else privileges.push(args);
 
-      this.role.privileges = privileges;
+      this.role.privileges = privileges.toString();
     },
     onSubmit() {
       observeHttp.call(
@@ -100,6 +100,9 @@ export default {
     },
     privileges() {
       return this.appmodules.map(x => x.name);
+    },
+    role_privileges() {
+      return this.role.privileges.split(',');
     }
   },
   data: function() {
@@ -110,7 +113,7 @@ export default {
       alertMessage: "",
       role: {
         name: "",
-        privileges: []
+        privileges: ""
       },
       selectedModule: "",
       appmodules: [
@@ -146,21 +149,13 @@ export default {
     };
   },
   apollo: {
-    roles: {
-      query: GET_ROLES,
-      manual: true,
+    role: {
+      query: GET_ROLE_BY_ID,
+      variables: function() {
+        return { id: this.$route.query.id };
+      },
       skip: function() {
         return !this.$route.query.id;
-      },
-      result({ data, loading }) {
-        if (!loading) {
-          const role = data.roles.find(x => x.id === this.$route.query.id);
-          this.role = {
-            id: role.id,
-            name: role.name,
-            privileges: role.privileges.split(",")
-          };
-        }
       }
     }
   }
