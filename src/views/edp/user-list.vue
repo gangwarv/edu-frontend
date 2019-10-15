@@ -24,7 +24,7 @@ export default {
       alertTitle: "",
       alertMessage: "",
       users:null,
-      columns: [["UserName", "userName"],["Role", "role"],["Privileges","privileges"]]
+      columns: [["UserName", "userName"],["Role", "roleName"],["Privileges","privileges"]]
     };
   },
   methods: {
@@ -33,15 +33,7 @@ export default {
     }
   },
   apollo: {
-    users: {
-        query:GET_USERS,
-        manual: true,
-        result({ data, loading }) {
-        if (!loading) {
-          this.users = data.users.map(x => ({...x, role: x.role.name, privileges: x.role.privileges}));
-        }
-      }
-    }
+    users: GET_USERS
   }
 };
 </script>

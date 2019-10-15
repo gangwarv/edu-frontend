@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        count: 0,
+        count: 10,
+        auth: JSON.parse(sessionStorage.getItem('e1d2u3e4r5p6')),
         courseTypes: [
             {
                 text: "UG",
@@ -173,6 +174,14 @@ export default new Vuex.Store({
         },
         resetToZero(state) {
             state.count = 0;
+        },
+        setAuth(state, auth){
+            state.auth = auth;
+            sessionStorage.setItem("e1d2u3e4r5p6", JSON.stringify(auth));
+        },
+        removeAuth(state){
+            state.auth = null;
+            sessionStorage.removeItem("e1d2u3e4r5p6");
         }
     },
     actions: {

@@ -1,5 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
+import store from '../store';
 
 const HelloWorld = () => import('@/views/HelloWorld')
 const Home = () => import('@/views/Home')
@@ -18,6 +19,7 @@ const router = new Router({
   routes: [
     {
       path: '/signin',
+      name: 'SignIn',
       component: Login
     },
     {
@@ -27,6 +29,7 @@ const router = new Router({
         {
           path: '',
           component: Home,
+          name: 'Home',
           meta: {
             breadcrumbs: ['Home'],
             caption: 'Home'
@@ -35,6 +38,7 @@ const router = new Router({
         {
           path: 'hello',
           component: HelloWorld,
+          name: 'Hello',
           meta: {
             breadcrumbs: ['Home', 'Hello'],
             caption: 'Hello'
@@ -47,6 +51,7 @@ const router = new Router({
     },
     {
       path: '*',
+      name: 'NotFound',
       component: NotFound
     }
   ],
@@ -55,13 +60,10 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // ...
-  // console.warn('to', to);
-  // console.log('from', from);
-  // setTimeout(() => {
-  //   next()
-  // }, 1500);
-next()
+  if (to.path == '/signin' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
+    return next()
+  }
+  next('/signin')
 })
 
 export default router

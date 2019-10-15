@@ -5,10 +5,8 @@ export const GET_USERS = gql`
         users{
             id,
             userName,
-            role {
-                name,
-                privileges
-            }
+            roleName,
+            privileges
         }
     }
 `
@@ -18,10 +16,8 @@ export const ADD_USER = gql`
         addUser(userName: $userName, password: $password, role: $role){
             id,
             userName,
-            role {
-                name,
-                privileges
-            }
+            roleName,
+            privileges
         }
     }
 `
