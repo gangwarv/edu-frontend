@@ -1,5 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
+import store from '../store'
 
 const HelloWorld = () => import('@/views/HelloWorld')
 const Home = () => import('@/views/Home')
@@ -17,7 +18,8 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/signin',
+      path: '/login',
+      name: 'login',
       component: Login
     },
     {
@@ -26,6 +28,7 @@ const router = new Router({
       children: [
         {
           path: '',
+          name: 'home',
           component: Home,
           meta: {
             breadcrumbs: ['Home'],
@@ -37,7 +40,8 @@ const router = new Router({
           component: HelloWorld,
           meta: {
             breadcrumbs: ['Home', 'Hello'],
-            caption: 'Hello'
+            caption: 'Hello',
+            privilege: 'admin'
           }
         },
         ...admissionRoutes,
@@ -47,6 +51,7 @@ const router = new Router({
     },
     {
       path: '*',
+      name: 'notfound',
       component: NotFound
     }
   ],
@@ -55,13 +60,16 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // ...
-  // console.warn('to', to);
-  // console.log('from', from);
-  // setTimeout(() => {
-  //   next()
-  // }, 1500);
-next()
+  if (to.name == 'login' || to.name == 'notfound' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
+    //check role access
+    const privileges = store.state.auth.privileges.split(',');
+    if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege))
+      return next()
+  }
+  if (confirm('are u sure?'))
+    next()
+  else
+    next(from)
 })
 
 export default router

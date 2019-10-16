@@ -32,7 +32,7 @@
           </ul>
         </li>
       </template>
-      <router-link to="/signin">Sign Out</router-link>
+      <router-link to="/login">Sign Out</router-link>
     </ul>
   </aside>
 </template>

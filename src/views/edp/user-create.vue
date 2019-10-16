@@ -12,7 +12,7 @@
         </div>
         <div class="column is-3">
           <ValidationProvider name="role" rules="required" v-slot="{ errors }">
-            <c-select v-model="user.name" label="Role" :options="roles" :errors="errors" />
+            <c-select v-model="user.role" label="Role" :options="roles" :errors="errors" />
           </ValidationProvider>
         </div>
       </div>
@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import { GET_ROLES, UPSERT_USER } from "@/graphql/user";
+import { GET_ROLES } from "@/graphql/role";
+import { GET_USERS, GET_USER_BY_ID, UPSERT_USER } from "@/graphql/user";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
@@ -34,19 +35,16 @@ export default {
       observeHttp.call(
         this,
         this.$apollo.mutate({
-          mutation: UPSERT_ROLE,
-          variables: {
-            ...this.role,
-            privileges: this.role.privileges.toString()
-          },
-          update: (store, { data: { addRole } }) => {
-            const data = store.readQuery({ query: GET_ROLES });
-            data.roles = data.roles.filter(x => x.id !== addRole.id);
-            if (!data.roles.some(x => x.id === addRole.id)) {
-              data.roles.push(addRole);
-            }
-            store.writeQuery({ query: GET_ROLES, data });
-          }
+          mutation: UPSERT_User,
+          variables: this.user
+          //   update: (store, { data: { addRole } }) => {
+          //     const data = store.readQuery({ query: GET_ROLES });
+          //     data.roles = data.roles.filter(x => x.id !== addRole.id);
+          //     if (!data.roles.some(x => x.id === addRole.id)) {
+          //       data.roles.push(addRole);
+          //     }
+          //     store.writeQuery({ query: GET_ROLES, data });
+          //   }
         })
       );
     },
@@ -84,42 +82,20 @@ export default {
         userName: "",
         role: "",
         isActive: true
-      },
-      selectedModule: "",
-      appmodules: [
-        {
-          module: "EDP",
-          name: "user-view"
-        },
-        {
-          module: "EDP",
-          name: "user-create"
-        },
-        {
-          module: "EDP",
-          name: "role-view"
-        },
-        {
-          module: "EDP",
-          name: "role-create"
-        },
-        {
-          module: "Academic",
-          name: "course-create"
-        },
-        {
-          module: "Academic",
-          name: "attendence-view"
-        },
-        {
-          module: "Academic",
-          name: "attendence-create"
-        }
-      ]
+      }
     };
   },
   apollo: {
-    roles: GET_ROLES
+    roles: GET_ROLES,
+    user: {
+      query: GET_USER_BY_ID,
+      variables() {
+        return { id: this.$route.query.id };
+      },
+      skip(){
+        return !this.$route.query.id;
+      }
+    }
   }
 };
 </script>
