@@ -13,11 +13,7 @@ const httpLink = new HttpLink({
     // URL to graphql server, you should use an absolute URL here
     uri: 'http://localhost:3000/graphql',
     headers: {
-<<<<<<< HEAD
-        'authorization':  store.state.auth && store.state.auth.token
-=======
         'authorization': `Bearer ${store.state.auth && store.state.auth.token}`
->>>>>>> origin/HEAD
     }
 })
 

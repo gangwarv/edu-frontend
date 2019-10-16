@@ -5,10 +5,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-<<<<<<< HEAD
-        count: 10,
-=======
->>>>>>> master
         auth: JSON.parse(sessionStorage.getItem('e1d2u3e4r5p6')),
         courseTypes: [
             {
@@ -173,19 +169,6 @@ export default new Vuex.Store({
             state.auth = auth;
             sessionStorage.setItem("e1d2u3e4r5p6", JSON.stringify(auth));
         },
-<<<<<<< HEAD
-        incrementByNum(state, num) {
-            state.count += num
-        },
-        resetToZero(state) {
-            state.count = 0;
-        },
-        setAuth(state, auth){
-            state.auth = auth;
-            sessionStorage.setItem("e1d2u3e4r5p6", JSON.stringify(auth));
-        },
-=======
->>>>>>> master
         removeAuth(state){
             state.auth = null;
             sessionStorage.removeItem("e1d2u3e4r5p6");
