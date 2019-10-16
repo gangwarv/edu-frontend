@@ -55,8 +55,7 @@ export default {
       password: "123",
       rememberMe: true,
       loading: false,
-      login: null,
-      error: ""
+      error: null
     };
   },
   methods: {
@@ -71,6 +70,7 @@ export default {
           }
         })
         .then(({ data: { login } }) => {
+          this.loading = false;
           delete login.__typename;
           const auth = {
             ...login,

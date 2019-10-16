@@ -7,6 +7,7 @@ const AcDept = () => import('@/views/master/ac-dept-create')
 export default [
   {
     path: 'courses',
+    name: 'courses',
     component: Courses,
     meta: {
       breadcrumbs: ['Home', 'Department', 'Courses'],
@@ -15,6 +16,7 @@ export default [
   },
   {
     path: 'course/:id?',
+    name: 'course',
     component: Course,
     name: 'course',
     meta: {
@@ -24,6 +26,7 @@ export default [
   },
   {
     path: 'acdepts',
+    name: 'acdepts',
     component: AcDepts,
     meta: {
       breadcrumbs: ['Home', 'Departments'],
@@ -32,6 +35,7 @@ export default [
   },
   {
     path: 'acdept/:id?',
+    name: 'acdept',
     component: AcDept,
     name: 'acdept',
     meta: {
