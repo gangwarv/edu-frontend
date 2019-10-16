@@ -39,6 +39,7 @@ export default {
     courses: {
       query: GET_COURSES,
       error(error) {
+        this.courses = []
         this.error = JSON.stringify(error.message);
       }
     }

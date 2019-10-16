@@ -1,10 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
-<<<<<<< HEAD
-import store from '../store';
-=======
 import store from '../store'
->>>>>>> master
 
 const HelloWorld = () => import('@/views/HelloWorld')
 const Home = () => import('@/views/Home')
@@ -22,13 +18,8 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-<<<<<<< HEAD
-      path: '/signin',
-      name: 'SignIn',
-=======
       path: '/login',
       name: 'login',
->>>>>>> master
       component: Login
     },
     {
@@ -62,11 +53,7 @@ const router = new Router({
     },
     {
       path: '*',
-<<<<<<< HEAD
-      name: 'NotFound',
-=======
       name: 'notfound',
->>>>>>> master
       component: NotFound
     }
   ],
@@ -75,23 +62,23 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-<<<<<<< HEAD
-  if (to.path == '/signin' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
-    return next()
-  }
-  next('/signin')
-=======
-  if (to.name == 'login' || to.name == 'notfound' || (store.state.auth && (store.state.auth.expiresIn - new Date().getTime()) > 0)) {
-    //check role access
+  if (to.name == 'login' || to.name == 'notfound')
+    return next();
+
+  if (store.state.auth) {
+    if ((store.state.auth.expiresIn - new Date().getTime()) < 0) {
+      // token expired
+      next('login')
+    }
     const privileges = store.state.auth.privileges.split(',');
     if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege))
       return next()
   }
-  if (confirm('are u sure?'))
-    next()
-  else
-    next(from)
->>>>>>> master
+  if (from.name) {
+    alert('access-denied');
+    return next(from)
+  }
+  next('login')
 })
 
 export default router
