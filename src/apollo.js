@@ -22,11 +22,16 @@ const link = ApolloLink.from([
 
 const apolloClient = new ApolloClient({
     link: link,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
 })
 
 export const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
+    defaultOptions: {
+        $query: {
+            fetchPolicy: 'network-only'
+        }
+    },
     errorHandler(err) {
         console.log('gloabl', err.message)
     }
