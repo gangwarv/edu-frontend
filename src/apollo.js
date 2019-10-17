@@ -32,7 +32,7 @@ export const apolloProvider = new VueApollo({
             fetchPolicy: 'network-only'
         }
     },
-    errorHandler(err) {
-        console.log('gloabl', err.message)
-    }
+    // errorHandler(err) {
+    //     console.log('gloabl', err.message)
+    // }
 })

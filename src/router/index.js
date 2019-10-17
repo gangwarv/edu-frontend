@@ -10,6 +10,7 @@ const NotFound = () => import('@/views/404')
 
 // routes
 import masterRoutes from './master'
+import userMgmtRoutes from './user-management'
 import edpRoutes from './edp'
 import admissionRoutes from './admission'
 
@@ -48,6 +49,7 @@ const router = new Router({
         },
         ...admissionRoutes,
         ...edpRoutes,
+        ...userMgmtRoutes,
         ...masterRoutes
       ]
     },

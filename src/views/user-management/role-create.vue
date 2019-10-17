@@ -52,9 +52,11 @@ export default {
   name: "RoleCreate",
   methods: {
     toggle(e, args) {
-      const privileges = this.role.privileges.split(',');
+      let privileges = this.role.privileges
+        ? this.role.privileges.split(",")
+        : [];
 
-      if (!e.target.checked) privileges.splice(privileges.indexOf(args), 1);
+      if (!e.target.checked) privileges = privileges.filter(x => x !== args);
       else privileges.push(args);
 
       this.role.privileges = privileges.toString();
@@ -102,7 +104,7 @@ export default {
       return this.appmodules.map(x => x.name);
     },
     role_privileges() {
-      return this.role.privileges.split(',');
+      return this.role.privileges.split(",");
     }
   },
   data: function() {
