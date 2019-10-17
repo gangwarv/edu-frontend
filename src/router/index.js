@@ -77,7 +77,7 @@ router.beforeEach((to, from, next) => {
   if (from.name) {
     alert('access-denied');
     return next(from)
-  }
+  } 
   next('login')
 })
 

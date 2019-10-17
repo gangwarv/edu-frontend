@@ -3,16 +3,26 @@
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Configure Role" to="/roles" link-text="View All Roles" />
       <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
-      <Loader v-if="false && ($route.query.id && !role.id)" />
+      <Loader v-if="false && ($route.query.id && !user.id)" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
-          <ValidationProvider name="name" rules="required" v-slot="{ errors }">
-            <c-input v-model="role.name" label="Name" type="text" :errors="errors" />
+          <ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
+            <c-input v-model="user.firstName" label="First Name" type="text" :errors="errors" />
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="lastName" rules="required" v-slot="{ errors }">
+            <c-input v-model="user.lastName" label="Last Name" type="text" :errors="errors" />
           </ValidationProvider>
         </div>
         <div class="column is-3">
           <ValidationProvider name="role" rules="required" v-slot="{ errors }">
-            <c-select v-model="user.role" label="Role" :options="roles" :errors="errors" />
+            <c-select
+              v-model="user.role"
+              label="Role"
+              :options="[roles, 'id', 'name']"
+              :errors="errors"
+            />
           </ValidationProvider>
         </div>
       </div>
@@ -92,7 +102,7 @@ export default {
       variables() {
         return { id: this.$route.query.id };
       },
-      skip(){
+      skip() {
         return !this.$route.query.id;
       }
     }
