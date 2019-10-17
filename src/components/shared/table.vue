@@ -24,7 +24,7 @@
                     />
                   </li>
                 </ul>
-                <span class="pagination-next">{{filteredList.length}}/{{data.length}}</span>
+                <span class="pagination-next">{{filteredList.length}}/{{dataLength}}</span>
                 <a class="pagination-next" @click="toCsv">csv</a>
               </nav>
             </td>
@@ -69,7 +69,7 @@
           </tr>
           <th
             class="has-text-centered"
-            v-if="!data.length"
+            v-if="!dataLength"
             :colspan="colspan"
           >{{ loading ?'Loading...':'No Records to display.' }}</th>
         </tbody>
@@ -134,7 +134,10 @@ export default {
   },
   computed: {
     filteredList() {
-      let data = this.data.map(x => x);
+      let data = [];
+      if (this.dataLength > 0) {
+        data = this.data.map(x => x);
+      }
       if (this.searchText) {
         data = data.filter(x => this.flat(x).indexOf(this.searchText) > -1);
       }
@@ -165,6 +168,12 @@ export default {
       return (
         this.cols.length + (this.buttons && this.buttons.length > 0 ? 1 : 0)
       );
+    },
+    dataLength() {
+      if (this.data && this.data.length > 0) {
+        return this.data.length;
+      }
+      return 0;
     }
   },
   methods: {
