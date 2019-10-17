@@ -32,8 +32,8 @@
     <nav class="navbar is-primary">
       <div class="container is-fluid">
         <div class="navbar-brand">
+          <a class="is-hidden-mobile navbar-item" @click="toggle">&#9776;</a>
           <router-link class="navbar-item is-active" to="/" style="font-weight:bold;">ERP</router-link>
-
           <span class="navbar-burger burger" data-target="navMenu">
             <span></span>
             <span></span>
@@ -75,13 +75,21 @@
 <script>
 export default {
   name: "Navbar",
+  methods: {
+    toggle() {
+      let el = document.getElementById("mySidenav");
+      if (this.hidden) el.classList.toggle('is-hidden')
+      else el.classList.toggle('is-hidden')
+      this.hidden = !this.hidden;
+    }
+  },
   computed: {
-    menus(){
-      return this.$store.getters.menus
+    menus() {
+      return this.$store.getters.menus;
     },
-    modules(){
-      return this.$store.getters.modules
-    } 
+    modules() {
+      return this.$store.getters.modules;
+    }
   },
   mounted: function() {
     var burger = document.querySelector(".burger");
