@@ -67,7 +67,11 @@
               </span>
             </td>
           </tr>
-          <th class="has-text-centered" v-if="!data.length" :colspan="colspan">No data to display</th>
+          <th
+            class="has-text-centered"
+            v-if="!data.length"
+            :colspan="colspan"
+          >{{ loading ?'Loading...':'No Records to display.' }}</th>
         </tbody>
         <tfoot>
           <tr>
@@ -99,7 +103,12 @@ export default {
   name: "CTable",
   props: {
     cols: Array,
-    data: Array,
+    data: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    },
     buttons: {
       type: Array
     },
@@ -109,10 +118,10 @@ export default {
         return [3, 5, 10];
       }
     },
-    // pageSize: {
-    //   type: Number,
-    //   default: 10
-    // }
+    loading: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

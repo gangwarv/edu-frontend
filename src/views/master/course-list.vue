@@ -4,7 +4,15 @@
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
         <Loader v-if="!courses && !error" />
-        <c-table :cols="columns" :data="courses" :buttons="['edit']" @remove="remove" @edit="edit" v-else />
+        <c-table
+          :loading="$apollo.queries.courses.loading"
+          :cols="columns"
+          :data="courses"
+          :buttons="['edit']"
+          @remove="remove"
+          @edit="edit"
+          v-else
+        />
       </div>
     </div>
   </div>
@@ -39,7 +47,7 @@ export default {
     courses: {
       query: GET_COURSES,
       error(error) {
-        this.courses = []
+        this.courses = [];
         this.error = JSON.stringify(error.message);
       }
     }

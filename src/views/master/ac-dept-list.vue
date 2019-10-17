@@ -4,14 +4,13 @@
     <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
-        <Loader v-if="!acDepts && !error" />
         <c-table
+          :loading="$apollo.queries.acDepts.loading"
           :cols="columns"
           :data="acDepts"
           :buttons="['edit','remove']"
           @remove="remove"
           @edit="edit"
-          v-else
         />
       </div>
     </div>
@@ -26,7 +25,6 @@ export default {
   name: "AcDeptList",
   data: function() {
     return {
-      acDepts: [],
       columns: [["Name", "name"], ["Active", "isActive", "boolean"]],
       error: null,
       alertShow: false,
@@ -60,12 +58,7 @@ export default {
     }
   },
   apollo: {
-    acDepts: {
-      query: GET_AC_DEPTS,
-      error(error) {
-        this.error = JSON.stringify(error.message);
-      }
-    }
+    acDepts: GET_AC_DEPTS
   }
 };
 </script>

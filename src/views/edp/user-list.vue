@@ -4,8 +4,7 @@
     <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
-        <Loader v-if="!users" />
-        <c-table :cols="columns" :data="users" :buttons="['edit','remove']" @edit="edit" v-else />
+        <c-table :loading="$apollo.queries.users.loading" :cols="columns" :data="users" :buttons="['edit','remove']" @edit="edit" />
       </div>
     </div>
   </div>
@@ -23,7 +22,6 @@ export default {
       alertShow: false,
       alertTitle: "",
       alertMessage: "",
-      users:null,
       columns: [["UserName", "userName"],["Role", "roleName"],["Privileges","privileges"]]
     };
   },

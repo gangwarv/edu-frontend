@@ -4,14 +4,13 @@
     <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
-        <Loader v-if="!roles" />
         <c-table
+          :loading="$apollo.queries.roles.loading"
           :cols="columns"
           :data="roles"
           :buttons="['edit','remove']"
           @remove="remove"
           @edit="edit"
-          v-else
         />
       </div>
     </div>
