@@ -8,6 +8,8 @@ export const GET_USERS = gql`
             lastName,
             userName,
             userType,
+            email,
+            mobile,
             isActive,
             role,
             roleName,
@@ -23,6 +25,8 @@ export const GET_USER_BY_ID = gql`
             lastName,
             userName,
             userType,
+            email,
+            mobile,
             isActive,
             role,
             roleName,
@@ -32,13 +36,17 @@ export const GET_USER_BY_ID = gql`
 `
 
 export const UPSERT_USER = gql`
-    mutation AddUser($id: String, $firstName: String!, $lastName: String!, $userName: String!, $password: String, $role: String!, $userType: String!, $isActive: Boolean){
-        addUser(user:{id: $id, firstName: $firstName, lastName: $lastName, userName: $userName, password: $password, role: $role, userType: $userType}){
+    mutation AddUser($id: String, $firstName: String!, $lastName: String!, $userName: String!, $password: String,
+     $role: String!, $userType: String!, $isActive: Boolean!, $mobile: String!, $email: String){
+        addUser(user:{id: $id, firstName: $firstName, lastName: $lastName, userName: $userName, password: $password,
+         role: $role, userType: $userType, isActive: $isActive, mobile: $mobile, email: $email}){
             id,
             firstName,
             lastName,
             userName,
             userType,
+            email,
+            mobile,
             isActive,
             role,
             roleName,

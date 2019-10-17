@@ -1,9 +1,9 @@
 <template>
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
-      <PageHeader header-text="Configure Role" to="/roles" link-text="View All Roles" />
+      <PageHeader header-text="Configure Role" to="/users" link-text="All Users" />
       <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
-      <Loader v-if="false && ($route.query.id && !user.id)" />
+      <Loader v-if="($route.query.id && !user.id)" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
           <ValidationProvider name="firstName" rules="required" v-slot="{ errors }">
@@ -23,6 +23,42 @@
               :options="[roles, 'id', 'name']"
               :errors="errors"
             />
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <c-check v-model="user.isActive" id="user_active" label="Active" indeterminate />
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="username" rules="required" v-slot="{ errors }">
+            <c-input v-model="user.userName" label="User Name" type="text" :errors="errors" />
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="password" :rules="!user.id?'required':''" v-slot="{ errors }">
+            <c-input v-model="user.password" label="Password" :required="!user.id" type="text" :errors="errors" />
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="userType" rules="required" v-slot="{ errors }">
+            <c-select
+              v-model="user.userType"
+              label="User Type"
+              :options="[['Individual', 'Employee', 'Student']]"
+              :errors="errors"
+            />
+          </ValidationProvider>
+        </div>
+         <div class="column is-3">
+            <c-input v-model="user.userRef" label="UserRef" :required="false" type="text" />
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="mobile" rules="digits:10" v-slot="{ errors }">
+            <c-input v-model="user.mobile" label="Mobile" type="text" :errors="errors" />
+          </ValidationProvider>
+        </div>
+        <div class="column is-3">
+          <ValidationProvider name="email" rules="email" v-slot="{ errors }">
+            <c-input v-model="user.email" label="Email" :required="false" type="text" :errors="errors" />
           </ValidationProvider>
         </div>
       </div>
@@ -45,16 +81,8 @@ export default {
       observeHttp.call(
         this,
         this.$apollo.mutate({
-          mutation: UPSERT_User,
+          mutation: UPSERT_USER,
           variables: this.user
-          //   update: (store, { data: { addRole } }) => {
-          //     const data = store.readQuery({ query: GET_ROLES });
-          //     data.roles = data.roles.filter(x => x.id !== addRole.id);
-          //     if (!data.roles.some(x => x.id === addRole.id)) {
-          //       data.roles.push(addRole);
-          //     }
-          //     store.writeQuery({ query: GET_ROLES, data });
-          //   }
         })
       );
     },
@@ -64,7 +92,14 @@ export default {
       }
 
       this.user = {
+         firstName: "",
+        lastName: "",
         userName: "",
+        password: "",
+        userType: "",
+        userRef: "",
+        mobile: "",
+        email: "",
         role: "",
         isActive: true
       };
@@ -89,7 +124,14 @@ export default {
       alertTitle: "",
       alertMessage: "",
       user: {
+        firstName: "",
+        lastName: "",
         userName: "",
+        password: "",
+        userType: "",
+        userRef: "",
+        mobile: "",
+        email: "",
         role: "",
         isActive: true
       }
