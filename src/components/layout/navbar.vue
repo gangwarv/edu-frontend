@@ -78,9 +78,7 @@ export default {
   methods: {
     toggle() {
       let el = document.getElementById("mySidenav");
-      if (this.hidden) el.classList.toggle('is-hidden')
-      else el.classList.toggle('is-hidden')
-      this.hidden = !this.hidden;
+      el.classList.toggle('is-hidden')
     }
   },
   computed: {

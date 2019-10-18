@@ -113,11 +113,6 @@ export default new Vuex.Store({
                 path: "/hello",
                 module: "Home"
             },
-            // {
-            //     text: "Register",
-            //     path: "/register",
-            //     module: "Home"
-            // },
             {
                 text: "Academic Departments",
                 path: "/acdepts",

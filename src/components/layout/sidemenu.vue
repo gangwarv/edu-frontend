@@ -17,7 +17,7 @@
       </ul>
     </template>
     <p class="menu-label">Links</p>
-    <ul class="menu-list">
+    <ul class="menu-list" id="style-3">
       <router-link to="/">Home</router-link>
       <template v-for="menu in filteredMenu">
         <li :key="menu.text" v-if="!menu.subMenus">
@@ -67,3 +67,28 @@ export default {
   }
 };
 </script>
+<style scoped>
+.menu-list{
+  max-height: 250px;
+}
+.menu-list:hover {
+  overflow-y: scroll;
+}
+
+#style-3::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+}
+</style>
