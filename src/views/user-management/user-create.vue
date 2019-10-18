@@ -34,7 +34,7 @@
           </ValidationProvider>
         </div>
         <div class="column is-3">
-          <ValidationProvider name="password" :rules="!user.id?'required':''" v-slot="{ errors }">
+          <ValidationProvider name="password" :rules="!user.id?'required|min:3|max:15':'min:3|max:15'" v-slot="{ errors }">
             <c-input v-model="user.password" label="Password" :required="!user.id" type="text" :errors="errors" />
           </ValidationProvider>
         </div>

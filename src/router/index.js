@@ -68,7 +68,13 @@ router.beforeEach((to, from, next) => {
     return next();
 
   if (store.state.auth) {
-    if ((store.state.auth.expiresIn - new Date().getTime()) < 0) {
+    const remainingTime = store.state.auth.expiresIn - new Date().getTime();
+    if (remainingTime > 1000 ) {
+      console.log('refetch at ', remainingTime/1000)
+      // refresh token
+      store.state.refresh = true;
+    }
+    if (remainingTime < 0) {
       // token expired
       next('login')
     }

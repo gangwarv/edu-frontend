@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         auth: JSON.parse(sessionStorage.getItem('e1d2u3e4r5p6')),
+        refresh: false,
         courseTypes: [
             {
                 text: "UG",
@@ -133,11 +134,11 @@ export default new Vuex.Store({
                 path: "/roles",
                 module: "EDP"
             },
-            // {
-            //     text: "Profile",
-            //     path: "/profile",
-            //     module: "My Account"
-            // }
+            {
+                text: "Profile",
+                path: "/profile",
+                module: "My Account"
+            }
         ]
     },
     getters: {
@@ -148,25 +149,37 @@ export default new Vuex.Store({
             return state.courseDurations.filter(x => x.isActive);
         },
         leftMenus(state) {
-            return state.menus.filter(x =>x)
+            return state.menus.filter(x => x)
         },
         menus(state) {
             return state.menus;
         },
-        modules(state){
+        modules(state) {
             return state.menus
-            .map(x => x.module)
-            .filter((m, i, ar) => ar.indexOf(m) === i);
+                .map(x => x.module)
+                .filter((m, i, ar) => ar.indexOf(m) === i);
+        },
+        auth(state){
+            return state.auth
+        },
+        refresh(state) {
+            return state.refresh;
         }
     },
     mutations: {
-        setAuth(state, auth){
+        setAuth(state, auth) {
             state.auth = auth;
             sessionStorage.setItem("e1d2u3e4r5p6", JSON.stringify(auth));
         },
-        removeAuth(state){
+        removeAuth(state) {
             state.auth = null;
             sessionStorage.removeItem("e1d2u3e4r5p6");
+        },
+        startRefresh(state) {
+            state.refresh = true;
+        },
+        stopRefresh(state) {
+            state.refresh = false;
         }
     },
     actions: {

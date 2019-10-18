@@ -20,7 +20,7 @@ const link = ApolloLink.from([
     })
 ]);
 
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
     link: link,
     cache: new InMemoryCache()
 })

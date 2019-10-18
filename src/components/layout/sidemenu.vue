@@ -17,7 +17,9 @@
       </ul>
     </template>
     <p class="menu-label">Links</p>
-    <ul class="menu-list" id="style-3">
+    <div class="scrollable-wrapper">
+      
+    <ul class="menu-list scrollable" id="style-3">
       <router-link to="/">Home</router-link>
       <template v-for="menu in filteredMenu">
         <li :key="menu.text" v-if="!menu.subMenus">
@@ -34,6 +36,7 @@
       </template>
       <router-link to="/login">Sign Out</router-link>
     </ul>
+    </div>
   </aside>
 </template>
 
@@ -68,12 +71,16 @@ export default {
 };
 </script>
 <style scoped>
-.menu-list{
-  max-height: 250px;
+.scrollable-wrapper{
+  height: 250px;
+  border: 2px dotted red
 }
-.menu-list:hover {
-  overflow-y: scroll;
+.scrollable {
+  overflow-y: auto;
 }
+/* .scrollable:hover {
+  overflow-y: auto;
+} */
 
 #style-3::-webkit-scrollbar-track
 {
