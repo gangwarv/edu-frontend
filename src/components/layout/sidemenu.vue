@@ -17,9 +17,7 @@
       </ul>
     </template>
     <p class="menu-label">Links</p>
-    <div class="scrollable-wrapper">
-      
-    <ul class="menu-list scrollable" id="style-3">
+    <ul class="menu-list" id="style-3">
       <router-link to="/">Home</router-link>
       <template v-for="menu in filteredMenu">
         <li :key="menu.text" v-if="!menu.subMenus">
@@ -36,7 +34,6 @@
       </template>
       <router-link to="/login">Sign Out</router-link>
     </ul>
-    </div>
   </aside>
 </template>
 

@@ -30,12 +30,12 @@ export default {
       alertMessage: "",
       users: null,
       columns: [
+        ["User Id", "id"],
+        ["User Type", "userType"],
         ["First Name", "firstName"],
         ["Last Name", "lastName"],
         ["UserName", "userName"],
-        ["Mobile", "mobile"],
-        ["Role", "roleName"],
-        ["Privileges", "privileges"]
+        ["Mobile", "mobile"]
       ]
     };
   },

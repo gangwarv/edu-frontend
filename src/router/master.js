@@ -3,8 +3,29 @@ const Course = () => import('@/views/master/course-create')
 const Courses = () => import('@/views/master/course-list')
 const AcDepts = () => import('@/views/master/ac-dept-list')
 const AcDept = () => import('@/views/master/ac-dept-create')
+const Categories = () => import('@/views/master/category-list')
+const Category = () => import('@/views/master/category-create')
+
 
 export default [
+  {
+    path: 'categories',
+    name: 'categories',
+    component: Categories,
+    meta: {
+      breadcrumbs: ['Home', 'Categories'],
+      caption: 'Categories'
+    }
+  },
+  {
+    path: 'category',
+    name: 'category',
+    component: Category,
+    meta: {
+      breadcrumbs: ['Home', 'Category'],
+      caption: 'Category'
+    }
+  },
   {
     path: 'courses',
     name: 'courses',

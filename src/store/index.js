@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import auth from './auth';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        auth: JSON.parse(sessionStorage.getItem('e1d2u3e4r5p6')),
-        refresh: false,
+        ...auth.state,
         courseTypes: [
             {
                 text: "UG",
@@ -125,6 +126,11 @@ export default new Vuex.Store({
                 module: "Master"
             },
             {
+                text: "Categories",
+                path: "/categories",
+                module: "Master"
+            },
+            {
                 text: "Users",
                 path: "/users",
                 module: "EDP"
@@ -142,6 +148,7 @@ export default new Vuex.Store({
         ]
     },
     getters: {
+        ...auth.getters,
         courseTypes(state, getters) {
             return state.courseTypes.filter(x => x.isActive);
         },
@@ -158,29 +165,10 @@ export default new Vuex.Store({
             return state.menus
                 .map(x => x.module)
                 .filter((m, i, ar) => ar.indexOf(m) === i);
-        },
-        auth(state){
-            return state.auth
-        },
-        refresh(state) {
-            return state.refresh;
         }
     },
     mutations: {
-        setAuth(state, auth) {
-            state.auth = auth;
-            sessionStorage.setItem("e1d2u3e4r5p6", JSON.stringify(auth));
-        },
-        removeAuth(state) {
-            state.auth = null;
-            sessionStorage.removeItem("e1d2u3e4r5p6");
-        },
-        startRefresh(state) {
-            state.refresh = true;
-        },
-        stopRefresh(state) {
-            state.refresh = false;
-        }
+        ...auth.mutations
     },
     actions: {
         incrementBy: function ({ commit, ...rest }, num) {

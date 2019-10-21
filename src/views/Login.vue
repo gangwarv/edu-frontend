@@ -44,10 +44,13 @@
 
 <script>
 import { LOGIN } from "@/graphql/auth";
+import { AUTH_SET, AUTH_REMOVE } from '@/store/auth/types'
+
 export default {
   name: "Login",
   mounted() {
-    this.$store.commit("removeAuth");
+    console.log(AUTH_REMOVE,AUTH_SET)
+    this.$store.commit(AUTH_REMOVE);
   },
   data: function() {
     return {
@@ -77,7 +80,7 @@ export default {
             expiringIn: new Date(login.expiresIn)
           };
 
-          this.$store.commit("setAuth", auth);
+          this.$store.commit(AUTH_SET, auth);
           this.$router.push("/");
         })
         .catch(err => {

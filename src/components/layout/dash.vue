@@ -5,7 +5,6 @@
       <div class="container is-fluid">
         <div class="columns">
           <div class="column is-2" id="mySidenav">
-            <!--SideMenu-->
             <SideMenu/>
           </div>
           <div class="column">
@@ -40,7 +39,6 @@
 import Navbar from "./navbar.vue";
 import SideMenu from "./sidemenu.vue";
 import Footer from "./footer.vue";
-import { constants } from 'crypto';
 
 export default {
   name: "Dash",
