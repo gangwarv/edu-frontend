@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
-      <PageHeader header-text="Department Details" to="/acdepts" link-text="Department List" />
+      <PageHeader header-text="Cast Category" to="/categories" link-text="Category List" />
       <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="$route.query.id && !category.id" />
       <div class="columns is-multiline" v-else>
@@ -10,7 +10,10 @@
             <c-input v-model="category.name" label="Name" type="text" :errors="errors" />
           </ValidationProvider>
         </div>
-        <div class="column is-9"></div>
+        <div class="column is-3">
+          <c-check v-model="category.isActive" id="cat_active" label="Active" />
+        </div>
+        <div class="column is-6"></div>
         <BtnGroup :loading="loading" @reset="reset" />
       </div>
     </form>
@@ -18,7 +21,7 @@
 </template>
 
 <script>
-import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/ac-dept";
+import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/category";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {

@@ -74,13 +74,9 @@ export default {
         })
         .then(({ data: { login } }) => {
           this.loading = false;
-          delete login.__typename;
-          const auth = {
-            ...login,
-            expiringIn: new Date(login.expiresIn)
-          };
+         
 
-          this.$store.commit(AUTH_SET, auth);
+          this.$store.commit(AUTH_SET, login);
           this.$router.push("/");
         })
         .catch(err => {

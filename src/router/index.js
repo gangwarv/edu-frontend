@@ -1,6 +1,8 @@
 import Router from 'vue-router'
 import Vue from 'vue'
 import store from '../store'
+import { apolloClient } from '../apollo'
+import { GET_ROLES } from '@/graphql/role'
 
 const HelloWorld = () => import('@/views/HelloWorld')
 const Home = () => import('@/views/Home')
@@ -66,10 +68,14 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.name == 'login' || to.name == 'notfound')
     return next();
+  apolloClient.query({
+    query: GET_ROLES
+  }).then(console.log)
 
   if (store.state.auth) {
     const remainingMiliseconds = store.state.auth.expiresIn - new Date().getTime();
-    if (remainingMiliseconds > 1000 && remainingMiliseconds < 30000) {
+    console.log('remainingMiliseconds', remainingMiliseconds)
+    if (remainingMiliseconds > 1000 && remainingMiliseconds < 570000) {
       store.state.refresh = true;
     }
     if (remainingMiliseconds < 0) {
@@ -82,7 +88,7 @@ router.beforeEach((to, from, next) => {
   if (from.name) {
     alert('access-denied');
     return next(from)
-  } 
+  }
   next('login')
 })
 

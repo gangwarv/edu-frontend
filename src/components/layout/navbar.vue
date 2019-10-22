@@ -33,7 +33,11 @@
       <div class="container is-fluid">
         <div class="navbar-brand">
           <a class="is-hidden-mobile navbar-item" @click="toggle">&#9776;</a>
-          <router-link class="navbar-item is-active" to="/" style="font-weight:bold;">ERP {{ refresh }}</router-link>
+          <router-link
+            class="navbar-item is-active"
+            to="/"
+            style="font-weight:bold;"
+          >ERP {{ refresh }}</router-link>
           <span class="navbar-burger burger" data-target="navMenu">
             <span></span>
             <span></span>
@@ -73,7 +77,6 @@
 </template>
 
 <script>
-import { GET_ROLES } from "@/graphql/role";
 export default {
   name: "Navbar",
   methods: {
@@ -83,9 +86,6 @@ export default {
     }
   },
   computed: {
-    refresh() {
-      return this.$store.getters.refresh;
-    },
     menus() {
       return this.$store.getters.menus;
     },
@@ -100,19 +100,6 @@ export default {
       burger.classList.toggle("is-active");
       nav.classList.toggle("is-active");
     });
-  },
-  apollo: {
-    roles: {
-      query: GET_ROLES,
-      pollInterval() {
-        console.log('pollling')
-        if(this.refresh){
-          this.$store.commit('stopRefresh')
-          return 2000;
-        }
-        return undefined;
-      }
-    }
   }
 };
 </script>

@@ -18,14 +18,14 @@
 </template>
 
 <script>
-import { GET_CATEGORIES, REMOVE_CATEGORY } from "@/graphql/categories";
+import { GET_CATEGORIES, REMOVE_CATEGORY } from "@/graphql/category";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "CategoryList",
   data: function() {
     return {
-      columns: [["Id", "id"],["Name", "name"]],// ["Active", "isActive", "boolean"]],
+      columns: [["Id", "id"],["Name", "name"],["Active", "isActive", "boolean"]],
       error: null,
       alertShow: false,
       alertTitle: "",
