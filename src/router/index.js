@@ -2,7 +2,8 @@ import Router from 'vue-router'
 import Vue from 'vue'
 import store from '../store'
 import { apolloClient } from '../apollo'
-import { GET_ROLES } from '@/graphql/role'
+import { LOGIN } from '@/graphql/auth'
+import { AUTH_SET } from '@/store/auth/types'
 
 const HelloWorld = () => import('@/views/HelloWorld')
 const Home = () => import('@/views/Home')
@@ -68,15 +69,18 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.name == 'login' || to.name == 'notfound')
     return next();
-  apolloClient.query({
-    query: GET_ROLES
-  }).then(console.log)
-
   if (store.state.auth) {
     const remainingMiliseconds = store.state.auth.expiresIn - new Date().getTime();
     console.log('remainingMiliseconds', remainingMiliseconds)
     if (remainingMiliseconds > 1000 && remainingMiliseconds < 570000) {
-      store.state.refresh = true;
+      apolloClient.mutate({
+        mutation: LOGIN,
+        variables: { userName: '--renewtoken--', password: '-- --' }
+      })
+        .then(({ data: { login } }) => {
+          store.commit(AUTH_SET, login);
+          console.log('renew ', new Date(login.expiresIn))
+        });
     }
     if (remainingMiliseconds < 0) {
       next('login')
@@ -85,7 +89,7 @@ router.beforeEach((to, from, next) => {
     if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege))
       return next()
   }
-  if (from.name) {
+  if (from.name && from.name!=='login') {
     alert('access-denied');
     return next(from)
   }

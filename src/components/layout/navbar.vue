@@ -37,7 +37,7 @@
             class="navbar-item is-active"
             to="/"
             style="font-weight:bold;"
-          >ERP {{ refresh }}</router-link>
+          >ERP</router-link>
           <span class="navbar-burger burger" data-target="navMenu">
             <span></span>
             <span></span>
