@@ -82,8 +82,10 @@ router.beforeEach((to, from, next) => {
       next('login')
     }
     const privileges = store.state.auth.privileges.split(',');
-    if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege))
+    if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege)){
       return next()
+    }
+      
   }
   if (from.name) {
     alert('access-denied');

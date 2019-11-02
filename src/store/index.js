@@ -108,43 +108,6 @@ export default new Vuex.Store({
                 value: "Other",
                 isActive: true
             }
-        ],
-        menus: [
-            {
-                text: "Hello",
-                path: "/hello",
-                module: "Home"
-            },
-            {
-                text: "Academic Departments",
-                path: "/acdepts",
-                module: "EDP"
-            },
-            {
-                text: "Courses",
-                path: "/courses",
-                module: "Master"
-            },
-            {
-                text: "Categories",
-                path: "/categories",
-                module: "Master"
-            },
-            {
-                text: "Users",
-                path: "/users",
-                module: "EDP"
-            },
-            {
-                text: "Roles",
-                path: "/roles",
-                module: "EDP"
-            },
-            {
-                text: "Profile",
-                path: "/profile",
-                module: "My Account"
-            }
         ]
     },
     getters: {
@@ -154,12 +117,6 @@ export default new Vuex.Store({
         },
         courseDurations(state, getters) {
             return state.courseDurations.filter(x => x.isActive);
-        },
-        leftMenus(state) {
-            return state.menus.filter(x => x)
-        },
-        menus(state) {
-            return state.menus;
         },
         modules(state) {
             return state.menus

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar/>
-    <section class="section" style="padding: 15px 10px">
+    <section class="section" style="padding: 60px 10px">
       <div class="container is-fluid">
         <div class="columns">
           <div class="column is-2" id="mySidenav">

@@ -1,13 +1,25 @@
 <template>
   <aside class="menu">
-    <div class="field">
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <div class="select is-small is-fullwidth">
+          <select name="country">
+            <option v-for="mod in modules" :key="mod">{{ mod }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="control">
+        <button type="submit" class="button is-small is-hidden">Set Default</button>
+      </div>
+    </div>
+    <!-- <div class="field">
       <p class="control has-icons-left">
         <input class="input" v-model="searchMenu" type="email" placeholder="Search" />
         <span class="icon is-small is-left">
           <i class="fa fa-search"></i>
         </span>
       </p>
-    </div>
+    </div>-->
     <template v-if="!searchMenu">
       <p class="menu-label">Recents</p>
       <ul class="menu-list">
@@ -40,14 +52,18 @@
 <script>
 export default {
   name: "SideMenu",
-  data: function() {
+  data() {
     return {
-      searchMenu: ""
+      searchMenu: "",
+      searchModule: ""
     };
   },
   computed: {
-    menus(){
-      return this.$store.getters.menus
+    menus() {
+      return this.$store.getters.leftMenus;
+    },
+    modules() {
+      return this.$store.getters.modules;
     },
     filteredMenu: function() {
       const filtered = this.menus.filter(menu => {
@@ -68,9 +84,9 @@ export default {
 };
 </script>
 <style scoped>
-.scrollable-wrapper{
+.scrollable-wrapper {
   height: 250px;
-  border: 2px dotted red
+  border: 2px dotted red;
 }
 .scrollable {
   overflow-y: auto;
@@ -79,20 +95,17 @@ export default {
   overflow-y: auto;
 } */
 
-#style-3::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
+#style-3::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
 }
 
-#style-3::-webkit-scrollbar
-{
-	width: 6px;
-	background-color: #F5F5F5;
+#style-3::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
 }
 
-#style-3::-webkit-scrollbar-thumb
-{
-	background-color: #000000;
+#style-3::-webkit-scrollbar-thumb {
+  background-color: #000000;
 }
 </style>
