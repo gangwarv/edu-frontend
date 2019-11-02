@@ -49,7 +49,6 @@ import { AUTH_SET, AUTH_REMOVE } from '@/store/auth/types'
 export default {
   name: "Login",
   mounted() {
-    console.log(AUTH_REMOVE,AUTH_SET)
     this.$store.commit(AUTH_REMOVE);
   },
   data: function() {
@@ -74,8 +73,6 @@ export default {
         })
         .then(({ data: { login } }) => {
           this.loading = false;
-         
-
           this.$store.commit(AUTH_SET, login);
           this.$router.push("/");
         })

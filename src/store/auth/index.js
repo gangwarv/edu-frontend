@@ -64,6 +64,7 @@ export default {
             delete authData.__typename;
             const auth = {
               ...authData,
+              validFrom: new Date(authData.validFrom),
               expiringIn: new Date(authData.expiresIn)
             };
             state.auth = auth;
