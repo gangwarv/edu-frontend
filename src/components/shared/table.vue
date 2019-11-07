@@ -138,8 +138,8 @@ export default {
       if (this.dataLength > 0) {
         data = this.data.map(x => x);
       }
-      if (this.searchText) {
-        data = data.filter(x => this.flat(x).indexOf(this.searchText) > -1);
+      if (this.searchText && this.searchText.trim()) {
+        data = data.filter(x => this.flat(x).indexOf(this.searchText.trim().toLowerCase()) > -1);
       }
       return data;
     },
