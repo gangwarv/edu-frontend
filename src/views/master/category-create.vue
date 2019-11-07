@@ -46,15 +46,7 @@ export default {
           mutation: UPSERT_CATEGORY,
           variables: {
             ...this.category
-          },
-        //   update: (store, { data: { addAcDept } }) => {
-        //     const data = store.readQuery({ query: GET_AC_DEPTS });
-        //     data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
-        //     if (!data.acDepts.some(x => x.id === addAcDept.id)) {
-        //       data.acDepts.push(addAcDept);
-        //     }
-        //     store.writeQuery({ query: GET_AC_DEPTS, data });
-        //   }
+          }
         })
       );
     },

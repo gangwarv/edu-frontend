@@ -19,8 +19,8 @@ export const GET_CATEGORY_BY_ID = gql`
 `
 
 export const UPSERT_CATEGORY = gql`
-    mutation AddCategory($id:String, $name: String!){
-        addCategory(id: $id, name: $name){
+    mutation AddCategory($id:String, $name: String!, $isActive: Boolean!){
+        addCategory(id: $id, name: $name, isActive: $isActive){
             id,
             name
         }
@@ -29,8 +29,8 @@ export const UPSERT_CATEGORY = gql`
 
 
 export const REMOVE_CATEGORY = gql`
-    mutation RemoveCategories($isActive: Boolean){
-        deleteCategory(isActive: $isActive){
+    mutation RemoveCategories($id: String!){
+        deleteCategory(id: $id){
             id,
             name
         }

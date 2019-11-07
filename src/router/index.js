@@ -47,7 +47,7 @@ const router = new Router({
           meta: {
             breadcrumbs: ['Home', 'Hello'],
             caption: 'Hello',
-            privilege: 'admin'
+            // privilege: 'admin'
           }
         },
         ...admissionRoutes,

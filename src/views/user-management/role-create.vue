@@ -136,6 +136,10 @@ export default {
           name: "role-create"
         },
         {
+          module: "EDP",
+          name: "category-create"
+        },
+        {
           module: "Academic",
           name: "course-create"
         },

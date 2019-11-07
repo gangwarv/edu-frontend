@@ -1,7 +1,8 @@
 <template>
   <div class="columns is-multiline box">
     <div class="column">
-    <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
+      <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
+      <SearchableInput />
       <div class="field">
         <label class="label">Name</label>
         <div class="control">
@@ -88,9 +89,7 @@
         </div>
       </div>
     </div>
-    <div class="column">
-
-    </div>
+    <div class="column"></div>
     <!--form-->
     <div class="column is-full">
       <div class="panel">
