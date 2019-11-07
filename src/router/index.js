@@ -70,28 +70,32 @@ router.beforeEach((to, from, next) => {
   if (to.name == 'login' || to.name == 'notfound')
     return next();
   if (store.state.auth) {
-    const remainingMiliseconds = store.state.auth.expiresIn - new Date().getTime();
-    console.log('remainingMiliseconds', remainingMiliseconds)
-    if (remainingMiliseconds > 1000 && remainingMiliseconds < 570000) {
+    let { expiringIn, validFrom } = store.state.auth;
+    expiringIn = new Date(expiringIn);
+    validFrom = new Date(validFrom);
+
+    const remainingSeconds = Math.floor((expiringIn - new Date()) / 1000);
+    const validityHalf = Math.floor(expiringIn - validFrom) / 2000;
+
+    if (remainingSeconds > 1 && remainingSeconds < validityHalf) {
       apolloClient.mutate({
         mutation: LOGIN,
         variables: { userName: '--renewtoken--', password: '-- --' }
       })
         .then(({ data: { login } }) => {
           store.commit(AUTH_SET, login);
-          console.log('renew ', new Date(login.expiresIn))
         });
     }
-    if (remainingMiliseconds < 0) {
+    if (remainingSeconds < 0) {
       next('login')
     }
     const privileges = store.state.auth.privileges.split(',');
-    if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege)){
+    if (!to.meta.privilege || privileges.includes('admin') || privileges.includes(to.meta.privilege)) {
       return next()
     }
-      
+
   }
-  if (from.name && from.name!=='login') {
+  if (from.name && from.name !== 'login') {
     alert('access-denied');
     return next(from)
   }
