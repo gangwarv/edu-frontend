@@ -3,7 +3,7 @@
   <nav class="navbar is-primary is-fixed-top">
     <div class="container is-fluid">
       <div class="navbar-brand">
-        <a class="is-hidden-mobile navbar-item" @click="toggle">&#9776;</a>
+        <a class="navbar-item" @click="toggle">{{ isOpen? '&#8690;' : '&#8689;' }}</a>
         <router-link class="navbar-item is-active" to="/" style="font-weight:bold;">ERP</router-link>
         <span class="navbar-burger burger" data-target="navMenu">
           <span></span>
@@ -45,10 +45,16 @@
 <script>
 export default {
   name: "Navbar",
+  data: function() {
+    return {
+      isOpen: true
+    };
+  },
   methods: {
     toggle() {
       let el = document.getElementById("mySidenav");
       el.classList.toggle("is-hidden");
+      this.isOpen = !this.isOpen;
     }
   },
   computed: {
