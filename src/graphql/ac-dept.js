@@ -11,17 +11,7 @@ export const GET_AC_DEPTS = gql`
         }
     }
 `
-// export const GET_ACTIVE_AC_DEPTS = gql`
-//     query GetActiveAcDepts{
-//         acDepts(isActive: true){
-//             id,
-//             name,
-//             isActive,
-//             createdAt,
-//             updatedAt
-//         }
-//     }
-// `
+
 export const GET_AC_DEPT_BY_ID = gql`
     query GetAcDept($id: String!){
         acDept(id: $id){
@@ -59,10 +49,8 @@ export const getAcDepts = function depts(isActive) {
       manual: true,
       result({ data, loading }) {
         if (!loading) {
-          this.depts = data.acDepts.filter(x => x.isActive === isActive || isActive === undefined);
+          this.depts = data.acDepts.filter(x => isActive || (x.isActive === true));
         }
       }
     };
   }
-
-//   export const  

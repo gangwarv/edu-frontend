@@ -22,7 +22,10 @@ export const GET_ACTIVE_COURSES = gql`
             name,
             type,
             isActive,
+            isLateral,
+            duration,
             departmentName,
+            department,
             duration
         }
     }
@@ -51,8 +54,12 @@ export const UPSERT_COURSE = gql`
             code,
             type,
             name,
+            type,
             isActive,
+            isLateral,
+            duration,
             departmentName,
+            department,
             duration
         }
     }
