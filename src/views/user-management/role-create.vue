@@ -141,6 +141,10 @@ export default {
           name: "category-view"
         },
         {
+          module: "EDP",
+          name: "category-create"
+        },
+        {
           module: "Academic",
           name: "course-create"
         },
