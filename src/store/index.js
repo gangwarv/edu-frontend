@@ -117,11 +117,6 @@ export default new Vuex.Store({
         },
         courseDurations(state, getters) {
             return state.courseDurations.filter(x => x.isActive);
-        },
-        modules(state) {
-            return state.menus
-                .map(x => x.module)
-                .filter((m, i, ar) => ar.indexOf(m) === i);
         }
     },
     mutations: {

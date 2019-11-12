@@ -6,6 +6,13 @@ export const LOGIN = gql`
             userId,
             userName,
             token,
+            menus{
+                text,
+                path,
+                module,
+                privilege,
+                position
+            },
             validFrom,
             expiresIn,
             roleName,

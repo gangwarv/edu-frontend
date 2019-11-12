@@ -65,7 +65,7 @@ export default {
     modules() {
       return this.$store.getters.modules;
     },
-    filteredMenu: function() {
+    filteredMenu() {
       const filtered = this.menus.filter(menu => {
         if (!this.searchMenu) {
           return true;

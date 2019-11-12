@@ -3,69 +3,38 @@ import { AUTH_SET, AUTH_REMOVE } from './types'
 export default {
     state: {
         auth: JSON.parse(sessionStorage.getItem('e1d2u3e4r5p6')),
-        menus: [
-            {
-                text: "Hello",
-                path: "/hello",
-                module: "Home",
-                position: 'left'
-            },
-            {
-                text: "Academic Departments",
-                path: "/acdepts",
-                module: "EDP",
-                position: 'left'
-            },
-            {
-                text: "Courses",
-                path: "/courses",
-                module: "Master",
-                position: 'left'
-            },
-            {
-                text: "Categories",
-                path: "/categories",
-                module: "Master",
-                position: 'left'
-            },
-            {
-                text: "Users",
-                path: "/users",
-                module: "EDP",
-                position: 'left'
-            },
-            {
-                text: "Roles",
-                path: "/roles",
-                module: "EDP",
-                position: 'left'
-            },
-            {
-                text: "Profile",
-                path: "/profile",
-                module: "EDP",
-                position: 'top'
-            }
-        ]
+        // menus: []
     },
     getters: {
         auth(state) {
-            return state.auth
+            if (!state.auth) {
+                return null;
+            }
+            const { menus, ...rest } = state.auth;
+            return rest;
         },
-        topMenus(state){
-            return state.menus.filter(x=>x.position==='top')
+        menus(state) {
+            return (state.auth && state.auth.menus) || [];
         },
-        leftMenus(state){
-            return state.menus.filter(x=>x.position==='left')
+        topMenus(state, getters) {
+            return getters.menus.filter(x => x.position === 'top')
+        },
+        leftMenus(state, getters) {
+            return getters.menus.filter(x => x.position === 'left')
+        },
+        modules(state, getters) {
+            return getters.menus
+                .map(x => x.module)
+                .filter((m, i, ar) => ar.indexOf(m) === i);
         }
     },
     mutations: {
         [AUTH_SET](state, authData) {
             delete authData.__typename;
             const auth = {
-              ...authData,
-              validFrom: new Date(authData.validFrom),
-              expiringIn: new Date(authData.expiresIn)
+                ...authData,
+                validFrom: new Date(authData.validFrom),
+                expiringIn: new Date(authData.expiresIn)
             };
             state.auth = auth;
             sessionStorage.setItem("e1d2u3e4r5p6", JSON.stringify(auth));
@@ -73,10 +42,11 @@ export default {
         [AUTH_REMOVE](state) {
             state.auth = null;
             sessionStorage.removeItem("e1d2u3e4r5p6");
-        }
+        },
+
     },
     actions: {
-        
+
     }
 }
 

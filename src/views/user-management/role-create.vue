@@ -70,14 +70,14 @@ export default {
             ...this.role,
             privileges: this.role.privileges.toString()
           },
-          update: (store, { data: { addRole } }) => {
-            const data = store.readQuery({ query: GET_ROLES });
-            data.roles = data.roles.filter(x => x.id !== addRole.id);
-            if (!data.roles.some(x => x.id === addRole.id)) {
-              data.roles.push(addRole);
-            }
-            store.writeQuery({ query: GET_ROLES, data });
-          }
+          // update: (store, { data: { addRole } }) => {
+          //   const data = store.readQuery({ query: GET_ROLES });
+          //   data.roles = data.roles.filter(x => x.id !== addRole.id);
+          //   if (!data.roles.some(x => x.id === addRole.id)) {
+          //     data.roles.push(addRole);
+          //   }
+          //   store.writeQuery({ query: GET_ROLES, data });
+          // }
         })
       );
     },
@@ -88,7 +88,7 @@ export default {
 
       this.role = {
         name: "",
-        privileges: []
+        privileges: ""
       };
       this.$refs.observer.reset();
     }
@@ -101,6 +101,7 @@ export default {
         .map(c => ({ value: c }));
     },
     privileges() {
+      console.log(this.appmodules.map(x => x.name))
       return this.appmodules.map(x => x.name);
     },
     role_privileges() {
@@ -137,7 +138,7 @@ export default {
         },
         {
           module: "EDP",
-          name: "category-create"
+          name: "category-view"
         },
         {
           module: "Academic",
@@ -150,6 +151,10 @@ export default {
         {
           module: "Academic",
           name: "attendence-create"
+        },
+        {
+          module: "Master",
+          name: "course-view"
         }
       ]
     };
