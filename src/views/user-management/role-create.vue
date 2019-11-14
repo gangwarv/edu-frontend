@@ -149,16 +149,16 @@ export default {
           name: "course-create"
         },
         {
-          module: "Academic",
-          name: "attendence-view"
-        },
-        {
-          module: "Academic",
-          name: "attendence-create"
-        },
-        {
           module: "Master",
           name: "course-view"
+        },
+        {
+          module: "Fee",
+          name: "feeItem-view"
+        },
+        {
+          module: "Fee",
+          name: "feeItem-create"
         }
       ]
     };
