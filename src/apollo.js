@@ -29,7 +29,7 @@ export const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
         $query: {
-            fetchPolicy: 'network-only'
+            fetchPolicy: 'cache-and-network'
         }
     },
     // errorHandler(err) {
