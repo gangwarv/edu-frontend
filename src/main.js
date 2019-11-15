@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import { apolloProvider } from './apollo'
 
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
 import "./global.scss";
 import App from './App.vue'
 import router from './router'
@@ -9,13 +12,10 @@ import filters from './filters'
 import controls from "@/components/controls";
 import sharedComponents from "@/components/shared";
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import { extend } from 'vee-validate'
+
+Vue.use(Buefy)
 
 Vue.config.productionTip = false
-extend('secret', {
-  validate: value => value === 'example',
-  message: 'This is not the magic word'
-});
 
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)

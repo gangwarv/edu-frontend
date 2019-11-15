@@ -3,6 +3,18 @@
     <div class="column">
       <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
       <SearchableInput />
+      <b-field label="Select time">
+            <b-clockpicker
+                placeholder="Click to select..."
+                icon="clock"
+                hour-format="12">
+            </b-clockpicker>
+        </b-field>
+         <div class="field">
+            <b-checkbox v-model="checkbox" >
+                {{ checkbox }}
+            </b-checkbox>
+        </div>
       <div class="field">
         <label class="label">Name</label>
         <div class="control">

@@ -24,14 +24,11 @@
           <div class="columns is-multiline">
             <div class="column is-3" v-for="p in privileges" :key="p">
               <div class="field">
-                <input
-                  class="is-checkradio is-link"
-                  :id="'check_'+p"
-                  type="checkbox"
-                  :checked="role_privileges.includes(p)"
-                  @change="toggle($event, p)"
-                />
-                <label :for="'check_'+p">{{ p }}</label>
+                <b-checkbox
+                  :value="role_privileges.includes(p)"
+                  @change.native="toggle($event, p)"
+                >
+                {{ p }}</b-checkbox>
               </div>
             </div>
           </div>
