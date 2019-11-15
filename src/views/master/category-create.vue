@@ -51,7 +51,6 @@ export default {
       );
     },
     reset: function() {
-       this.$buefy.toast.open('Something happened correctly!')
       if (this.$route.query.id) {
         return this.$router.push("/categories");
       }
