@@ -2,26 +2,9 @@
   <div class="columns is-multiline box">
     <div class="column">
       <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
-      <SearchableInput />
-      <b-field label="Select time">
-            <b-clockpicker
-                placeholder="Click to select..."
-                icon="clock"
-                hour-format="12">
-            </b-clockpicker>
-        </b-field>
-         <div class="field">
-            <b-checkbox v-model="checkbox" >
-                {{ checkbox }}
-            </b-checkbox>
-        </div>
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="Text input" />
-        </div>
-      </div>
-
+      <CMultipleSelect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
+      <c-timepicker label="Time" :max-time="new Date()" v-model="date" />
+      <c-datepicker label="Date" :max-date="new Date()" v-model="date" />
       <div class="field">
         <label class="label">Username</label>
         <div class="control has-icons-left has-icons-right">
@@ -146,8 +129,22 @@
 <script>
 export default {
   name: "HelloWorld",
+  data() {
+    return {
+      date: new Date().toJSON(),
+      fruit: ['Ant'],
+      options: ["Apple", "Ant", "Ball", "Bowl"],
+      loading: true
+    };
+  },
   props: {
     msg: String
+  },
+  mounted(){
+    setTimeout(() => {
+      this.options = ["Ant", "123", "991300"];
+      this.loading = false;
+    }, 3000);
   }
 };
 </script>

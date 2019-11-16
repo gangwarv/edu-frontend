@@ -6,7 +6,7 @@
       <span class="has-text-danger" v-if="required">*</span>
     </label>
     <div class="control">
-      <div class="select is-fullwidth" :class="[{ 'is-multiple':multiple }]">
+      <div class="select is-fullwidth" :class="[{ 'is-multiple':multiple, 'is-danger': !!errors && errors.length }]">
         <select :value="value" @change="handleInput" :multiple="multiple" :size="size">
           <option :hidden="multiple" value>{{ defaultLabel }}</option>
           <option

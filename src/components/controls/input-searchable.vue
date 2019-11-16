@@ -1,30 +1,10 @@
 
 <template>
   <div class="field">
-    <label class="label">City (Searchable)</label>
-    <div class="control">
-      <div class="dropdown full-width is-hoverable">
-        <div class="dropdown-trigger full-width">
-          <div class="field">
-            <p class="control is-expanded">
-              <input class="input" type="search" placeholder="Search..." />
-              <!-- <span class="icon is-small is-right">
-                    <i class="fas fa-search"></i>
-              </span>-->
-            </p>
-          </div>
-        </div>
-        <div class="dropdown-menu full-width"  role="menu">
-          <div class="dropdown-content">
-            <a href="#" class="dropdown-item ">Dropdown item</a>
-            <a href="#" class="dropdown-item">Other dropdown item</a>
-            <hr class="dropdown-divider" />
-            <a href="#" class="dropdown-item">With a divider</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="help is-danger">{{ errors && errors[0] }}</p>
+    <b-field :label="label || 'Enter Date'">
+      <b-datepicker :placeholder="placeholder" icon="calendar-today" editable></b-datepicker>
+    </b-field>
+    <p style="margin-top: -8px;" class="help is-danger">{{ errors && errors[0] }}</p>
   </div>
 </template>
 

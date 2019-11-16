@@ -5,11 +5,11 @@
       {{ label }}
       <span class="has-text-danger" v-if="required">*</span>
     </label>
-    <div :class="[{'is-loading':isLoading}, 'control'] ">
+    <div :class="[{'is-loading':isLoading}, 'control']">
       <input
         :value="value"
         @input="handleInput"
-        class="input"
+        :class="[{'is-danger': !!errors && errors.length }, 'input']"
         :type="type || 'text'"
         :placeholder="placeholder || 'Enter '+label"
       />

@@ -13,7 +13,11 @@
         <div class="column is-3">
           <c-check v-model="acDept.isActive" id="acdept_active" label="Active" indeterminate />
         </div>
-        <div class="column is-3"></div>
+        <div class="column is-3">
+          <ValidationProvider name="Date" rules="required" v-slot="{ errors }">
+            <c-multiple-select v-model="acDept.date" :options="['Apple', 'Ant', 'Ball', 'Bowl']" :errors="errors" label="Date" />
+          </ValidationProvider>
+        </div>
         <BtnGroup :loading="loading" @reset="reset" />
       </div>
     </form>
@@ -21,7 +25,11 @@
 </template>
 
 <script>
-import { GET_AC_DEPTS, GET_AC_DEPT_BY_ID, UPSERT_AC_DEPT } from "@/graphql/ac-dept";
+import {
+  GET_AC_DEPTS,
+  GET_AC_DEPT_BY_ID,
+  UPSERT_AC_DEPT
+} from "@/graphql/ac-dept";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
@@ -30,6 +38,7 @@ export default {
     return {
       acDept: {
         name: "",
+        date: null,
         isActive: true
       },
       loading: false,
