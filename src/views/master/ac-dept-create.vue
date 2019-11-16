@@ -14,9 +14,9 @@
           <c-check v-model="acDept.isActive" id="acdept_active" label="Active" indeterminate />
         </div>
         <div class="column is-3">
-          <ValidationProvider name="Date" rules="required" v-slot="{ errors }">
-            <c-multiple-select v-model="acDept.date" :options="['Apple', 'Ant', 'Ball', 'Bowl']" :errors="errors" label="Date" />
-          </ValidationProvider>
+          <!-- <ValidationProvider name="Date" rules="required" v-slot="{ errors }">
+            <c-multiselect v-model="acDept.date" :options="['Apple', 'Ant', 'Ball', 'Bowl']" :errors="errors" label="Date" />
+          </ValidationProvider> -->
         </div>
         <BtnGroup :loading="loading" @reset="reset" />
       </div>
@@ -38,7 +38,7 @@ export default {
     return {
       acDept: {
         name: "",
-        date: null,
+        // date: null,
         isActive: true
       },
       loading: false,

@@ -1,19 +1,17 @@
+import btnGroup from './btn-group'
 import input from './input'
 import select from './select'
 import checkbox from './checkbox'
-import btnGroup from './btn-group'
-import searchableInput from './input-searchable'
 import CDatepicker from './datepicker'
 import CTimepicker from './timepicker'
-import CMultipleSelect from './multiple-select'
+import CMultiselect from './multiselect'
 
 export default [
+    btnGroup,
     input,
     select,
     checkbox,
-    btnGroup,
-    searchableInput,
     CDatepicker,
     CTimepicker,
-    CMultipleSelect
+    CMultiselect
 ]

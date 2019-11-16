@@ -2,7 +2,7 @@
   <div class="columns is-multiline box">
     <div class="column">
       <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
-      <CMultipleSelect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
+      <c-multiselect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
       <c-timepicker label="Time" :max-time="new Date()" v-model="date" />
       <c-datepicker label="Date" :max-date="new Date()" v-model="date" />
       <div class="field">

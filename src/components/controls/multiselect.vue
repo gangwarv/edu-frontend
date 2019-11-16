@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: "CMultipleSelect",
+  name: "CMultiselect",
   props: {
     label: String,
     options: {
