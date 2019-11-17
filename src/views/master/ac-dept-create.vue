@@ -2,7 +2,6 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Department Details" to="/acdepts" link-text="Department List" />
-      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="$route.query.id && !acDept.id" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -26,7 +25,6 @@
 
 <script>
 import {
-  GET_AC_DEPTS,
   GET_AC_DEPT_BY_ID,
   UPSERT_AC_DEPT
 } from "@/graphql/ac-dept";
@@ -38,13 +36,9 @@ export default {
     return {
       acDept: {
         name: "",
-        // date: null,
         isActive: true
       },
-      loading: false,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: ""
+      loading: false
     };
   },
   methods: {
@@ -56,14 +50,14 @@ export default {
           variables: {
             ...this.acDept
           },
-          update: (store, { data: { addAcDept } }) => {
-            const data = store.readQuery({ query: GET_AC_DEPTS });
-            data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
-            if (!data.acDepts.some(x => x.id === addAcDept.id)) {
-              data.acDepts.push(addAcDept);
-            }
-            store.writeQuery({ query: GET_AC_DEPTS, data });
-          }
+          // update: (store, { data: { addAcDept } }) => {
+          //   const data = store.readQuery({ query: GET_AC_DEPTS });
+          //   data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
+          //   if (!data.acDepts.some(x => x.id === addAcDept.id)) {
+          //     data.acDepts.push(addAcDept);
+          //   }
+          //   store.writeQuery({ query: GET_AC_DEPTS, data });
+          // }
         })
       );
     },

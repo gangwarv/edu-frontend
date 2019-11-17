@@ -1,8 +1,16 @@
 import gql from 'graphql-tag'
 
 export const GET_AC_DEPTS = gql`
-    query GetAcDepts($isActive: Boolean){
+    query GetAcDepts($isActive: true){
         acDepts(isActive: $isActive){
+            id,
+            name
+        }
+    }
+`
+export const GET_ALL_AC_DEPTS = gql`
+    query GetAllAcDepts{
+        acDepts{
             id,
             name,
             isActive,
@@ -45,7 +53,7 @@ export const REMOVE_AC_DEPT = gql`
 
 export const getAcDepts = function depts(isActive) {
     return {
-      query: GET_AC_DEPTS,
+      query: GET_ALL_AC_DEPTS,
       manual: true,
       result({ data, loading }) {
         if (!loading) {

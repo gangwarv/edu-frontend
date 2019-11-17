@@ -2,7 +2,6 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Course Details" to="/courses" link-text="Course List" />
-      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="($route.query.id && !course.id) || !depts.length" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -53,8 +52,9 @@
 <script>
 import gql from "graphql-tag";
 import observeHttp from "@/helpers/http-alert-observer";
-import { GET_COURSES, getCourseById, UPSERT_COURSE } from "@/graphql/course";
+import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
 import { getAcDepts } from "@/graphql/ac-dept";
+import clearObject from "@/helpers/clearobject";
 
 export default {
   name: "Course",
@@ -69,57 +69,40 @@ export default {
         department: null
       },
       loading: false,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: "",
       depts: []
     };
   },
   methods: {
-    onSubmit: function() {
+    onSubmit() {
       observeHttp.call(
         this,
         this.$apollo.mutate({
           mutation: UPSERT_COURSE,
           variables: {
             ...this.course
-          },
-          update: (store, { data: { addCourse } }) => {
-            const data = store.readQuery({ query: GET_COURSES });
-            data.courses = data.courses.filter(x => x.id !== addCourse.id);
-            if (!data.courses.some(x => x.id === addCourse.id)) {
-              data.courses.push(addCourse);
-            }
-            store.writeQuery({ query: GET_COURSES, data });
           }
         })
-      );
+      ).then(()=> clearObject(this.course));
     },
-    reset: function() {
+    ////////////
+    reset() {
       if (this.$route.query.id) {
-        return this.$router.back(); //push("/courses");
+        return this.$router.back();
       }
-      this.course = {
-        code: "",
-        type: "",
-        name: "",
-        duration: "",
-        isActive: true,
-        department: null
-      };
+      clearObject(this.course);
       this.$refs.observer.reset();
     }
   },
   apollo: {
-    course: getCourseById.bind(
-      this,
-      function() {
+    course: {
+      query: GET_COURSE_BY_ID,
+      variables() {
         return { id: this.$route.query.id };
       },
-      function() {
+      skip() {
         return !this.$route.query.id;
       }
-    ),
+    },
     acDepts: getAcDepts.bind(this, true)
   },
   computed: {

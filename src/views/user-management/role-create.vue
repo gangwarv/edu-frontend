@@ -119,6 +119,10 @@ export default {
       appmodules: [
         {
           module: "EDP",
+          name: "admin"
+        },
+        {
+          module: "EDP",
           name: "user-view"
         },
         {
@@ -142,12 +146,20 @@ export default {
           name: "category-create"
         },
         {
+          module: "EDP",
+          name: "category-delete"
+        },
+        {
+          module: "Master",
+          name: "course-view"
+        },
+        {
           module: "Academic",
           name: "course-create"
         },
         {
           module: "Master",
-          name: "course-view"
+          name: "course-delete"
         },
         {
           module: "Fee",

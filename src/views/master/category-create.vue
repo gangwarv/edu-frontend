@@ -39,16 +39,20 @@ export default {
     };
   },
   methods: {
-    onSubmit: function() {
-      observeHttp.call(
-        this,
-        this.$apollo.mutate({
-          mutation: UPSERT_CATEGORY,
-          variables: {
-            ...this.category
-          }
-        })
-      );
+    onSubmit() {
+      observeHttp
+        .call(
+          this,
+          this.$apollo.mutate({
+            mutation: UPSERT_CATEGORY,
+            variables: {
+              ...this.category
+            }
+          })
+        )
+        .then(({ data: { addCategory: { id } } }) => {
+          this.category.id = id;
+        });
     },
     reset: function() {
       if (this.$route.query.id) {

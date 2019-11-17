@@ -11,7 +11,7 @@
           <option :hidden="multiple" value>{{ defaultLabel }}</option>
           <option
             :selected="value==item[val] || item"
-            :key="item[text] || item"
+            :key="item[val] || item"
             v-for="item in items"
             :value="item[val]||item"
           >{{ item[text]||item }}</option>

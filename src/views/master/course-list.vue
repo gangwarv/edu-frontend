@@ -3,7 +3,7 @@
     <PageHeader header-text="Course List" to="/course" link-text="Add New" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
-        <Loader v-if="!courses && !error" />
+        <Loader v-if="!courses" />
         <c-table
           :loading="$apollo.queries.courses.loading"
           :cols="columns"
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { GET_COURSES } from "@/graphql/course";
+import { GET_ALL_COURSES } from "@/graphql/course";
 export default {
   name: "CourseList",
   data: function() {
@@ -44,13 +44,7 @@ export default {
     }
   },
   apollo: {
-    courses: {
-      query: GET_COURSES,
-      error(error) {
-        this.courses = [];
-        this.error = JSON.stringify(error.message);
-      }
-    }
+    courses: GET_ALL_COURSES
   }
 };
 </script>

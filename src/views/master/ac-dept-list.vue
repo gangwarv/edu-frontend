@@ -1,7 +1,6 @@
 <template>
   <div class="box">
     <PageHeader header-text="Department List" to="/acdept" link-text="Add New" />
-    <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
         <c-table
@@ -18,7 +17,7 @@
 </template>
 
 <script>
-import { GET_AC_DEPTS, REMOVE_AC_DEPT } from "@/graphql/ac-dept";
+import { GET_ALL_AC_DEPTS, REMOVE_AC_DEPT } from "@/graphql/ac-dept";
 import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
@@ -26,10 +25,7 @@ export default {
   data: function() {
     return {
       columns: [["Name", "name"], ["Active", "isActive", "boolean"]],
-      error: null,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: ""
+      error: null
     };
   },
   methods: {
@@ -43,9 +39,9 @@ export default {
               id
             },
             update: (store, { data: { deleteAcDept } }) => {
-              const data = store.readQuery({ query: GET_AC_DEPTS });
+              const data = store.readQuery({ query: GET_ALL_AC_DEPTS });
               data.acDepts = data.acDepts.filter(x => x.id !== deleteAcDept.id);
-              store.writeQuery({ query: GET_AC_DEPTS, data });
+              store.writeQuery({ query: GET_ALL_AC_DEPTS, data });
             }
           }),
           "D"
@@ -53,12 +49,11 @@ export default {
       }
     },
     edit({ id }) {
-      console.log("edited", id);
       this.$router.push({ path: "acdept", query: { id } });
     }
   },
   apollo: {
-    acDepts: GET_AC_DEPTS
+    acDepts: GET_ALL_AC_DEPTS
   }
 };
 </script>

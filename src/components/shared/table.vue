@@ -39,7 +39,7 @@
                 style="cursor:pointer"
                 class="icon has-text-white"
               >
-                <i :class="[{'fa-arrow-down': asc, 'fa-arrow-up': !asc},'fa']"></i>
+                <i :class="[{'fa-sort-amount-down': asc, 'fa-sort-amount-up': !asc},'fa']"></i>
               </span>
             </th>
             <th class="has-text-white-bis" v-if="buttons">Action</th>
@@ -63,7 +63,7 @@
                 class="icon has-text-link"
                 @click="emit(btn, item)"
               >
-                <i :class="[{'fa-edit': btn=='edit', 'fa-remove': btn=='remove'},'fa']"></i>
+                <i :class="[{'fa-edit': btn=='edit', 'fa-trash': btn=='remove'},'fa']"></i>
               </span>
             </td>
           </tr>

@@ -34,22 +34,20 @@ export default {
   },
   methods: {
     remove({ id }) {
-      if (confirm("Are you sure?")) {
-        observeHttp.call(
+      confirm("Are you sure?") && observeHttp.call(
           this,
           this.$apollo.mutate({
             mutation: REMOVE_CATEGORY,
             variables: {
               id
             },
-            // update: (store, { data: { deleteAcDept } }) => {
-            //   const data = store.readQuery({ query: GET_AC_DEPTS });
-            //   data.acDepts = data.acDepts.filter(x => x.id !== deleteAcDept.id);
-            //   store.writeQuery({ query: GET_AC_DEPTS, data });
-            // }
+            update: (store, { data: { deleteCategory } }) => {
+              const data = store.readQuery({ query: GET_CATEGORIES });
+              data.categories = data.categories.filter(x => x.id !== deleteCategory.id);
+              store.writeQuery({ query: GET_CATEGORIES, data });
+            }
           }),
         );
-      }
     },
     edit({ id }) {
       console.log("edited", id);
@@ -57,7 +55,10 @@ export default {
     }
   },
   apollo: {
-    categories: GET_CATEGORIES
+    categories: {
+      query: GET_CATEGORIES,
+      fetchPolicy: 'network-only'
+    }
   }
 };
 </script>
