@@ -54,7 +54,7 @@ import gql from "graphql-tag";
 import observeHttp from "@/helpers/http-alert-observer";
 import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
 import { getAcDepts } from "@/graphql/ac-dept";
-import clearObject from "@/helpers/clearobject";
+import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "Course",
@@ -82,14 +82,14 @@ export default {
             ...this.course
           }
         })
-      ).then(()=> clearObject(this.course));
+      );
     },
     ////////////
     reset() {
       if (this.$route.query.id) {
         return this.$router.back();
       }
-      clearObject(this.course);
+      resetObject(this.course);
       this.$refs.observer.reset();
     }
   },

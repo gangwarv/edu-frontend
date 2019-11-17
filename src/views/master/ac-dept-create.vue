@@ -29,6 +29,7 @@ import {
   UPSERT_AC_DEPT
 } from "@/graphql/ac-dept";
 import observeHttp from "@/helpers/http-alert-observer";
+import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "AcDept",
@@ -65,10 +66,7 @@ export default {
       if (this.$route.query.id) {
         return this.$router.push("/acdepts");
       }
-      this.acDept = {
-        name: "",
-        isActive: true
-      };
+      resetObject(this.acDept);
       this.$refs.observer.reset();
     }
   },

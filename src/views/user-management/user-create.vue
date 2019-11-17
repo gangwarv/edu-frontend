@@ -2,7 +2,6 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Configure Role" to="/users" link-text="All Users" />
-      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="($route.query.id && !user.id)" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -34,8 +33,18 @@
           </ValidationProvider>
         </div>
         <div class="column is-3">
-          <ValidationProvider name="password" :rules="!user.id?'required|min:3|max:15':'min:3|max:15'" v-slot="{ errors }">
-            <c-input v-model="user.password" label="Password" :required="!user.id" type="text" :errors="errors" />
+          <ValidationProvider
+            name="password"
+            :rules="!user.id?'required|min:3|max:15':'min:3|max:15'"
+            v-slot="{ errors }"
+          >
+            <c-input
+              v-model="user.password"
+              label="Password"
+              :required="!user.id"
+              type="text"
+              :errors="errors"
+            />
           </ValidationProvider>
         </div>
         <div class="column is-3">
@@ -48,8 +57,8 @@
             />
           </ValidationProvider>
         </div>
-         <div class="column is-3">
-            <c-input v-model="user.userRef" label="UserRef" :required="false" type="text" />
+        <div class="column is-3">
+          <c-input v-model="user.userRef" label="UserRef" :required="false" type="text" />
         </div>
         <div class="column is-3">
           <ValidationProvider name="mobile" rules="digits:10" v-slot="{ errors }">
@@ -58,7 +67,13 @@
         </div>
         <div class="column is-3">
           <ValidationProvider name="email" rules="email" v-slot="{ errors }">
-            <c-input v-model="user.email" label="Email" :required="false" type="text" :errors="errors" />
+            <c-input
+              v-model="user.email"
+              label="Email"
+              :required="false"
+              type="text"
+              :errors="errors"
+            />
           </ValidationProvider>
         </div>
       </div>
@@ -73,6 +88,7 @@
 import { GET_ROLES } from "@/graphql/role";
 import { GET_USERS, GET_USER_BY_ID, UPSERT_USER } from "@/graphql/user";
 import observeHttp from "@/helpers/http-alert-observer";
+import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "UserCreate",
@@ -91,18 +107,7 @@ export default {
         return this.$router.back();
       }
 
-      this.user = {
-         firstName: "",
-        lastName: "",
-        userName: "",
-        password: "",
-        userType: "",
-        userRef: "",
-        mobile: "",
-        email: "",
-        role: "",
-        isActive: true
-      };
+      resetObject(this.user);
       this.$refs.observer.reset();
     }
   },
@@ -120,9 +125,6 @@ export default {
   data: function() {
     return {
       loading: false,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: "",
       user: {
         firstName: "",
         lastName: "",

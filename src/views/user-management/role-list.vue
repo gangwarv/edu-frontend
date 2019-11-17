@@ -1,7 +1,6 @@
 <template>
   <div class="box">
     <PageHeader header-text="Role List" to="/role" link-text="Add New Role" />
-    <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
         <c-table
@@ -26,9 +25,6 @@ export default {
   data() {
     return {
       error: null,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: "",
       columns: [["Name", "name"], ["Privileges", "privileges"]]
     };
   },

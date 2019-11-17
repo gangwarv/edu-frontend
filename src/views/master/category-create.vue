@@ -2,7 +2,6 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Cast Category" to="/categories" link-text="Category List" />
-      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="$route.query.id && !category.id" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -23,6 +22,7 @@
 <script>
 import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/category";
 import observeHttp from "@/helpers/http-alert-observer";
+import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "Category",
@@ -33,9 +33,6 @@ export default {
         isActive: true
       },
       loading: false,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: ""
     };
   },
   methods: {
@@ -58,10 +55,7 @@ export default {
       if (this.$route.query.id) {
         return this.$router.push("/categories");
       }
-      this.category = {
-        name: "",
-        isActive: true
-      };
+      resetObject(this.category);
       this.$refs.observer.reset();
     }
   },

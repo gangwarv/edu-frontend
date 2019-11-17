@@ -1,7 +1,6 @@
 <template>
   <div class="box">
     <PageHeader header-text="Categories List" to="/category" link-text="Add New" />
-    <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
         <c-table
@@ -26,10 +25,7 @@ export default {
   data: function() {
     return {
       columns: [["Id", "id"],["Name", "name"],["Active", "isActive", "boolean"]],
-      error: null,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: ""
+      error: null
     };
   },
   methods: {

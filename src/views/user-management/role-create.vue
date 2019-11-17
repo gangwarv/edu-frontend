@@ -2,7 +2,6 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Configure Role" to="/roles" link-text="View All Roles" />
-      <Alert v-model="alertShow" :title="alertTitle" :message="alertMessage" />
       <Loader v-if="false && ($route.query.id && !role.id)" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -27,8 +26,7 @@
                 <b-checkbox
                   :value="role_privileges.includes(p)"
                   @change.native="toggle($event, p)"
-                >
-                {{ p }}</b-checkbox>
+                >{{ p }}</b-checkbox>
               </div>
             </div>
           </div>
@@ -44,6 +42,7 @@
 <script>
 import { GET_ROLES, GET_ROLE_BY_ID, UPSERT_ROLE } from "@/graphql/role";
 import observeHttp from "@/helpers/http-alert-observer";
+import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "RoleCreate",
@@ -66,15 +65,7 @@ export default {
           variables: {
             ...this.role,
             privileges: this.role.privileges.toString()
-          },
-          // update: (store, { data: { addRole } }) => {
-          //   const data = store.readQuery({ query: GET_ROLES });
-          //   data.roles = data.roles.filter(x => x.id !== addRole.id);
-          //   if (!data.roles.some(x => x.id === addRole.id)) {
-          //     data.roles.push(addRole);
-          //   }
-          //   store.writeQuery({ query: GET_ROLES, data });
-          // }
+          }
         })
       );
     },
@@ -82,11 +73,7 @@ export default {
       if (this.$route.query.id) {
         return this.$router.back();
       }
-
-      this.role = {
-        name: "",
-        privileges: ""
-      };
+      resetrObject(this.role);
       this.$refs.observer.reset();
     }
   },
@@ -98,7 +85,6 @@ export default {
         .map(c => ({ value: c }));
     },
     privileges() {
-      console.log(this.appmodules.map(x => x.name))
       return this.appmodules.map(x => x.name);
     },
     role_privileges() {
@@ -108,9 +94,6 @@ export default {
   data: function() {
     return {
       loading: false,
-      alertShow: false,
-      alertTitle: "",
-      alertMessage: "",
       role: {
         name: "",
         privileges: ""
