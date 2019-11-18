@@ -8,7 +8,7 @@
           :loading="$apollo.queries.courses.loading"
           :cols="columns"
           :data="courses"
-          :buttons="['edit']"
+          :buttons="['edit','remove']"
           @remove="remove"
           @edit="edit"
           v-else
@@ -19,7 +19,9 @@
 </template>
 
 <script>
-import { GET_ALL_COURSES } from "@/graphql/course";
+import { GET_ALL_COURSES, REMOVE_COURSE } from "@/graphql/course";
+import observeHttp from "@/helpers/http-alert-observer";
+
 export default {
   name: "CourseList",
   data: function() {
@@ -36,7 +38,24 @@ export default {
   },
   methods: {
     remove({ id }) {
-      console.log("removed", id);
+      if (confirm("Are you sure?")) {
+        observeHttp.call(
+          this,
+          this.$apollo.mutate({
+            mutation: REMOVE_COURSE,
+            variables: {
+              id
+            },
+            update: (store, { data}) => {
+              console.log(data)
+              // const data = store.readQuery({ query: GET_ALL_COURSES });
+              // data.courses = data.courses.filter(x => x.id !== deleteCourse.id);
+              // store.writeQuery({ query: GET_ALL_COURSES, data });
+            }
+          }),
+          "D"
+        );
+      }
     },
     edit({ id }) {
       console.log("edited", id);

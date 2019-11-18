@@ -2,6 +2,9 @@
   <div class="columns is-multiline box">
     <div class="column">
       <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
+      <pre>
+        {{JSON.stringify(category)}}
+      </pre>
       <c-multiselect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
       <c-timepicker label="Time" :max-time="new Date()" v-model="date" />
       <c-datepicker label="Date" :max-date="new Date()" v-model="date" />
@@ -127,21 +130,33 @@
 </template>
 
 <script>
+import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/category";
+import {apolloClient} from '../apollo'
+
 export default {
   name: "HelloWorld",
   data() {
     return {
       date: new Date().toJSON(),
-      fruit: ['Ant'],
+      fruit: ["Ant"],
       options: ["Apple", "Ant", "Ball", "Bowl"],
       loading: true
     };
   },
+  apollo: {
+    category: {
+      query: GET_CATEGORY_BY_ID,
+      variables: {
+        id: "5d6e3260a4775e4f8ca3fa1a"
+      }
+    }
+  },
   props: {
     msg: String
   },
-  mounted(){
+  mounted() {
     setTimeout(() => {
+      console.log(apolloClient);
       this.options = ["Ant", "123", "991300"];
       this.loading = false;
     }, 3000);

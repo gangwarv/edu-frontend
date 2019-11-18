@@ -45,10 +45,13 @@
 <script>
 import { LOGIN } from "@/graphql/auth";
 import { AUTH_SET, AUTH_REMOVE } from '@/store/auth/types'
+import {apolloClient} from '../apollo'
 
 export default {
   name: "Login",
   mounted() {
+    apolloClient.resetStore();
+    // apolloClient.cache.reset();
     this.$store.commit(AUTH_REMOVE);
   },
   data: function() {

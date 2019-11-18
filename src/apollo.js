@@ -16,7 +16,8 @@ const link = ApolloLink.from([
         }
     })),
     new HttpLink({
-        uri: 'http://localhost:3000/graphql'
+        uri: process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:3000/graphql' : 'https://agile-plateau-01519.herokuapp.com/graphql'
     })
 ]);
 
