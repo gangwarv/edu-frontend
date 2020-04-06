@@ -2,7 +2,7 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Course Details" to="/courses" link-text="Course List" />
-      <Loader v-if="($route.query.id && !course.id) || !depts.length" />
+      <Loader v-if="$apollo.queries.course.loading" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
           <ValidationProvider name="code" rules="required" v-slot="{ errors }">

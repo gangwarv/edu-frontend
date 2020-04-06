@@ -13,7 +13,7 @@ export const GET_COURSES = gql`
 `
 export const GET_ALL_COURSES = gql`
     query GetAllCourses{
-        courses(isActive: true){
+        courses{
             id,
             code,
             type,
@@ -42,6 +42,15 @@ export const GET_COURSE_BY_ID = gql`
             departmentName,
             department,
             duration
+        }
+    }
+`
+export const REMOVE_COURSE = gql`
+    mutation RemoveCourse($id: String!){
+        deleteCourse(id: $id){
+            id,
+            code,
+            name,
         }
     }
 `
