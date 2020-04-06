@@ -37,11 +37,6 @@ export default {
             mutation: REMOVE_AC_DEPT,
             variables: {
               id
-            },
-            update: (store, { data: { deleteAcDept } }) => {
-              const data = store.readQuery({ query: GET_ALL_AC_DEPTS });
-              data.acDepts = data.acDepts.filter(x => x.id !== deleteAcDept.id);
-              store.writeQuery({ query: GET_ALL_AC_DEPTS, data });
             }
           }),
           "D"

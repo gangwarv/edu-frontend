@@ -32,7 +32,7 @@ export default {
         name: "",
         isActive: true
       },
-      loading: false,
+      loading: false
     };
   },
   methods: {
@@ -47,9 +47,15 @@ export default {
             }
           })
         )
-        .then(({ data: { addCategory: { id } } }) => {
-          this.category.id = id;
-        });
+        .then(
+          ({
+            data: {
+              addCategory: { id }
+            }
+          }) => {
+            this.category.id = id;
+          }
+        );
     },
     reset: function() {
       if (this.$route.query.id) {
@@ -62,6 +68,10 @@ export default {
   apollo: {
     category: {
       query: GET_CATEGORY_BY_ID,
+      manual: true,
+      result({ data, loading }) {
+        if (!loading) this.category = { ...data.category };
+      },
       variables() {
         return {
           id: this.$route.query.id

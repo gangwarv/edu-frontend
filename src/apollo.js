@@ -16,7 +16,7 @@ const link = ApolloLink.from([
         }
     })),
     new HttpLink({
-        uri: 'http://localhost:3000/graphql'
+        uri: 'https://fgzc4q4su1.execute-api.ap-south-1.amazonaws.com/dev/graphql'//http://localhost:3000/graphql'
     })
 ]);
 
@@ -31,8 +31,5 @@ export const apolloProvider = new VueApollo({
         $query: {
             fetchPolicy: 'cache-and-network'
         }
-    },
-    // errorHandler(err) {
-    //     console.log('gloabl', err.message)
-    // }
+    }
 })
