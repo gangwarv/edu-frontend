@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/category";
+import { GET_CATEGORY_BY_ID } from "@/graphql/category";
 import {apolloClient} from '../apollo'
 
 export default {

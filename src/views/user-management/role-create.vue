@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { GET_ROLES, GET_ROLE_BY_ID, UPSERT_ROLE } from "@/graphql/role";
+import { GET_ROLE_BY_ID, UPSERT_ROLE } from "@/graphql/role";
 import observeHttp from "@/helpers/http-alert-observer";
 import resetObject from "@/helpers/reset-object";
 
@@ -73,7 +73,7 @@ export default {
       if (this.$route.query.id) {
         return this.$router.back();
       }
-      resetrObject(this.role);
+      resetObject(this.role);
       this.$refs.observer.reset();
     }
   },

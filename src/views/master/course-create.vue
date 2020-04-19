@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
 import observeHttp from "@/helpers/http-alert-observer";
 import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
 import { getAcDepts } from "@/graphql/ac-dept";

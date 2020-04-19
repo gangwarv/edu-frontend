@@ -5,6 +5,7 @@
       <span class="has-text-danger" v-if="required">*</span>
     </label>
     <b-taginput
+      :readonly="readonly"
       :value="value"
       :data="filteredOptions"
       autocomplete
@@ -40,16 +41,22 @@ export default {
     isLoading: Boolean,
     type: String,
     value: Array,
+    maxLength: {
+      type: Number,
+      default: -1
+    },
     placeholder: String,
     errors: Array
   },
   data() {
     return {
-      filteredOptions: this.options
+      filteredOptions: this.options,
+      readonly: false
     };
   },
   methods: {
     handleInput(e) {
+      this.readonly = e.length === this.maxLength;
       this.$emit("input", [...e]);
     },
     getFilteredOptions(searchText) {

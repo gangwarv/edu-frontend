@@ -34,7 +34,6 @@ const router = new Router({
           path: '',
           name: 'home',
           component: Home,
-          name: 'Home',
           meta: {
             breadcrumbs: ['Home'],
             caption: 'Home'

@@ -86,7 +86,7 @@
 
 <script>
 import { GET_ROLES } from "@/graphql/role";
-import { GET_USERS, GET_USER_BY_ID, UPSERT_USER } from "@/graphql/user";
+import { GET_USER_BY_ID, UPSERT_USER } from "@/graphql/user";
 import observeHttp from "@/helpers/http-alert-observer";
 import resetObject from "@/helpers/reset-object";
 

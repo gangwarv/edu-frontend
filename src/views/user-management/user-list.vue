@@ -17,7 +17,7 @@
 
 <script>
 import { GET_USERS } from "@/graphql/user";
-import observeHttp from "@/helpers/http-alert-observer";
+// import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "UserList",

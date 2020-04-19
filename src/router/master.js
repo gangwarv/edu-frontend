@@ -39,7 +39,6 @@ export default [
     path: 'course/:id?',
     name: 'course',
     component: Course,
-    name: 'course',
     meta: {
       breadcrumbs: ['Home', 'Department', 'Course'],
       caption: 'Add/Update Course'
@@ -58,7 +57,6 @@ export default [
     path: 'acdept/:id?',
     name: 'acdept',
     component: AcDept,
-    name: 'acdept',
     meta: {
       breadcrumbs: ['Home', 'Departments'],
       caption: 'Add/Update Departments'
