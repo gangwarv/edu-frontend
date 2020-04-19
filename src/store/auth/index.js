@@ -10,8 +10,11 @@ export default {
             if (!state.auth) {
                 return null;
             }
-            const { menus, ...rest } = state.auth;
-            return rest;
+            // const { menus, ...rest } = state.auth;
+            // return rest;
+            const auth = {...state.auth};
+            delete auth.menus;
+            return auth
         },
         menus(state) {
             return (state.auth && state.auth.menus) || [];
