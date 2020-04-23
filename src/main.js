@@ -3,6 +3,7 @@ import { apolloProvider } from './apollo'
 
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import appUtility from './plugins/app-utility'
 
 import "./global.scss";
 import App from './App.vue'
@@ -12,6 +13,8 @@ import filters from './filters'
 import controls from "@/components/controls";
 import sharedComponents from "@/components/shared";
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+
+Vue.use(appUtility)
 
 Vue.use(Buefy)
 
