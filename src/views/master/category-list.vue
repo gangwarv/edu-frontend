@@ -18,30 +18,32 @@
 
 <script>
 import { GET_CATEGORIES, REMOVE_CATEGORY } from "@/graphql/category";
-import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "CategoryList",
   data: function() {
     return {
-      columns: [["Id", "id"],["Name", "name"],["Active", "isActive", "boolean"]],
+      columns: [
+        ["Id", "id"],
+        ["Name", "name"],
+        ["Active", "isActive", "boolean"]
+      ],
       error: null
     };
   },
   methods: {
     remove({ id }) {
-      confirm("Are you sure?") && observeHttp.call(
-          this,
+      confirm("Are you sure?") &&
+        this.$observe(
           this.$apollo.mutate({
             mutation: REMOVE_CATEGORY,
             variables: {
               id
             }
-          }),
+          })
         );
     },
     edit({ id }) {
-      // console.log("edited", id);
       this.$router.push({ path: "category", query: { id } });
     }
   },

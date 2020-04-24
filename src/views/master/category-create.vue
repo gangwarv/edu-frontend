@@ -14,6 +14,7 @@
         </div>
         <div class="column is-6"></div>
         <BtnGroup :loading="loading" @reset="reset" />
+      <b-loading :is-full-page="true" :active.sync="loading" :can-cancel="false"></b-loading>
       </div>
     </form>
   </ValidationObserver>
@@ -21,8 +22,6 @@
 
 <script>
 import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/category";
-import observeHttp from "@/helpers/http-alert-observer";
-import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "Category",
@@ -37,31 +36,28 @@ export default {
   },
   methods: {
     onSubmit() {
-      observeHttp
-        .call(
-          this,
-          this.$apollo.mutate({
-            mutation: UPSERT_CATEGORY,
-            variables: {
-              ...this.category
-            }
-          })
-        )
-        .then(
-          ({
-            data: {
-              addCategory: { id }
-            }
-          }) => {
-            this.category.id = id;
+      this.$observe(
+        this.$apollo.mutate({
+          mutation: UPSERT_CATEGORY,
+          variables: {
+            ...this.category
           }
-        );
+        })
+      ).then(
+        ({
+          data: {
+            addCategory: { id }
+          }
+        }) => {
+          this.category.id = id;
+        }
+      );
     },
     reset: function() {
       if (this.$route.query.id) {
         return this.$router.push("/categories");
       }
-      resetObject(this.category);
+      this.$clear(this.category);
       this.$refs.observer.reset();
     }
   },

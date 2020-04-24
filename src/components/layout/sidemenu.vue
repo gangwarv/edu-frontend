@@ -1,111 +1,103 @@
 <template>
-  <aside class="menu">
-    <div class="field has-addons">
-      <div class="control is-expanded">
-        <div class="select is-small is-fullwidth">
-          <select name="country">
-            <option v-for="mod in modules" :key="mod">{{ mod }}</option>
-          </select>
+  <section>
+    <b-sidebar
+      type="is-light"
+      :fullheight="fullheight"
+      :fullwidth="fullwidth"
+      :overlay="overlay"
+      :right="right"
+      :open.sync="open"
+      
+    >
+      <div class="p-1" style="padding: 60px 10px; ">
+        <img
+          src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
+          alt="Lightweight UI components for Vue.js based on Bulma"
+        />
+        <b-menu>
+          <b-menu-list label="Menu">
+            <b-menu-item icon="information-outline" label="Info"></b-menu-item>
+            <b-menu-item icon="settings">
+              <template slot="label" slot-scope="props">
+                Administrator
+                <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
+              </template>
+              <b-menu-item icon="account" label="Users"></b-menu-item>
+              <b-menu-item icon="cellphone-link">
+                <template slot="label">
+                  Devices
+                  <b-dropdown aria-role="list" class="is-pulled-right" position="is-bottom-left">
+                    <b-icon icon="dots-vertical" slot="trigger"></b-icon>
+                    <b-dropdown-item aria-role="listitem">Action</b-dropdown-item>
+                    <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
+                    <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
+                  </b-dropdown>
+                </template>
+              </b-menu-item>
+              <b-menu-item icon="cash-multiple" label="Payments" disabled></b-menu-item>
+            </b-menu-item>
+            <b-menu-item icon="account" label="My Account">
+              <b-menu-item label="Account data"></b-menu-item>
+              <b-menu-item label="Addresses"></b-menu-item>
+            </b-menu-item>
+          </b-menu-list>
+          <b-menu-list>
+            <b-menu-item label="Expo" icon="link" tag="router-link" target="_blank" to="/expo"></b-menu-item>
+          </b-menu-list>
+          <b-menu-list label="Actions">
+            <b-menu-item label="Logout"></b-menu-item>
+          </b-menu-list>
+        </b-menu>
+      </div>
+    </b-sidebar>
+    <!-- <div class="block">
+      <b-field grouped group-multiline>
+        <div class="control">
+          <b-switch v-model="overlay">Overlay</b-switch>
         </div>
-      </div>
-      <div class="control">
-        <button type="submit" class="button is-small is-hidden">Set Default</button>
-      </div>
+        <div class="control">
+          <b-switch v-model="fullheight">Fullheight</b-switch>
+        </div>
+        <div class="control">
+          <b-switch v-model="fullwidth">Fullwidth</b-switch>
+        </div>
+        <div class="control">
+          <b-switch v-model="right">Right</b-switch>
+        </div>
+      </b-field>
     </div>
-    <!-- <div class="field">
-      <p class="control has-icons-left">
-        <input class="input" v-model="searchMenu" type="email" placeholder="Search" />
-        <span class="icon is-small is-left">
-          <i class="fa fa-search"></i>
-        </span>
-      </p>
-    </div>-->
-    <template v-if="!searchMenu">
-      <p class="menu-label">Recents</p>
-      <ul class="menu-list">
-        <li>
-          <a>Dashboard</a>
-        </li>
-      </ul>
-    </template>
-    <p class="menu-label">Links</p>
-    <ul class="menu-list" id="style-3">
-      <router-link to="/">Home</router-link>
-      <template v-for="menu in filteredMenu">
-        <li :key="menu.text" v-if="!menu.subMenus">
-          <router-link :to="menu.path">{{ menu.text }}</router-link>
-        </li>
-        <li v-else :key="menu.text">
-          <a class="has-text-grey-light">{{menu.text}}</a>
-          <ul>
-            <li :key="subMenu.text" v-for="subMenu in menu.subMenus">
-              <router-link :to="subMenu.path">{{ subMenu.text }}</router-link>
-            </li>
-          </ul>
-        </li>
-      </template>
-      <router-link to="/login">Sign Out</router-link>
-    </ul>
-  </aside>
+    <b-button @click="open = true">Show</b-button>-->
+  </section>
 </template>
 
 <script>
 export default {
-  name: "SideMenu",
+  watch: {
+    open: function(value) {
+      this.$emit('toggle', value)
+    },
+    isOpen: function(value) {
+      console.log('isOpen', value)
+      this.open = value
+    }
+  },
+  props: {
+    isOpen: Boolean
+  },
   data() {
     return {
-      searchMenu: "",
-      searchModule: ""
+      open: true,
+      overlay: true,
+      fullheight: true,
+      fullwidth: false,
+      right: false
     };
-  },
-  computed: {
-    menus() {
-      return this.$store.getters.leftMenus;
-    },
-    modules() {
-      return this.$store.getters.modules;
-    },
-    filteredMenu() {
-      const filtered = this.menus.filter(menu => {
-        if (!this.searchMenu) {
-          return true;
-        }
-        return (
-          menu.text.toLowerCase().startsWith(this.searchMenu) ||
-          (menu.subMenus &&
-            menu.subMenus.some(smenu =>
-              smenu.text.toLowerCase().startsWith(this.searchMenu)
-            ))
-        );
-      });
-      return filtered;
-    }
   }
 };
 </script>
-<style scoped>
-.scrollable-wrapper {
-  height: 250px;
-  border: 2px dotted red;
-}
-.scrollable {
-  overflow-y: auto;
-}
-/* .scrollable:hover {
-  overflow-y: auto;
-} */
 
-#style-3::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-}
-
-#style-3::-webkit-scrollbar {
-  width: 6px;
-  background-color: #f5f5f5;
-}
-
-#style-3::-webkit-scrollbar-thumb {
-  background-color: #000000;
+<style>
+.p-1 {
+  padding: 1em;
 }
 </style>

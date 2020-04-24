@@ -4,9 +4,9 @@
     <div class="columns is-multiline">
       <div class="column is-full" style="overflow-x:auto">
         <c-table
-          :loading="$apollo.queries.acDepts.loading"
+          :loading="$apollo.queries.departments.loading"
           :cols="columns"
-          :data="acDepts"
+          :data="departments"
           :buttons="['edit','remove']"
           @remove="remove"
           @edit="edit"
@@ -17,27 +17,36 @@
 </template>
 
 <script>
-import { GET_ALL_AC_DEPTS, REMOVE_AC_DEPT } from "@/graphql/ac-dept";
-import observeHttp from "@/helpers/http-alert-observer";
+import { GET_ALL_DEPARTMENTS, REMOVE_DEPARTMENT } from "@/graphql/department";
 
 export default {
   name: "AcDeptList",
   data: function() {
     return {
-      columns: [["Name", "name"], ["Active", "isActive", "boolean"]],
+      columns: [
+        ["Name", "name"],
+        ["Active", "isActive", "boolean"]
+      ],
       error: null
     };
   },
   methods: {
     remove({ id }) {
       if (confirm("Are you sure?")) {
-        observeHttp.call(
-          this,
+        this.$observe(
           this.$apollo.mutate({
-            mutation: REMOVE_AC_DEPT,
+            mutation: REMOVE_DEPARTMENT,
             variables: {
               id
             }
+            // update: (store, { data: { addAcDept } }) => {
+            //   const data = store.readQuery({ query: GET_AC_DEPTS });
+            //   data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
+            //   if (!data.acDepts.some(x => x.id === addAcDept.id)) {
+            //     data.acDepts.push(addAcDept);
+            //   }
+            //   store.writeQuery({ query: GET_AC_DEPTS, data });
+            // }
           }),
           "D"
         );
@@ -48,7 +57,7 @@ export default {
     }
   },
   apollo: {
-    acDepts: GET_ALL_AC_DEPTS
+    departments: GET_ALL_DEPARTMENTS
   }
 };
 </script>

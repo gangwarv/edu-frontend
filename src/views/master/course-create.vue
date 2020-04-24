@@ -19,7 +19,7 @@
             <c-select
               label="Department"
               v-model="course.department"
-              :options="[depts, 'id', 'name']"
+              :options="[departments, 'id', 'name']"
               :errors="errors"
             ></c-select>
           </ValidationProvider>
@@ -52,7 +52,7 @@
 <script>
 import observeHttp from "@/helpers/http-alert-observer";
 import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
-import { getAcDepts } from "@/graphql/ac-dept";
+import { GET_ALL_DEPARTMENTS } from "@/graphql/department";
 import resetObject from "@/helpers/reset-object";
 
 export default {
@@ -102,7 +102,7 @@ export default {
         return !this.$route.query.id;
       }
     },
-    acDepts: getAcDepts.bind(this, true)
+    departments: GET_ALL_DEPARTMENTS
   },
   computed: {
     types() {

@@ -16,7 +16,8 @@ const link = ApolloLink.from([
         }
     })),
     new HttpLink({
-        uri: 'http://52.66.206.37/graphql/'//https://fgzc4q4su1.execute-api.ap-south-1.amazonaws.com/dev/graphql'//http://localhost:3000/graphql'
+        uri: //'http://52.66.206.37/graphql/'//https://fgzc4q4su1.execute-api.ap-south-1.amazonaws.com/dev/graphql'//
+        'http://localhost:3000/graphql'
     })
 ]);
 

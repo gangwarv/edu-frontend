@@ -1,8 +1,8 @@
 
 const Course = () => import('@/views/master/course-create')
 const Courses = () => import('@/views/master/course-list')
-const AcDepts = () => import('@/views/master/ac-dept-list')
-const AcDept = () => import('@/views/master/ac-dept-create')
+const AcDepts = () => import('@/views/master/department-list')
+const AcDept = () => import('@/views/master/department-create')
 const Categories = () => import('@/views/master/category-list')
 const Category = () => import('@/views/master/category-create')
 

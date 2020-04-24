@@ -1,9 +1,9 @@
 <template>
   <div class="columns is-multiline box">
-    <div class="column">
+    <div class="column" style="position:relative" id="spin" ref="element">
       <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
       <pre>
-        {{JSON.stringify(category)}}
+        {{JSON.stringify(categories)}}
       </pre>
       <c-multiselect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
       <c-timepicker label="Time" :max-time="new Date()" v-model="date" />
@@ -89,7 +89,8 @@
     </div>
     <div class="column"></div>
     <!--form-->
-    <div class="column is-full">
+    <div class="column is-full" style="position:relative">
+      <!-- <b-loading :is-full-page="false" :active.sync="loading" :can-cancel="false"></b-loading> -->
       <div class="panel">
         <p class="panel-heading">repositories</p>
         <div class="panel-block">
@@ -130,8 +131,7 @@
 </template>
 
 <script>
-import { GET_CATEGORY_BY_ID } from "@/graphql/category";
-import {apolloClient} from '../apollo'
+import { GET_CATEGORIES } from "@/graphql/category";
 
 export default {
   name: "HelloWorld",
@@ -144,11 +144,8 @@ export default {
     };
   },
   apollo: {
-    category: {
-      query: GET_CATEGORY_BY_ID,
-      variables: {
-        id: "5d6e3260a4775e4f8ca3fa1a"
-      }
+    categories: {
+      query: GET_CATEGORIES
     }
   },
   props: {
@@ -156,10 +153,14 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      console.log(apolloClient);
       this.options = ["Ant", "123", "991300"];
       this.loading = false;
-    }, 3000);
+    }, 6000); 
+    console.log(this.$refs.element,document.getElementById('spin'))
+    const loadingComponent = this.$buefy.loading.open({
+      container: null//document.getElementById('spin')//this.$refs.element
+    });
+    setTimeout(() => loadingComponent.close(), 10 * 1000);
   }
 };
 </script>

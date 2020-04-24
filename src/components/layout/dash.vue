@@ -1,12 +1,13 @@
 <template>
   <div>
     <Navbar/>
-    <section class="section" style="padding: 60px 10px">
+    <section class="section" style="padding: 60px 10px; ">
+      
       <div class="container is-fluid">
         <div class="columns">
-          <div class="column is-2" id="mySidenav">
-            <SideMenu/>
-          </div>
+          <!-- <div class="column is-3" id="mySidenav">
+            
+          </div> -->
           <div class="column">
             <div class="level" style="margin-bottom: 10px">
               <div class="level-left">
@@ -37,14 +38,14 @@
 
 <script>
 import Navbar from "./navbar.vue";
-import SideMenu from "./sidemenu.vue";
+// import SideMenu from "./sidemenu.vue";
 import Footer from "./footer.vue";
 
 export default {
   name: "Dash",
   components: {
     Navbar,
-    SideMenu,
+    // SideMenu,
     Footer
   }
 };
