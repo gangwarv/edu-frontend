@@ -50,10 +50,8 @@
 </template>
 
 <script>
-import observeHttp from "@/helpers/http-alert-observer";
 import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
 import { GET_ALL_DEPARTMENTS } from "@/graphql/department";
-import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "Course",
@@ -73,9 +71,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      observeHttp.call(
-        this,
-        this.$apollo.mutate({
+      this.$observe(this.$apollo.mutate({
           mutation: UPSERT_COURSE,
           variables: {
             ...this.course
@@ -83,12 +79,11 @@ export default {
         })
       );
     },
-    ////////////
     reset() {
       if (this.$route.query.id) {
         return this.$router.back();
       }
-      resetObject(this.course);
+      this.$clear(this.course);
       this.$refs.observer.reset();
     }
   },

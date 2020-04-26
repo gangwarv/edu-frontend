@@ -7,78 +7,46 @@
       :overlay="overlay"
       :right="right"
       :open.sync="open"
-      
+      :expand-on-hover="expandOnHover"
+      :reduce="reduce"
     >
       <div class="p-1" style="padding: 60px 10px; ">
         <img
           src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-          alt="Lightweight UI components for Vue.js based on Bulma"
+          alt="ERP"
         />
-        <b-menu>
+        <b-menu 
+      :accordion="false" :activable="false">
           <b-menu-list label="Menu">
-            <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-            <b-menu-item icon="settings">
+            <b-menu-item  icon="home" :isActive="true" to="/" tag="router-link" label="Home"></b-menu-item>
+            <b-menu-item icon="information-outline" to="/hello" tag="router-link" label="Hello"></b-menu-item>
+            
+            <b-menu-item icon="link" :key="mod.name" v-for="mod in modules">
               <template slot="label" slot-scope="props">
-                Administrator
+                {{mod.name}}
                 <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>
               </template>
-              <b-menu-item icon="account" label="Users"></b-menu-item>
-              <b-menu-item icon="cellphone-link">
-                <template slot="label">
-                  Devices
-                  <b-dropdown aria-role="list" class="is-pulled-right" position="is-bottom-left">
-                    <b-icon icon="dots-vertical" slot="trigger"></b-icon>
-                    <b-dropdown-item aria-role="listitem">Action</b-dropdown-item>
-                    <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
-                    <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
-                  </b-dropdown>
-                </template>
-              </b-menu-item>
-              <b-menu-item icon="cash-multiple" label="Payments" disabled></b-menu-item>
+              <b-menu-item icon="menu-right" tag="router-link" :label="m.text" :to="m.path" :key="m.text" v-for="m in mod.menus" ></b-menu-item>
             </b-menu-item>
-            <b-menu-item icon="account" label="My Account">
-              <b-menu-item label="Account data"></b-menu-item>
-              <b-menu-item label="Addresses"></b-menu-item>
-            </b-menu-item>
-          </b-menu-list>
-          <b-menu-list>
-            <b-menu-item label="Expo" icon="link" tag="router-link" target="_blank" to="/expo"></b-menu-item>
           </b-menu-list>
           <b-menu-list label="Actions">
-            <b-menu-item label="Logout"></b-menu-item>
+            <b-menu-item label="Logout" icon="logout" tag="router-link" to="/login"></b-menu-item>
           </b-menu-list>
         </b-menu>
       </div>
     </b-sidebar>
-    <!-- <div class="block">
-      <b-field grouped group-multiline>
-        <div class="control">
-          <b-switch v-model="overlay">Overlay</b-switch>
-        </div>
-        <div class="control">
-          <b-switch v-model="fullheight">Fullheight</b-switch>
-        </div>
-        <div class="control">
-          <b-switch v-model="fullwidth">Fullwidth</b-switch>
-        </div>
-        <div class="control">
-          <b-switch v-model="right">Right</b-switch>
-        </div>
-      </b-field>
-    </div>
-    <b-button @click="open = true">Show</b-button>-->
   </section>
 </template>
 
 <script>
 export default {
+  name:'SideBar',
   watch: {
     open: function(value) {
-      this.$emit('toggle', value)
+      this.$emit("toggle", value);
     },
     isOpen: function(value) {
-      console.log('isOpen', value)
-      this.open = value
+      this.open = value;
     }
   },
   props: {
@@ -87,16 +55,23 @@ export default {
   data() {
     return {
       open: true,
-      overlay: true,
+      overlay: false,
       fullheight: true,
       fullwidth: false,
-      right: false
+      right: false,
+      expandOnHover:true,
+      reduce:true
     };
+  },
+  computed: {
+    modules() {
+      return this.$store.getters.modules;
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .p-1 {
   padding: 1em;
 }

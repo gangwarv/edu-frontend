@@ -5,7 +5,7 @@
       <div class="column is-full" style="overflow-x:auto">
         <c-table
           :loading="$apollo.queries.departments.loading"
-          :cols="columns"
+          :columns="columns"
           :data="departments"
           :buttons="['edit','remove']"
           @remove="remove"
@@ -23,10 +23,7 @@ export default {
   name: "AcDeptList",
   data: function() {
     return {
-      columns: [
-        ["Name", "name"],
-        ["Active", "isActive", "boolean"]
-      ],
+      columns: ["id", "name", "isActive"],
       error: null
     };
   },

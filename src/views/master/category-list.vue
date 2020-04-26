@@ -5,7 +5,7 @@
       <div class="column is-full" style="overflow-x:auto">
         <c-table
           :loading="$apollo.queries.categories.loading"
-          :cols="columns"
+          :columns="columns"
           :data="categories"
           :buttons="['edit','remove']"
           @remove="remove"
@@ -23,11 +23,12 @@ export default {
   name: "CategoryList",
   data: function() {
     return {
-      columns: [
-        ["Id", "id"],
-        ["Name", "name"],
-        ["Active", "isActive", "boolean"]
-      ],
+      // columns: [
+      //   ["Id", "id"],
+      //   ["Name", "name"],
+      //   ["Active", "isActive", "boolean"]
+      // ],
+      columns:['id','name','isActive'],
       error: null
     };
   },

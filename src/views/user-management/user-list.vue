@@ -1,11 +1,11 @@
 <template>
   <div class="box">
     <PageHeader header-text="User List" to="/user" link-text="Add New" />
-    <div class="columns is-multiline">
+    <div class="columns is-multiline ">
       <div class="column is-full" style="overflow-x:auto">
-        <c-table
+        <c-table v-if="users"
           :loading="$apollo.queries.users.loading"
-          :cols="columns"
+          :columns="columns"
           :data="users"
           :buttons="['edit','remove']"
           @edit="edit"
@@ -17,22 +17,13 @@
 
 <script>
 import { GET_USERS } from "@/graphql/user";
-// import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "UserList",
   data() {
     return {
       error: null,
-      users: null,
-      columns: [
-        ["User Id", "id"],
-        ["User Type", "userType"],
-        ["First Name", "firstName"],
-        ["Last Name", "lastName"],
-        ["UserName", "userName"],
-        ["Mobile", "mobile"]
-      ]
+      columns: ["id", "userType", "firstName", "lastName", "userName", "mobile"],
     };
   },
   methods: {

@@ -87,16 +87,12 @@
 <script>
 import { GET_ROLES } from "@/graphql/role";
 import { GET_USER_BY_ID, UPSERT_USER } from "@/graphql/user";
-import observeHttp from "@/helpers/http-alert-observer";
-import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "UserCreate",
   methods: {
     onSubmit() {
-      observeHttp.call(
-        this,
-        this.$apollo.mutate({
+      this.$observe(this.$apollo.mutate({
           mutation: UPSERT_USER,
           variables: this.user
         })
@@ -107,7 +103,7 @@ export default {
         return this.$router.back();
       }
 
-      resetObject(this.user);
+      this.$clear(this.user);
       this.$refs.observer.reset();
     }
   },

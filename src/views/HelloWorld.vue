@@ -1,6 +1,6 @@
 <template>
   <div class="columns is-multiline box">
-    <div class="column" style="position:relative" id="spin" ref="element">
+    <div class="column" ref="element">
       <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
       <pre>
         {{JSON.stringify(categories)}}
@@ -156,11 +156,10 @@ export default {
       this.options = ["Ant", "123", "991300"];
       this.loading = false;
     }, 6000); 
-    console.log(this.$refs.element,document.getElementById('spin'))
     const loadingComponent = this.$buefy.loading.open({
-      container: null//document.getElementById('spin')//this.$refs.element
+      container: document.getElementById('spin')//this.$refs.element
     });
-    setTimeout(() => loadingComponent.close(), 10 * 1000);
+    setTimeout(() => loadingComponent.close(), 4 * 1000);
   }
 };
 </script>

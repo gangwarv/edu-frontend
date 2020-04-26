@@ -40,7 +40,9 @@
       </div>
     </div>
     <div class="column">
+      <Loader v-if="loading && data == null" />
       <b-table
+        v-else
         :data="filteredData"
         aria-page-label="Page"
         aria-current-label="Current page"
@@ -51,7 +53,7 @@
         :checked-rows.sync="checkedRows"
         :sticky-header="stickyHeaders"
         :mobile-cards="false"
-        :loading="loading"
+        :loading="false"
         narrowed
       >
         <template slot-scope="props">
@@ -64,13 +66,15 @@
             sortable
           >{{ props.row[col.field] }}</b-table-column>
 
-          <b-table-column label="Edit">
+          <b-table-column label="Action">
             <span
+              v-for="btn in buttons"
+              :key="btn"
               style="cursor:pointer"
               class="icon has-text-link"
-              @click="$emit('edit', props.row)"
+              @click="$emit(btn, props.row)"
             >
-              <i class="fa fa-edit"></i>
+              <i :class="[{'fa-edit': btn=='edit', 'fa-trash': btn=='remove'},'fa']"></i>
             </span>
           </b-table-column>
         </template>
@@ -86,12 +90,10 @@
 
 <script>
 export default {
+  name: "CTable",
   props: {
     data: {
-      type: Array,
-      default: function() {
-        return [];
-      }
+      type: Array
     },
     columns: Array,
     loading: Boolean,
@@ -99,6 +101,12 @@ export default {
       type: Array,
       default() {
         return ["Activate"];
+      }
+    },
+    buttons: {
+      type: Array,
+      default() {
+        return [];
       }
     }
   },

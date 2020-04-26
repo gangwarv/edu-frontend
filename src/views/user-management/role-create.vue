@@ -41,8 +41,6 @@
 
 <script>
 import { GET_ROLE_BY_ID, UPSERT_ROLE } from "@/graphql/role";
-import observeHttp from "@/helpers/http-alert-observer";
-import resetObject from "@/helpers/reset-object";
 
 export default {
   name: "RoleCreate",
@@ -58,9 +56,7 @@ export default {
       this.role.privileges = privileges.toString();
     },
     onSubmit() {
-      observeHttp.call(
-        this,
-        this.$apollo.mutate({
+      this.$observe(this.$apollo.mutate({
           mutation: UPSERT_ROLE,
           variables: {
             ...this.role,
@@ -73,7 +69,7 @@ export default {
       if (this.$route.query.id) {
         return this.$router.back();
       }
-      resetObject(this.role);
+      this.$clear(this.role);
       this.$refs.observer.reset();
     }
   },

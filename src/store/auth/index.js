@@ -28,7 +28,8 @@ export default {
         modules(state, getters) {
             return getters.menus
                 .map(x => x.module)
-                .filter((m, i, ar) => ar.indexOf(m) === i);
+                .filter((m, i, ar) => ar.indexOf(m) === i)
+                .map(module=> ({name:module, menus: getters.leftMenus.filter(lm=>lm.module === module)}));
         }
     },
     mutations: {

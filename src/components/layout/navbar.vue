@@ -122,9 +122,6 @@ export default {
   computed: {
     menus() {
       return this.$store.getters.topMenus;
-    },
-    modules() {
-      return this.$store.getters.modules;
     }
   },
   mounted() {

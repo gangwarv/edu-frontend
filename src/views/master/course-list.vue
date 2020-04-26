@@ -6,7 +6,7 @@
         <Loader v-if="!courses" />
         <c-table
           :loading="$apollo.queries.courses.loading"
-          :cols="columns"
+          :columns="columns"
           :data="courses"
           :buttons="['edit','remove']"
           @remove="remove"
@@ -20,45 +20,34 @@
 
 <script>
 import { GET_ALL_COURSES, REMOVE_COURSE } from "@/graphql/course";
-import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "CourseList",
-  data: function() {
+  data() {
     return {
-      courses: [],
-      columns: [
-        ["Code", "code"],
-        ["Name", "name"],
-        ["Department", "departmentName"],
-        ["Active", "isActive", "boolean"]
-      ],
+      columns: ["code", "name", "departmentName", "isActive"],
       error: null
     };
   },
   methods: {
     remove({ id }) {
       if (confirm("Are you sure?")) {
-        observeHttp.call(
-          this,
-          this.$apollo.mutate({
+        this.$observe(this.$apollo.mutate({
             mutation: REMOVE_COURSE,
             variables: {
               id
             },
-            update: (store, { data}) => {
-              console.log(data)
+            //update: (store, { data }) => {
               // const data = store.readQuery({ query: GET_ALL_COURSES });
               // data.courses = data.courses.filter(x => x.id !== deleteCourse.id);
               // store.writeQuery({ query: GET_ALL_COURSES, data });
-            }
+            //}
           }),
           "D"
         );
       }
     },
     edit({ id }) {
-      console.log("edited", id);
       this.$router.push({ path: "course", query: { id } });
     }
   },

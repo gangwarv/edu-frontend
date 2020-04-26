@@ -5,7 +5,7 @@
       <div class="column is-full" style="overflow-x:auto">
         <c-table
           :loading="$apollo.queries.roles.loading"
-          :cols="columns"
+          :columns="columns"
           :data="roles"
           :buttons="['edit','remove']"
           @remove="remove"
@@ -18,14 +18,13 @@
 
 <script>
 import { GET_ROLES, DELETE_ROLE } from "@/graphql/role";
-import observeHttp from "@/helpers/http-alert-observer";
 
 export default {
   name: "RoleList",
   data() {
     return {
       error: null,
-      columns: [["Name", "name"], ["Privileges", "privileges"]]
+      columns: ["name","privileges"]
     };
   },
   methods: {
@@ -34,9 +33,7 @@ export default {
     },
     remove({ id }) {
       if (confirm("Are you sure?"))
-        observeHttp.call(
-          this,
-          this.$apollo.mutate({
+        this.$observe(this.$apollo.mutate({
             mutation: DELETE_ROLE,
             variables: { id },
             update: (store, { data: { deleteRole } }) => {

@@ -26,14 +26,13 @@ export default [
     //     else
     //         return '';
     // },
-    function uppercase(data) {
+    function upper(data) {
         if (data)
             return data.toUpperCase()
         else
             return '';
     },
     // function dtcolumn(data, args){
-    //     console.log(data,args)
     //     return data;
     // }
 ];
