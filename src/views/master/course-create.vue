@@ -90,6 +90,10 @@ export default {
   apollo: {
     course: {
       query: GET_COURSE_BY_ID,
+      manual: true,
+      result({ data, loading }) {
+        if (!loading) this.course = { ...data.course };
+      },
       variables() {
         return { id: this.$route.query.id };
       },

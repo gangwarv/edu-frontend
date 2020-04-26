@@ -64,6 +64,10 @@ export default {
   apollo: {
     department: {
       query: GET_DEPARTMENT_BY_ID,
+      manual: true,
+      result({ data, loading }) {
+        if (!loading) this.department = { ...data.department };
+      },
       variables() {
         return {
           id: this.$route.query.id

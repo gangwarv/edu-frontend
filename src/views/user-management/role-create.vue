@@ -154,6 +154,10 @@ export default {
   apollo: {
     role: {
       query: GET_ROLE_BY_ID,
+      manual: true,
+      result({ data, loading }) {
+        if (!loading) this.role = { ...data.role };
+      },
       variables: function() {
         return { id: this.$route.query.id };
       },

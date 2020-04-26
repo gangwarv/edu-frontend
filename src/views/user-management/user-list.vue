@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       error: null,
-      columns: ["id", "userType", "firstName", "lastName", "userName", "mobile"],
+      columns: ["id", "userName","roleName", "firstName", "lastName", "userType", "mobile"],
     };
   },
   methods: {

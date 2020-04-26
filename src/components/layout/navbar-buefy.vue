@@ -30,7 +30,7 @@
       </template>
 
       <template slot="end" class="is-primary">
-        <b-navbar-item href="#">LogOut</b-navbar-item>
+        <b-navbar-item tag="router-link" to="/login">Log Out</b-navbar-item>
       </template>
     </b-navbar>
     <SideMenu @toggle="toggleReceive" :isOpen="isOpen" />

@@ -100,7 +100,7 @@ export default {
     actions: {
       type: Array,
       default() {
-        return ["Activate"];
+        return [];
       }
     },
     buttons: {
@@ -116,7 +116,8 @@ export default {
       return this.data.filter(
         x =>
           !this.searchText ||
-          Object.keys(x)
+        //   Object.keys(x)
+          this.cols.map(col=>col.field)
             .reduce((txt, k) => (txt += "," + x[k]), "")
             .toLowerCase()
             .indexOf(this.searchText.trim().toLowerCase()) > -1

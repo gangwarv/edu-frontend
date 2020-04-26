@@ -35,15 +35,16 @@ export default {
             mutation: REMOVE_DEPARTMENT,
             variables: {
               id
+            },
+            update: (store, { data: { deleteDepartment} }) => {
+              console.log(store, data)
+              const data = store.readQuery({ query: GET_ALL_DEPARTMENTS });
+              data.departments = data.departments.filter(x => x.id !== deleteDepartment.id);
+              // if (!data.acDepts.some(x => x.id === addAcDept.id)) {
+              //   data.acDepts.push(addAcDept);
+              // }
+              store.writeQuery({ query: GET_ALL_DEPARTMENTS, data });
             }
-            // update: (store, { data: { addAcDept } }) => {
-            //   const data = store.readQuery({ query: GET_AC_DEPTS });
-            //   data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
-            //   if (!data.acDepts.some(x => x.id === addAcDept.id)) {
-            //     data.acDepts.push(addAcDept);
-            //   }
-            //   store.writeQuery({ query: GET_AC_DEPTS, data });
-            // }
           }),
           "D"
         );

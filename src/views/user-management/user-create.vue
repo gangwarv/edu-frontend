@@ -139,6 +139,10 @@ export default {
     roles: GET_ROLES,
     user: {
       query: GET_USER_BY_ID,
+      manual: true,
+      result({ data, loading }) {
+        if (!loading) this.user = { ...data.user };
+      },
       variables() {
         return { id: this.$route.query.id };
       },
