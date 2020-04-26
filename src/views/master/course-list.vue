@@ -1,20 +1,14 @@
 <template>
   <div class="box">
     <PageHeader header-text="Course List" to="/course" link-text="Add New" />
-    <div class="columns is-multiline">
-      <div class="column is-full" style="overflow-x:auto">
-        <Loader v-if="!courses" />
-        <c-table
-          :loading="$apollo.queries.courses.loading"
-          :columns="columns"
-          :data="courses"
-          :buttons="['edit','remove']"
-          @remove="remove"
-          @edit="edit"
-          v-else
-        />
-      </div>
-    </div>
+    <c-table
+      :loading="$apollo.queries.courses.loading"
+      :columns="columns"
+      :data="courses"
+      :buttons="['edit','remove']"
+      @remove="remove"
+      @edit="edit"
+    />
   </div>
 </template>
 
@@ -32,15 +26,16 @@ export default {
   methods: {
     remove({ id }) {
       if (confirm("Are you sure?")) {
-        this.$observe(this.$apollo.mutate({
+        this.$observe(
+          this.$apollo.mutate({
             mutation: REMOVE_COURSE,
             variables: {
               id
-            },
+            }
             //update: (store, { data }) => {
-              // const data = store.readQuery({ query: GET_ALL_COURSES });
-              // data.courses = data.courses.filter(x => x.id !== deleteCourse.id);
-              // store.writeQuery({ query: GET_ALL_COURSES, data });
+            // const data = store.readQuery({ query: GET_ALL_COURSES });
+            // data.courses = data.courses.filter(x => x.id !== deleteCourse.id);
+            // store.writeQuery({ query: GET_ALL_COURSES, data });
             //}
           }),
           "D"

@@ -1,18 +1,14 @@
 <template>
   <div class="box">
     <PageHeader header-text="Role List" to="/role" link-text="Add New Role" />
-    <div class="columns is-multiline">
-      <div class="column is-full" style="overflow-x:auto">
-        <c-table
-          :loading="$apollo.queries.roles.loading"
-          :columns="columns"
-          :data="roles"
-          :buttons="['edit','remove']"
-          @remove="remove"
-          @edit="edit"
-        />
-      </div>
-    </div>
+    <c-table
+      :loading="$apollo.queries.roles.loading"
+      :columns="columns"
+      :data="roles"
+      :buttons="['edit','remove']"
+      @remove="remove"
+      @edit="edit"
+    />
   </div>
 </template>
 
@@ -24,7 +20,7 @@ export default {
   data() {
     return {
       error: null,
-      columns: ["name","privileges"]
+      columns: ["name", "privileges"]
     };
   },
   methods: {
@@ -33,7 +29,8 @@ export default {
     },
     remove({ id }) {
       if (confirm("Are you sure?"))
-        this.$observe(this.$apollo.mutate({
+        this.$observe(
+          this.$apollo.mutate({
             mutation: DELETE_ROLE,
             variables: { id },
             update: (store, { data: { deleteRole } }) => {

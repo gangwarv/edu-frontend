@@ -77,6 +77,7 @@ router.beforeEach((to, from, next) => {
     const validityHalf = Math.floor(expiringIn - validFrom) / 2000;
 
     if (remainingSeconds > 1 && remainingSeconds < validityHalf) {
+      console.log('renewing token...', new Date())
       apolloClient.mutate({
         mutation: LOGIN,
         variables: { userName: '--renewtoken--', password: '-- --' }

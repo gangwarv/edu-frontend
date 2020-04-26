@@ -1,5 +1,5 @@
 <template>
-  <div class="columns is-multiline is-gapless">
+  <div class="columns is-multiline is-gapless" style="overflow-x:auto">
     <div class="column is-full columns is-mobile">
       <div class="column is-two-quarters-mobile">
         <div class>
@@ -39,7 +39,7 @@
         </b-dropdown>
       </div>
     </div>
-    <div class="column">
+    <div class="column" >
       <Loader v-if="loading && data == null" />
       <b-table
         v-else
@@ -57,6 +57,7 @@
         narrowed
       >
         <template slot-scope="props">
+          <!-- add auto type checking of number field if needed in future-->
           <b-table-column
             :key="col.field"
             v-for="col in cols"
@@ -64,7 +65,15 @@
             :label="col.label"
             :numeric="col.numeric"
             sortable
-          >{{ props.row[col.field] }}</b-table-column>
+          >
+            <span :class="['tag is-light', {'is-success': props.row[col.field], 'is-danger': !props.row[col.field]}]"
+              v-if="typeof props.row[col.field] === 'boolean' "
+            >{{ props.row[col.field] | boolean }}</span>
+            <span class="tag is-light"
+              v-else-if="col.field.endsWith('At')"
+            >{{ props.row[col.field] | date }}</span>
+            <span v-else>{{ props.row[col.field] }}</span>
+          </b-table-column>
 
           <b-table-column label="Action">
             <span
@@ -116,8 +125,9 @@ export default {
       return this.data.filter(
         x =>
           !this.searchText ||
-        //   Object.keys(x)
-          this.cols.map(col=>col.field)
+          //   Object.keys(x)
+          this.cols
+            .map(col => col.field)
             .reduce((txt, k) => (txt += "," + x[k]), "")
             .toLowerCase()
             .indexOf(this.searchText.trim().toLowerCase()) > -1

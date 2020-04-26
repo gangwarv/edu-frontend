@@ -1,17 +1,13 @@
 <template>
   <div class="box">
     <PageHeader header-text="User List" to="/user" link-text="Add New" />
-    <div class="columns is-multiline ">
-      <div class="column is-full" style="overflow-x:auto">
-        <c-table v-if="users"
-          :loading="$apollo.queries.users.loading"
-          :columns="columns"
-          :data="users"
-          :buttons="['edit','remove']"
-          @edit="edit"
-        />
-      </div>
-    </div>
+    <c-table
+      :loading="$apollo.queries.users.loading"
+      :columns="columns"
+      :data="users"
+      :buttons="['edit','remove']"
+      @edit="edit"
+    />
   </div>
 </template>
 
@@ -23,7 +19,16 @@ export default {
   data() {
     return {
       error: null,
-      columns: ["id", "userName","roleName", "firstName", "lastName", "userType", "mobile"],
+      columns: [
+        "id",
+        "userName",
+        "roleName",
+        "firstName",
+        "lastName",
+        "userType",
+        "mobile",
+        "updatedAt"
+      ]
     };
   },
   methods: {

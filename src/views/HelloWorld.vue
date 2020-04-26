@@ -1,10 +1,23 @@
 <template>
   <div class="columns is-multiline box">
     <div class="column" ref="element">
-      <h2 class="subtitle">Hi Vishal {{ new Date() | isodate }}</h2>
+      <h2 class="subtitle">Hi Vishal {{ new Date() | date }}</h2>
       <pre>
-        {{JSON.stringify(categories)}}
+        {{JSON.stringify(categories && categories[0])}}
       </pre>
+      <span class="tag is-primary is-light">Primary</span>
+<span class="tag is-link is-light">Link</span>
+<span class="tag is-info is-light">Info</span>
+<span class="tag is-success is-light">Success</span>
+<span class="tag is-warning is-light">Warning</span>
+<span class="tag is-danger is-light">Danger</span>
+      <b-field
+        label="Username1"
+        :type="{ 'is-danger': hasError }"
+        :message="{'Username is required.': hasError}"
+      >
+        <b-input v-model="username" maxlength="30"></b-input>
+      </b-field>
       <c-multiselect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
       <c-timepicker label="Time" :max-time="new Date()" v-model="date" />
       <c-datepicker label="Date" :max-date="new Date()" v-model="date" />
@@ -140,8 +153,20 @@ export default {
       date: new Date().toJSON(),
       fruit: ["Ant"],
       options: ["Apple", "Ant", "Ball", "Bowl"],
-      loading: true
+      loading: true,
+      // hasError: true,
+      username: ""
     };
+  },
+  methods:{
+change(e){
+  this.username = e.target.value
+}
+  },
+  computed: {
+    hasError() {
+      return this.username === "";
+    }
   },
   apollo: {
     categories: {
@@ -152,14 +177,14 @@ export default {
     msg: String
   },
   mounted() {
+    const loadingComponent = this.$buefy.loading.open({
+      container: document.getElementById("spin") //this.$refs.element
+    });
     setTimeout(() => {
       this.options = ["Ant", "123", "991300"];
       this.loading = false;
-    }, 6000); 
-    const loadingComponent = this.$buefy.loading.open({
-      container: document.getElementById('spin')//this.$refs.element
-    });
-    setTimeout(() => loadingComponent.close(), 4 * 1000);
+      loadingComponent.close()
+    }, 1000);
   }
 };
 </script>

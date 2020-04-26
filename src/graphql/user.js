@@ -13,7 +13,8 @@ export const GET_USERS = gql`
             isActive,
             role,
             roleName,
-            privileges
+            privileges,
+            updatedAt
         }
     }
 `

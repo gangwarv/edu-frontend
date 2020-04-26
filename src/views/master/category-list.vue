@@ -1,18 +1,14 @@
 <template>
   <div class="box">
     <PageHeader header-text="Categories List" to="/category" link-text="Add New" />
-    <div class="columns is-multiline">
-      <div class="column is-full" style="overflow-x:auto">
-        <c-table
-          :loading="$apollo.queries.categories.loading"
-          :columns="columns"
-          :data="categories"
-          :buttons="['edit','remove']"
-          @remove="remove"
-          @edit="edit"
-        />
-      </div>
-    </div>
+    <c-table
+      :loading="$apollo.queries.categories.loading"
+      :columns="columns"
+      :data="categories"
+      :buttons="['edit','remove']"
+      @remove="remove"
+      @edit="edit"
+    />
   </div>
 </template>
 
@@ -28,7 +24,7 @@ export default {
       //   ["Name", "name"],
       //   ["Active", "isActive", "boolean"]
       // ],
-      columns:['id','name','isActive'],
+      columns: ["id", "name", "isActive"],
       error: null
     };
   },
