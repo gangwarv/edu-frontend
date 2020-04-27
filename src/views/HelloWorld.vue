@@ -1,9 +1,9 @@
 <template>
   <div class="columns is-multiline box">
     <div class="column" ref="element">
-      <h2 class="subtitle">Hi Vishal {{ new Date() | date }}</h2>
+      <h2 class="subtitle">Hi Vishal {{ 'new Date()' | uppercase }}</h2>
       <pre>
-        {{JSON.stringify(categories && categories[0])}}
+        {{ (categories && categories[0]) | json }}
       </pre>
       <span class="tag is-primary is-light">Primary</span>
 <span class="tag is-link is-light">Link</span>
@@ -148,6 +148,11 @@ import { GET_CATEGORIES } from "@/graphql/category";
 
 export default {
   name: "HelloWorld",
+  filters:{
+uppercase(v){
+  return v.toUpperCase()
+}
+  },
   data() {
     return {
       date: new Date().toJSON(),

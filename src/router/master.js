@@ -11,55 +11,34 @@ export default [
   {
     path: 'categories',
     name: 'categories',
-    component: Categories,
-    meta: {
-      breadcrumbs: ['Home', 'Categories'],
-      caption: 'Categories'
-    }
+    component: Categories
   },
   {
     path: 'category',
     name: 'category',
-    component: Category,
-    meta: {
-      breadcrumbs: ['Home', 'Category'],
-      caption: 'Category'
-    }
+    component: Category
   },
   {
     path: 'courses',
     name: 'courses',
-    component: Courses,
-    meta: {
-      breadcrumbs: ['Home', 'Department', 'Courses'],
-      caption: 'Courses'
-    }
+    component: Courses
   },
   {
     path: 'course/:id?',
     name: 'course',
-    component: Course,
-    meta: {
-      breadcrumbs: ['Home', 'Department', 'Course'],
-      caption: 'Add/Update Course'
-    }
+    component: Course
   },
   {
     path: 'acdepts',
     name: 'acdepts',
-    component: AcDepts,
-    meta: {
-      breadcrumbs: ['Home', 'Departments'],
-      caption: 'Academic Departments'
-    }
+    component: AcDepts
   },
   {
     path: 'acdept/:id?',
     name: 'acdept',
     component: AcDept,
     meta: {
-      breadcrumbs: ['Home', 'Departments'],
-      caption: 'Add/Update Departments'
+      privilege: 'noonehas'
     }
   }
 ]

@@ -35,18 +35,16 @@
     </b-navbar>
     <SideMenu @toggle="toggleReceive" :isOpen="isOpen" />
     <!---->
-    <section :class="['section', {'navbar-expanded':isOpen}]" style="padding-top:7px;transition: margin .3s;">
+    <section :class="['section', {'navbar-expanded':isOpen}]" style="padding-top:60px;transition: margin .3s;">
       <div class="level" style="margin-bottom: 10px;">
         <div class="level-left">
-          <div class="level-item">
-            <div class="subtitle is-4 has-text-dark">{{ $route.meta.caption }}</div>
-          </div>
-        </div>
-        <div class="level-right">
-          <nav class="breadcrumb is-centered" aria-label="breadcrumbs">
+           <nav class="breadcrumb has-bullet-separator is-centered" aria-label="breadcrumbs">
             <ul>
-              <li v-for="bd in $route.meta.breadcrumbs" :key="bd">
-                <router-link :to="'#'" class="has-text-grey">{{ bd }}</router-link>
+              <li>
+                <router-link to="#" class="has-text-grey">Dashboard</router-link>
+              </li>
+              <li>
+                <router-link to="#" class="has-text-grey">Notifications</router-link>
               </li>
             </ul>
           </nav>

@@ -9,47 +9,26 @@ export default [
   {
     path: 'users',
     name: 'users',
-    component: Users,
-    meta: {
-      breadcrumbs: ['Home', 'Users'],
-      caption: 'User Management'
-    }
+    component: Users
   },
   {
     path: 'user/:id?',
     name: 'user',
-    component: User,
-    meta: {
-      breadcrumbs: ['Home', 'User'],
-      caption: 'User Management'
-    }
+    component: User
   },
   {
     path: 'roles',
     name: 'roles',
-    component: Roles,
-    meta: {
-      breadcrumbs: ['Home', 'Roles'],
-      caption: 'Role Management'
-    }
+    component: Roles
   },
   {
     path: 'role/:id?',
     name: 'role',
-    component: Role,
-    meta: {
-      breadcrumbs: ['Home', 'Roles'],
-      caption: 'Role Management',
-      privilege: 'role-create'
-    }
+    component: Role
   },
   {
     path: 'profile',
     name: 'profile',
-    component: Profile,
-    meta: {
-      breadcrumbs: ['Home', 'Profile'],
-      caption: 'Profile'
-    }
+    component: Profile
   }
 ]
