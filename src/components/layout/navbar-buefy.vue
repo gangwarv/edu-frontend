@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="containeris-fluid">
+    <SideMenu @toggle="toggleReceive" :isOpen="isOpen" />
     <b-navbar fixed-top type="is-primary">
       <template slot="brand">
         <a class="navbar-item" @click="toggle">{{ isOpen? '&#8690;' : '&#8689;' }}</a>
@@ -33,10 +34,12 @@
         <b-navbar-item tag="router-link" to="/login">Log Out</b-navbar-item>
       </template>
     </b-navbar>
-    <SideMenu @toggle="toggleReceive" :isOpen="isOpen" />
     <!---->
-    <section :class="['section', {'navbar-expanded':isOpen}]" style="padding-top:60px;transition: margin .3s;">
-      <div class="level" style="margin-bottom: 10px;">
+    <section
+      :class="['section', {'navbar-expanded':isOpen}]"
+      style="padding:8px;transition: margin .3s;"
+    >
+      <!-- <div class="level" style="margin-bottom: 10px;">
         <div class="level-left">
            <nav class="breadcrumb has-bullet-separator is-centered" aria-label="breadcrumbs">
             <ul>
@@ -49,7 +52,21 @@
             </ul>
           </nav>
         </div>
-      </div>
+      </div>-->
+      <nav
+        style="margin-bottom: 10px;"
+        class="breadcrumb has-bullet-separator is-centered"
+        aria-label="breadcrumbs"
+      >
+        <ul>
+          <li>
+            <router-link to="#" class="has-text-grey">Dashboard</router-link>
+          </li>
+          <li>
+            <router-link to="#" class="has-text-grey">Notifications</router-link>
+          </li>
+        </ul>
+      </nav>
       <transition name="slide-right">
         <router-view></router-view>
       </transition>
@@ -92,11 +109,11 @@ export default {
   z-index: 1001;
 }
 
-.navbar-expanded{
+.navbar-expanded {
   margin-left: 75px;
 }
 
-.box{
+.box {
   min-height: 300px;
 }
 </style>

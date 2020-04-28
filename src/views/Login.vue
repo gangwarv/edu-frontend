@@ -35,7 +35,12 @@
             :disabled="!userName || !password || loading"
             class="btn btn-primary"
             @click="signin"
-          >{{ loading?'Checking':'Login' }}</button>
+          >
+            {{ loading?'Checking':'Login' }}
+            <span class="icon" v-if="loading">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </span>
+          </button>
         </form>
       </div>
     </div>
@@ -44,8 +49,8 @@
 
 <script>
 import { LOGIN } from "@/graphql/auth";
-import { AUTH_SET, AUTH_REMOVE } from '@/store/auth/types'
-import {apolloClient} from '../apollo'
+import { AUTH_SET, AUTH_REMOVE } from "@/store/auth/types";
+import { apolloClient } from "../apollo";
 
 export default {
   name: "Login",
@@ -77,6 +82,14 @@ export default {
         .then(({ data: { login } }) => {
           this.loading = false;
           this.$store.commit(AUTH_SET, login);
+          // auto logout
+          // const remainingSeconds = new Date(login.expiresIn) - new Date();
+
+          // setTimeout(() => {
+          //   console.log("Auto logout at .....", new Date());
+          //   this.$router.push("login");
+          // }, remainingSeconds);
+
           this.$router.push("/");
         })
         .catch(err => {

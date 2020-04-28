@@ -19,13 +19,14 @@ import edpRoutes from "./edp";
 import admissionRoutes from "./admission";
 
 Vue.use(Router);
-// route.name should match 
+// route.name should match
 const router = new Router({
   routes: [
     {
       path: "/login",
       name: "login",
       component: Login,
+      meta: { public: true },
     },
     {
       path: "/",
@@ -34,12 +35,12 @@ const router = new Router({
         {
           path: "",
           name: "home",
-          component: Home
+          component: Home,
         },
         {
           path: "hello",
           component: HelloWorld,
-          name: "Hello"
+          name: "Hello",
         },
         ...admissionRoutes,
         ...edpRoutes,
@@ -51,6 +52,7 @@ const router = new Router({
       path: "*",
       name: "notfound",
       component: NotFound,
+      meta: { public: true },
     },
   ],
   mode: "history",
@@ -58,14 +60,10 @@ const router = new Router({
 });
 
 let remainingSeconds;
-const publicPages = ["login","notfound","changepassword"]
 router.beforeEach((to, from, next) => {
-  if (
-    publicPages.includes(to.name) 
-  )
-    return next();
+  if (to.meta.public) return next();
 
-  const routePrivilege = to.meta && to.meta.privilege;
+  const routePrivilege = to.meta.privilege;
 
   if (store.state.auth) {
     const { expiringIn } = store.state.auth;
@@ -83,14 +81,15 @@ router.beforeEach((to, from, next) => {
       }
       // not authorized
       else {
-        Dialog.alert({
-          title:"Unauthorized",
-          message: "access-denied",
-          hasIcon: true,
-          iconPack: "fas",
-          icon: "exclamation-circle",
-          type: "is-danger",
-        });
+        //   Dialog.alert({
+        //     title:"Unauthorized",
+        //     message: "access-denied",
+        //     hasIcon: true,
+        //     iconPack: "fas",
+        //     icon: "exclamation-circle",
+        //     type: "is-danger",
+        //   });
+        alert("access-denied");
         return next(false);
       }
     }
@@ -104,33 +103,26 @@ router.beforeEach((to, from, next) => {
   next("login");
 });
 
-let reminder;
+// let reminder;
 router.afterEach((to) => {
-  console.log("After", to);
-  if (
-    !remainingSeconds ||
-    to.name === "login" ||
-    to.name === "notfound" ||
-    to.name === "changepassword"
-  )
-    return;
+  if (to.meta.public) return;
 
   console.log("remainingSeconds", remainingSeconds);
 
-  clearTimeout(reminder);
-  reminder = setTimeout(() => {
-    console.log("redirecting to login.....");
-    // router.push("login");
-  }, remainingSeconds * 1000);
+  // clearTimeout(reminder);
+  // reminder = setTimeout(() => {
+  //   console.log("redirecting to login.....");
+  //   // router.push("login");
+  // }, remainingSeconds * 1000);
 
   // confirm
-  if (remainingSeconds < 10)
-    Dialog.alert({
-      message: "Stay Logged In?",
-      onConfirm: () => {
-        console.log("confirmed");
-      },
-    });
+  // if (remainingSeconds < 10)
+  //   Dialog.alert({
+  //     message: "Stay Logged In?",
+  //     onConfirm: () => {
+  //       console.log("confirmed");
+  //     },
+  //   });
 });
 
 export default router;
