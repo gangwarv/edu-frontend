@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.public) return next();
 
   const routePrivilege = to.meta.privilege;
-
+console.log(store)
   if (store.state.auth) {
     const { expiringIn } = store.state.auth.data;
     remainingSeconds = Math.floor((new Date(expiringIn) - new Date()) / 1000);
@@ -109,14 +109,19 @@ router.afterEach((to) => {
 
   console.log("remainingSeconds", remainingSeconds);
 
-  if (remainingSeconds < 10) {
-    apolloClient.mutate({
-      mutation: LOGIN,
-      variables: { userName: '--renewtoken--', password: '-- --' }
-    })
-      .then(({ data: { login } }) => {
-        store.commit(AUTH_SET, login);
-      });
+  if (remainingSeconds < 15) {
+    if (confirm("Session expiring in 10 seconds? Continue")) {
+      apolloClient
+        .mutate({
+          mutation: LOGIN,
+          variables: { userName: "--renewtoken--", password: "-- --" },
+        })
+        .then(({ data: { login } }) => {
+          store.commit(AUTH_SET, login);
+        });
+    } else {
+      router.push("login");
+    }
   }
 });
 
