@@ -81,6 +81,7 @@ export default {
         })
         .then(({ data: { login } }) => {
           this.loading = false;
+          console.log(login)
           this.$store.commit(AUTH_SET, login);
           // auto logout
           // const remainingSeconds = new Date(login.expiresIn) - new Date();

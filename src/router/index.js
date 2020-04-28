@@ -66,9 +66,9 @@ router.beforeEach((to, from, next) => {
   const routePrivilege = to.meta.privilege;
 
   if (store.state.auth) {
-    const { expiringIn } = store.state.auth;
+    const { expiringIn } = store.state.auth.data;
     remainingSeconds = Math.floor((new Date(expiringIn) - new Date()) / 1000);
-    const privileges = store.state.auth.privileges.split(",");
+    const privileges = store.state.auth.data.privileges.split(",");
     // check if still authenticated
     if (remainingSeconds > 0) {
       // check if authorized
@@ -109,20 +109,15 @@ router.afterEach((to) => {
 
   console.log("remainingSeconds", remainingSeconds);
 
-  // clearTimeout(reminder);
-  // reminder = setTimeout(() => {
-  //   console.log("redirecting to login.....");
-  //   // router.push("login");
-  // }, remainingSeconds * 1000);
-
-  // confirm
-  // if (remainingSeconds < 10)
-  //   Dialog.alert({
-  //     message: "Stay Logged In?",
-  //     onConfirm: () => {
-  //       console.log("confirmed");
-  //     },
-  //   });
+  if (remainingSeconds < 10) {
+    apolloClient.mutate({
+      mutation: LOGIN,
+      variables: { userName: '--renewtoken--', password: '-- --' }
+    })
+      .then(({ data: { login } }) => {
+        store.commit(AUTH_SET, login);
+      });
+  }
 });
 
 export default router;
