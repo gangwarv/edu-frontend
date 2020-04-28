@@ -1,10 +1,10 @@
 import Router from "vue-router";
 import Vue from "vue";
 import store from "../store";
-import { DialogProgrammatic as Dialog } from "buefy";
-// import { apolloClient } from "../apollo";
-// import { LOGIN } from "@/graphql/auth";
-// import { AUTH_SET } from "@/store/auth/types";
+// import { DialogProgrammatic as Dialog } from "buefy";
+import { apolloClient } from "../apollo";
+import { LOGIN } from "@/graphql/auth";
+import { AUTH_SET } from "@/store/auth/types";
 
 const HelloWorld = () => import("@/views/HelloWorld");
 const Home = () => import("@/views/Home");

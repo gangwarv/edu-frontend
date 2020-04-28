@@ -12,7 +12,7 @@ Vue.use(VueApollo)
 const link = ApolloLink.from([
     setContext(() => ({
         headers: {
-            'authorization': `Bearer ${store.state.auth && store.state.auth.token}`
+            'authorization': `Bearer ${store.state.auth && store.state.auth.data.token}`
         }
     })),
     new HttpLink({
