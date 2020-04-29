@@ -15,7 +15,6 @@ const NotFound = () => import("@/views/404");
 // routes
 import masterRoutes from "./master";
 import userMgmtRoutes from "./user-management";
-import edpRoutes from "./edp";
 import admissionRoutes from "./admission";
 
 Vue.use(Router);
@@ -43,7 +42,6 @@ const router = new Router({
           name: "Hello",
         },
         ...admissionRoutes,
-        ...edpRoutes,
         ...userMgmtRoutes,
         ...masterRoutes,
       ],
@@ -64,7 +62,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.public) return next();
 
   const routePrivilege = to.meta.privilege;
-console.log(store)
+
   if (store.state.auth) {
     const { expiringIn } = store.state.auth.data;
     remainingSeconds = Math.floor((new Date(expiringIn) - new Date()) / 1000);
@@ -94,11 +92,6 @@ console.log(store)
       }
     }
   }
-  // if moving one route to another inside the app but isn't authorized to target route
-  // if (from.name && from.name !== "login") {
-  //   alert("access-denied");
-  //   return next(false);
-  // }
 
   next("login");
 });
@@ -109,8 +102,8 @@ router.afterEach((to) => {
 
   console.log("remainingSeconds", remainingSeconds);
 
-  if (remainingSeconds < 15) {
-    if (confirm("Session expiring in 10 seconds? Continue")) {
+  if (remainingSeconds < 60) {
+    if (confirm("Session expiring in 30 seconds? Stay Logged In.")) {
       apolloClient
         .mutate({
           mutation: LOGIN,

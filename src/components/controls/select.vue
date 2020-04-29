@@ -1,25 +1,21 @@
 
 <template>
-  <div class="field">
-    <label class="label">
-      {{ label }}
-      <span class="has-text-danger" v-if="required">*</span>
-    </label>
-    <div class="control">
-      <div class="select is-fullwidth" :class="[{ 'is-multiple':multiple, 'is-danger': !!errors && errors.length }]">
-        <select :value="value" @change="handleInput" :multiple="multiple" :size="size">
-          <option :hidden="multiple" value>{{ defaultLabel }}</option>
-          <option
-            :selected="value==item[val] || item"
-            :key="item[val] || item"
-            v-for="item in items"
-            :value="item[val]||item"
-          >{{ item[text]||item }}</option>
-        </select>
-      </div>
-    </div>
-    <p class="help is-danger">{{ errors && errors[0] }}</p>
-  </div>
+  <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
+    <b-select
+      expanded
+      placeholder="Select"
+      :value="value || null"
+      @input="handleInput"
+      
+    >
+      <option
+        :selected="value==item[val] || item"
+        :key="item[val] || item"
+        v-for="item in items"
+        :value="item[val]||item"
+      >{{ item[text]||item }}</option>
+    </b-select>
+  </b-field>
 </template>
 
 <script>
@@ -40,7 +36,8 @@ export default {
   },
   methods: {
     handleInput: function(e) {
-      this.$emit("input", e.target.value);
+
+      this.$emit("input", e);
     }
   },
   computed: {
@@ -52,6 +49,9 @@ export default {
     },
     text: function() {
       return this.options[2] || this.options[1] || "text";
+    },
+    hasError() {
+      return this.errors && this.errors.length > 0;
     }
   }
 };

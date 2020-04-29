@@ -39,7 +39,7 @@
         </b-dropdown>
       </div>
     </div>
-    <div class="column" >
+    <div class="column">
       <Loader v-if="loading && data == null" />
       <b-table
         v-else
@@ -66,10 +66,12 @@
             :numeric="col.numeric"
             sortable
           >
-            <span :class="['tag is-light', {'is-success': props.row[col.field], 'is-danger': !props.row[col.field]}]"
+            <span
+              :class="['tag is-light', {'is-success': props.row[col.field], 'is-danger': !props.row[col.field]}]"
               v-if="typeof props.row[col.field] === 'boolean' "
             >{{ props.row[col.field] | boolean }}</span>
-            <span class="tag is-light"
+            <span
+              class="tag is-light"
               v-else-if="col.field.endsWith('At')"
             >{{ props.row[col.field] | date }}</span>
             <span v-else>{{ props.row[col.field] }}</span>
@@ -185,6 +187,23 @@ export default {
           .map(x => (x === x.toUpperCase() ? " " + x : x))
           .join("")
       );
+    }
+  },
+  filters: {
+    boolean(value) {
+      return value ? "YES" : "NO";
+    },
+    date(date) {
+      if (!date && isNaN(date)) return "";
+      try {
+        return new Date(parseInt(date))
+          .toISOString()
+          .replace("T", " ")
+          .substr(0, 19);
+      } catch (e) {
+        //   console.log(date, typeof date, e);
+        return "";
+      }
     }
   }
 };

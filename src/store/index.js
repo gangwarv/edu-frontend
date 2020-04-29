@@ -126,17 +126,18 @@ export default new Vuex.Store({
     topMenus(state, getters) {
       return getters.menus.filter((x) => x.position === "top");
     },
-    leftMenus(state, getters) {
-      return getters.menus.filter((x) => x.position === "left");
-    },
+    // leftMenus(state, getters) {
+    //   return getters.menus.filter((x) => x.position === "left");
+    // },
     modules(state, getters) {
       return getters.menus
         .map((x) => x.module)
         .filter((m, i, ar) => ar.indexOf(m) === i)
         .map((module) => ({
           name: module,
-          menus: getters.leftMenus.filter((lm) => lm.module === module),
-        }));
+          menus: getters.menus.filter((lm) => lm.module === module && lm.position == 'left'),
+        }))
+        .filter(x=>x.menus.length);
     },
     courseTypes(state) {
       return state.courseTypes.filter((x) => x.isActive);

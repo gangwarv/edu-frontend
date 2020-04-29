@@ -1,21 +1,8 @@
 
 <template>
-  <div class="field">
-    <label class="label">
-      {{ label }}
-      <span class="has-text-danger" v-if="required">*</span>
-    </label>
-    <div :class="[{'is-loading':isLoading}, 'control']">
-      <input
-        :value="value"
-        @input="handleInput"
-        :class="[{'is-danger': !!errors && errors.length }, 'input']"
-        :type="type || 'text'"
-        :placeholder="placeholder || 'Enter '+label"
-      />
-    </div>
-    <p class="help is-danger">{{ errors && errors[0] }}</p>
-  </div>
+  <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
+    <b-input :value="value" @input="handleInput"></b-input>
+  </b-field>
 </template>
 
 <script>
@@ -32,7 +19,12 @@ export default {
   },
   methods: {
     handleInput: function(e) {
-      this.$emit("input", e.target.value);
+      this.$emit("input", e);
+    }
+  },
+  computed: {
+    hasError() {
+      return this.errors && this.errors.length > 0;
     }
   }
 };

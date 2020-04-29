@@ -31,6 +31,7 @@
       </template>
 
       <template slot="end" class="is-primary">
+        <b-navbar-item :key="m.text" v-for="m in menus" tag="router-link" :to="m.path">{{ m.text }}</b-navbar-item>
         <b-navbar-item tag="router-link" to="/login">Log Out</b-navbar-item>
       </template>
     </b-navbar>
