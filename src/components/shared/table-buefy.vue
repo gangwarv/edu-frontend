@@ -10,7 +10,7 @@
               </select>-->
             </p>
             <p class="control has-icons-left">
-              <input class="input" v-model="searchText" type="text" placeholder="Search" />
+              <input class="input is-small" v-model="searchText" type="text" placeholder="Search" />
               <span class="icon is-small is-left">
                 <i class="fas fa-search"></i>
               </span>
@@ -33,7 +33,7 @@
           <b-dropdown-item
             :key="action"
             v-for="action in actions"
-            @click="$emit('change', action.toLowerCase())"
+            @click="actionPerformed(action)"
             aria-role="listitem"
           >{{ action }}</b-dropdown-item>
         </b-dropdown>
@@ -72,7 +72,7 @@
             >{{ props.row[col.field] | boolean }}</span>
             <span
               class="tag is-light"
-              v-else-if="col.field.endsWith('At')"
+              v-else-if="props.row[col.field] && (col.field.endsWith('At') || col.field.endsWith('Date'))"
             >{{ props.row[col.field] | date }}</span>
             <span v-else>{{ props.row[col.field] }}</span>
           </b-table-column>
@@ -187,6 +187,14 @@ export default {
           .map(x => (x === x.toUpperCase() ? " " + x : x))
           .join("")
       );
+    },
+    actionPerformed(action) {
+      if (!this.checkedRows.length) alert("Please select one or more rows.");
+      else
+        this.$emit("change", {
+          type: action.toLowerCase(),
+          data: this.checkedRows
+        });
     }
   },
   filters: {
@@ -196,12 +204,13 @@ export default {
     date(date) {
       if (!date && isNaN(date)) return "";
       try {
-        return new Date(parseInt(date))
+        let d = new Date(parseInt(date));
+        d.setMinutes(d.getMinutes() + -1 * d.getTimezoneOffset());
+        return d
           .toISOString()
           .replace("T", " ")
           .substr(0, 19);
       } catch (e) {
-        //   console.log(date, typeof date, e);
         return "";
       }
     }

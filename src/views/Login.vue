@@ -91,7 +91,7 @@ export default {
           //   this.$router.push("login");
           // }, remainingSeconds);
 
-          this.$router.push("/");
+          this.$router.push(this.$route.query.path || "/");
         })
         .catch(err => {
           this.loading = false;

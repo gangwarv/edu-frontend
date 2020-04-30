@@ -20,6 +20,7 @@ import admissionRoutes from "./admission";
 Vue.use(Router);
 // route.name should match
 const router = new Router({
+  // base:'/publish/',
   routes: [
     {
       path: "/login",
@@ -67,9 +68,9 @@ router.beforeEach((to, from, next) => {
     const { expiringIn } = store.state.auth.data;
     remainingSeconds = Math.floor((new Date(expiringIn) - new Date()) / 1000);
     const privileges = store.state.auth.data.privileges.split(",");
-    // check if still authenticated
-    if (remainingSeconds > 0) {
-      // check if authorized
+    // check if session is valid
+    if (remainingSeconds > 1) {
+      // check if authorized --else
       if (
         !routePrivilege ||
         privileges.includes("admin") ||
@@ -79,24 +80,17 @@ router.beforeEach((to, from, next) => {
       }
       // not authorized
       else {
-        //   Dialog.alert({
-        //     title:"Unauthorized",
-        //     message: "access-denied",
-        //     hasIcon: true,
-        //     iconPack: "fas",
-        //     icon: "exclamation-circle",
-        //     type: "is-danger",
-        //   });
         alert("access-denied");
         return next(false);
       }
     }
   }
+  let path = "";
+  if (to.path !== "/") path = "?path=" + to.fullPath;
 
-  next("login");
+  next("/login" + path);
 });
 
-// let reminder;
 router.afterEach((to) => {
   if (to.meta.public) return;
 
@@ -112,8 +106,6 @@ router.afterEach((to) => {
         .then(({ data: { login } }) => {
           store.commit(AUTH_SET, login);
         });
-    } else {
-      router.push("login");
     }
   }
 });

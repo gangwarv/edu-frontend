@@ -5,7 +5,7 @@
       <Loader v-if="$apollo.queries.course.loading" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
-          <ValidationProvider name="code" rules="required" v-slot="{ errors }">
+          <ValidationProvider name="code" rules="" v-slot="{ errors }">
             <c-input v-model="course.code" label="Code" type="text" :errors="errors" />
           </ValidationProvider>
         </div>

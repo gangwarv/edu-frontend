@@ -21,7 +21,7 @@
             <b-menu-item  icon="home" :isActive="true" to="/" tag="router-link" label="Home"></b-menu-item>
             <b-menu-item icon="information-outline" to="/hello" tag="router-link" label="Hello"></b-menu-item>
             
-            <b-menu-item icon="link" :key="mod.name" v-for="mod in modules">
+            <b-menu-item icon="link" :key="mod.name" v-for="mod in modules" expanded>
               <template slot="label" slot-scope="props">
                 {{mod.name}}
                 <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-down' : 'menu-up'"></b-icon>

@@ -5,6 +5,8 @@ const AcDepts = () => import('@/views/master/department-list')
 const AcDept = () => import('@/views/master/department-create')
 const Categories = () => import('@/views/master/category-list')
 const Category = () => import('@/views/master/category-create')
+const Sessions = () => import('@/views/master/session-list')
+const Session = () => import('@/views/master/session-create')
 
 
 export default [
@@ -36,9 +38,16 @@ export default [
   {
     path: 'acdept/:id?',
     name: 'acdept',
-    component: AcDept,
-    meta: {
-      privilege: 'noonehas'
-    }
+    component: AcDept
+  },
+  {
+    path: 'sessions',
+    name: 'sessions',
+    component: Sessions
+  },
+  {
+    path: 'session/:id?',
+    name: 'session',
+    component: Session
   }
 ]

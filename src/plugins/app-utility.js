@@ -1,4 +1,4 @@
-import { DialogProgrammatic as Dialog } from "buefy";
+// import { DialogProgrammatic as Dialog } from "buefy";
 
 export default {
   install(Vue) {
@@ -7,23 +7,21 @@ export default {
       self.loading = true;
       let message =
         msg === "D"
-          ? "Record deleted successfully!"
-          : "Data saved successfully!";
+          ? "Record deleted successfully!" :
+          msg == null ? "Data saved successfully!" : msg;
       return httpPromise
         .then(function(res) {
           self.loading = false;
-          // self.$buefy.toast.open({
-          //     message,
-          //     type: 'is-success'
+
+          // Dialog.alert({
+          //   type: "is-primary",
+          //   title: 'Success',
+          //   hasIcon: true,
+          //   icon: "check-circle",
+          //   iconPack: "fas",
+          //   message,
           // });
-          Dialog.alert({
-            type: "is-primary",
-            title: 'Success',
-            hasIcon: true,
-            icon: "check-circle",
-            iconPack: "fas",
-            message,
-          });
+          alert(message)
           return res;
         })
         .catch(function(err) {
@@ -37,19 +35,15 @@ export default {
             message += err.message.split(":")[1];
           }
 
-          // self.$buefy.toast.open({
-          //     message: msg,
-          //     type: 'is-danger'
+          // Dialog.alert({
+          //   type: "is-danger",
+          //   title:"Failed",
+          //   hasIcon: true,
+          //   icon: "times-circle",
+          //   iconPack: "fas",
+          //   message,
           // });
-
-          Dialog.alert({
-            type: "is-danger",
-            title:"Failed",
-            hasIcon: true,
-            icon: "times-circle",
-            iconPack: "fas",
-            message,
-          });
+          alert(message)
         });
     };
 
