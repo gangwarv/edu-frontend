@@ -16,6 +16,7 @@ const NotFound = () => import("@/views/404");
 import masterRoutes from "./master";
 import userMgmtRoutes from "./user-management";
 import admissionRoutes from "./admission";
+import feeRoutes from "./fee";
 
 Vue.use(Router);
 // route.name should match
@@ -45,6 +46,7 @@ const router = new Router({
         ...admissionRoutes,
         ...userMgmtRoutes,
         ...masterRoutes,
+        ...feeRoutes
       ],
     },
     {
@@ -80,7 +82,7 @@ router.beforeEach((to, from, next) => {
       }
       // not authorized
       else {
-        alert("access-denied");
+        alert("access-denied. Needed privilege is "+ routePrivilege);
         return next(false);
       }
     }

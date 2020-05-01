@@ -94,6 +94,11 @@
           <b>Total checked</b>
           : {{ checkedRows.length }}
         </template>
+        <template slot="empty">
+          <b-message title="No Records" type="is-primary" :closable="false" >
+            Sorry! No data to display.
+        </b-message>
+        </template>
       </b-table>
     </div>
   </div>

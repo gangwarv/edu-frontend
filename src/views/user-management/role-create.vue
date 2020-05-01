@@ -141,12 +141,8 @@ export default {
           name: "course-delete"
         },
         {
-          module: "Fee",
-          name: "feeItem-view"
-        },
-        {
-          module: "Fee",
-          name: "feeItem-create"
+          module: "Fee Management",
+          name: "fee-structure-crud"
         }
       ]
     };

@@ -25,9 +25,9 @@ export default [
     path: 'role/:id?',
     name: 'role',
     component: Role,
-    meta: {
-      privilege: 'noonehas'
-    }
+    // meta: {
+    //   privilege: 'noonehas'
+    // }
   },
   {
     path: 'profile',
