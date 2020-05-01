@@ -68,3 +68,19 @@ export const GET_FEETYPES = gql`
     }
   }
 `;
+export const DELETE_FEETYPE = gql`
+  mutation DeleteFeeType($id: String!) {
+    deleteFeeType(id: $id) {
+      id
+      name
+    }
+  }
+`;
+export const UPSERT_FEETYPE = gql`
+  mutation AddFeeType($id: String, $name: String!) {
+    addFeeType(id: $id, name: $name) {
+      id
+      name
+    }
+  }
+`;

@@ -28,19 +28,13 @@ export default {
       this.$router.push({ path: "role", query: { id } });
     },
     remove({ id }) {
-      if (confirm("Are you sure?"))
-        this.$observe(
-          this.$apollo.mutate({
-            mutation: DELETE_ROLE,
-            variables: { id },
-            update: (store, { data: { deleteRole } }) => {
-              const data = store.readQuery({ query: GET_ROLES });
-              data.roles = data.roles.filter(x => x.id !== deleteRole.id);
-              store.writeQuery({ query: GET_ROLES, data });
-            }
-          }),
-          "D"
-        );
+      confirm("Are you sure?") &&
+        this.$mutate({
+          mutation: DELETE_ROLE,
+          variables: { id },
+          update: GET_ROLES,
+          message: "d"
+        });
     }
   },
   apollo: {

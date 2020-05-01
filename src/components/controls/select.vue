@@ -1,20 +1,17 @@
 
 <template>
   <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
-    <b-select
-      expanded
-      placeholder="Select"
-      :value="value || null"
-      @input="handleInput"
-      
-    >
-      <option
-        :selected="value==item[val] || item"
-        :key="item[val] || item"
-        v-for="item in items"
-        :value="item[val]||item"
-      >{{ item[text]||item }}</option>
-    </b-select>
+    <b-field>
+      <b-select expanded placeholder="Select" :value="value || null" @input="handleInput">
+        <option
+          :selected="value==item[val] || item"
+          :key="item[val] || item"
+          v-for="item in items"
+          :value="item[val]||item"
+        >{{ item[text]||item }}</option>
+      </b-select>
+      <slot></slot>
+    </b-field>
   </b-field>
 </template>
 
@@ -36,7 +33,6 @@ export default {
   },
   methods: {
     handleInput: function(e) {
-
       this.$emit("input", e);
     }
   },

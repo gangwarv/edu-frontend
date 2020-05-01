@@ -31,21 +31,12 @@ export default {
   methods: {
     remove({ id }) {
       confirm("Are you sure?") &&
-        this.$observe(
-          this.$apollo.mutate({
-            mutation: REMOVE_CATEGORY,
-            variables: {
-              id
-            },
-            update: (store, { data: { deleteCategory } }) => {
-              const data = store.readQuery({ query: GET_CATEGORIES });
-              data.categories = data.categories.filter(
-                x => x.id !== deleteCategory.id
-              );
-              store.writeQuery({ query: GET_CATEGORIES, data });
-            }
-          })
-        );
+        this.$mutate({
+          mutation: REMOVE_CATEGORY,
+          variables: { id },
+          update: GET_CATEGORIES,
+          message: "d"
+        });
     },
     edit({ id }) {
       this.$router.push({ path: "category", query: { id } });

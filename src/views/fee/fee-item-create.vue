@@ -16,15 +16,19 @@
               v-model="obj.type"
               :options="[feeTypes, 'id', 'name']"
               :errors="errors"
-            ></c-select>
+            >
+            <router-link class="button" to="/feetype">+</router-link>
+            </c-select>
           </ValidationProvider>
+          <div class="field">
+
+          </div>
         </div>
         <div class="column is-3">
           <c-check v-model="obj.isActive" id="cat_active" label="Active" />
         </div>
         <div class="column is-3"></div>
         <BtnGroup :loading="loading" @reset="reset" />
-        <b-loading :is-full-page="true" :active.sync="loading" :can-cancel="false"></b-loading>
       </div>
     </form>
   </ValidationObserver>
@@ -52,21 +56,19 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$observe(
-        this.$apollo.mutate({
-          mutation: UPSERT_FEEITEM,
-          variables: {
-            ...this.obj,
-          }
-        })
-      );
+      this.$mutate({
+        mutation: UPSERT_FEEITEM,
+        variables: {
+          ...this.obj
+        }
+      });
     },
     reset: function() {
       if (this.$route.query.id) {
         return this.$router.push("/feeitems");
       }
-      this.$clear(this.obj);
       this.$refs.observer.reset();
+      this.$clear(this.obj);
     }
   },
   apollo: {

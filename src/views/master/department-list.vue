@@ -25,24 +25,13 @@ export default {
   },
   methods: {
     remove({ id }) {
-      if (confirm("Are you sure?")) {
-        this.$observe(
-          this.$apollo.mutate({
-            mutation: REMOVE_DEPARTMENT,
-            variables: {
-              id
-            },
-            update: (store, { data: { deleteDepartment } }) => {
-              const data = store.readQuery({ query: GET_ALL_DEPARTMENTS });
-              data.departments = data.departments.filter(
-                x => x.id !== deleteDepartment.id
-              );
-              store.writeQuery({ query: GET_ALL_DEPARTMENTS, data });
-            }
-          }),
-          "D"
-        );
-      }
+      confirm("Are you sure?") &&
+        this.$mutate({
+          mutation: REMOVE_DEPARTMENT,
+          variables: { id },
+          update: GET_ALL_DEPARTMENTS,
+          message: "d"
+        });
     },
     edit({ id }) {
       this.$router.push({ path: "acdept", query: { id } });

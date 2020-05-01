@@ -56,45 +56,47 @@ export default {
     };
 
     // new mutate
-    Vue.prototype.$mutate = function(options, msg = "") {
+    Vue.prototype.$mutate = function(options) {
       let self = this;
       self.loading = true;
-      let message =
-        msg.toLowerCase() === "delete" || msg === "D"
+
+      let { message, update, ...option } = options;
+      message =
+        message === "d" //|| message === "D"
           ? "Record deleted successfully!"
-          : msg == ""
+          : message == null
           ? "Data saved successfully!"
-          : msg;
-      if (options.update)
-      options.update = customUpdate(options.update)
+          : message;
 
-        return this.$apollo
-          .mutate(options)
-          .then(function(res) {
-            self.loading = false;
-            alert(message);
-            return res;
-          })
-          .catch(function(err) {
-            self.loading = false;
-            let message = "";
-            try {
-              message = err.networkError.result.errors[0].message;
-            } catch (error) {
-              message = err.message.split(":")[0];
-              message += ": ";
-              message += err.message.split(":")[1];
-            }
+      if (update) option.update = customUpdate(update);
 
-            alert(message);
-          });
+      return this.$apollo
+        .mutate(option)
+        .then(function(res) {
+          self.loading = false;
+          alert(message);
+          return res;
+        })
+        .catch(function(err) {
+          self.loading = false;
+          let message = "";
+          try {
+            message = err.networkError.result.errors[0].message;
+          } catch (error) {
+            message = err.message.split(":")[0];
+            message += ": ";
+            message += err.message.split(":")[1];
+          }
+
+          alert(message);
+        });
     };
   },
 };
 
 function customUpdate(query) {
   return function(store, { data }) {
-    console.log("plugin");
+    console.log("plugin 0.1");
     const deletedObjKey = Object.keys(data)[0];
     console.log("deletedobj", data);
     const id = data[deletedObjKey].id;

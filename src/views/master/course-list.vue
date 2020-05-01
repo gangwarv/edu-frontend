@@ -38,22 +38,13 @@ export default {
   },
   methods: {
     remove({ id }) {
-      if (confirm("Are you sure?")) {
-        this.$observe(
-          this.$apollo.mutate({
-            mutation: REMOVE_COURSE,
-            variables: {
-              id
-            },
-            update: (store, { data: { deleteCourse } }) => {
-              const data = store.readQuery({ query: GET_ALL_COURSES });
-              data.courses = data.courses.filter(x => x.id !== deleteCourse.id);
-              store.writeQuery({ query: GET_ALL_COURSES, data });
-            }
-          }),
-          "D"
-        );
-      }
+      confirm("Are you sure?") &&
+        this.$mutate({
+          mutation: REMOVE_COURSE,
+          variables: { id },
+          update: GET_ALL_COURSES,
+          message: "d"
+        });
     },
     edit({ id }) {
       this.$router.push({ path: "course", query: { id } });
