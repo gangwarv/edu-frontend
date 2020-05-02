@@ -207,9 +207,8 @@ export default {
       return value ? "YES" : "NO";
     },
     date(date) {
-      if (!date && isNaN(date)) return "";
       try {
-        let d = new Date(parseInt(date));
+        let d = new Date(date);
         d.setMinutes(d.getMinutes() + -1 * d.getTimezoneOffset());
         return d
           .toISOString()

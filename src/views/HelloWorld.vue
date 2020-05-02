@@ -3,14 +3,14 @@
     <div class="column" ref="element">
       <h2 class="subtitle">Hi Vishal {{ 'new Date()' | uppercase }}</h2>
       <pre>
-        {{ (categories && categories[0]) | json }}
+        {{ (categories && categories[0]) }}
       </pre>
       <span class="tag is-primary is-light">Primary</span>
-<span class="tag is-link is-light">Link</span>
-<span class="tag is-info is-light">Info</span>
-<span class="tag is-success is-light">Success</span>
-<span class="tag is-warning is-light">Warning</span>
-<span class="tag is-danger is-light">Danger</span>
+      <span class="tag is-link is-light">Link</span>
+      <span class="tag is-info is-light">Info</span>
+      <span class="tag is-success is-light">Success</span>
+      <span class="tag is-warning is-light">Warning</span>
+      <span class="tag is-danger is-light">Danger</span>
       <b-field
         label="Username1"
         :type="{ 'is-danger': hasError }"
@@ -148,10 +148,10 @@ import { GET_CATEGORIES } from "@/graphql/category";
 
 export default {
   name: "HelloWorld",
-  filters:{
-uppercase(v){
-  return v.toUpperCase()
-}
+  filters: {
+    uppercase(v) {
+      return v.toUpperCase();
+    }
   },
   data() {
     return {
@@ -163,10 +163,10 @@ uppercase(v){
       username: ""
     };
   },
-  methods:{
-change(e){
-  this.username = e.target.value
-}
+  methods: {
+    change(e) {
+      this.username = e.target.value;
+    }
   },
   computed: {
     hasError() {
@@ -188,7 +188,7 @@ change(e){
     setTimeout(() => {
       this.options = ["Ant", "123", "991300"];
       this.loading = false;
-      loadingComponent.close()
+      loadingComponent.close();
     }, 1000);
   }
 };
