@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { GET_CATEGORIES, REMOVE_CATEGORY } from "@/graphql/category";
+import { GET_CATEGORIES, REMOVE_CATEGORY } from "@/graphql/shared";
 
 export default {
   name: "CategoryList",
@@ -34,7 +34,7 @@ export default {
         this.$mutate({
           mutation: REMOVE_CATEGORY,
           variables: { id },
-          update: GET_CATEGORIES,
+          updateQuery: GET_CATEGORIES,
           message: "d"
         });
     },

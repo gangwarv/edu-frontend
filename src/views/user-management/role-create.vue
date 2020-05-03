@@ -56,14 +56,13 @@ export default {
       this.role.privileges = privileges.toString();
     },
     onSubmit() {
-      this.$observe(this.$apollo.mutate({
-          mutation: UPSERT_ROLE,
-          variables: {
-            ...this.role,
-            privileges: this.role.privileges.toString()
-          }
-        })
-      );
+      this.$mutate({
+        mutation: UPSERT_ROLE,
+        variables: {
+          ...this.role,
+          privileges: this.role.privileges.toString()
+        }
+      });
     },
     reset() {
       if (this.$route.query.id) {

@@ -19,7 +19,7 @@ import {
   GET_ALL_COURSES,
   REMOVE_COURSE,
   MODIFY_COURSES
-} from "@/graphql/course";
+} from "@/graphql/shared";
 
 export default {
   name: "CourseList",
@@ -42,7 +42,7 @@ export default {
         this.$mutate({
           mutation: REMOVE_COURSE,
           variables: { id },
-          update: GET_ALL_COURSES,
+          updateQuery: GET_ALL_COURSES,
           message: "d"
         });
     },
@@ -59,31 +59,27 @@ export default {
           },
           trapFocus: true,
           onConfirm: value =>
-            this.$observe(
-              this.$apollo.mutate({
-                mutation: MODIFY_COURSES,
-                variables: {
-                  ids: e.data.map(x => x.id),
-                  command: e.type,
-                  data: new Date(value).toISOString()
-                }
-              }),
-              "Admission started."
-            )
+            this.$mutate({
+              mutation: MODIFY_COURSES,
+              variables: {
+                ids: e.data.map(x => x.id),
+                command: e.type,
+                data: new Date(value).toISOString()
+              },
+              message: "Admission opened."
+            })
         });
         return;
       }
 
-      this.$observe(
-        this.$apollo.mutate({
-          mutation: MODIFY_COURSES,
-          variables: {
-            ids: e.data.map(x => x.id),
-            command: e.type
-          }
-        }),
-        "Course(s) status changed successfully."
-      );
+      this.$mutate({
+        mutation: MODIFY_COURSES,
+        variables: {
+          ids: e.data.map(x => x.id),
+          command: e.type
+        },
+        message: "Course(s) status changed successfully."
+      });
     }
   },
   apollo: {

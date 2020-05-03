@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { GET_SESSION_BY_ID, UPSERT_SESSION } from "@/graphql/session";
+import { GET_SESSION_BY_ID, UPSERT_SESSION } from "@/graphql/shared";
 
 export default {
   name: "Session",
@@ -41,28 +41,26 @@ export default {
   },
   computed: {
     name() {
-        return this.obj.year + '-' + (this.obj.year+1 - 2000)
+      return this.obj.year + "-" + (this.obj.year + 1 - 2000);
     }
   },
   methods: {
     onSubmit() {
-      this.$observe(
-        this.$apollo.mutate({
-          mutation: UPSERT_SESSION,
-          variables: {
-            ...this.obj,
-            id: this.name
-          }
-        })
-      );
+      this.$mutate({
+        mutation: UPSERT_SESSION,
+        variables: {
+          ...this.obj,
+          id: this.name
+        }
+      });
     },
     reset: function() {
       if (this.$route.query.id) {
         return this.$router.push("/sessions");
       }
-    //   this.$clear(this.obj);
+      //   this.$clear(this.obj);
       this.$refs.observer.reset();
-      this.obj.year = new Date().getFullYear()
+      this.obj.year = new Date().getFullYear();
     }
   },
   apollo: {

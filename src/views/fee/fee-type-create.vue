@@ -19,7 +19,7 @@
 <script>
 import {
   UPSERT_FEETYPE
-} from "@/graphql/fee-item";
+} from "@/graphql/fee";
 
 export default {
   name: "FeeTypeCreate",

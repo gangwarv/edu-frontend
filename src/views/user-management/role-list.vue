@@ -32,7 +32,7 @@ export default {
         this.$mutate({
           mutation: DELETE_ROLE,
           variables: { id },
-          update: GET_ROLES,
+          updateQuery: GET_ROLES,
           message: "d"
         });
     }

@@ -12,8 +12,7 @@
         <div class="column is-3">
           <c-check v-model="department.isActive" id="acdept_active" label="Active" indeterminate />
         </div>
-        <div class="column is-3">
-        </div>
+        <div class="column is-3"></div>
         <BtnGroup :loading="loading" @reset="reset" />
       </div>
     </form>
@@ -21,7 +20,7 @@
 </template>
 
 <script>
-import { GET_DEPARTMENT_BY_ID, UPSERT_DEPARTMENT } from "@/graphql/department";
+import { GET_DEPARTMENT_BY_ID, UPSERT_DEPARTMENT } from "@/graphql/shared";
 
 export default {
   name: "AcDept",
@@ -36,22 +35,12 @@ export default {
   },
   methods: {
     onSubmit: function() {
-      this.$observe(
-        this.$apollo.mutate({
-          mutation: UPSERT_DEPARTMENT,
-          variables: {
-            ...this.department
-          }
-          // update: (store, { data: { addAcDept } }) => {
-          //   const data = store.readQuery({ query: GET_AC_DEPTS });
-          //   data.acDepts = data.acDepts.filter(x => x.id !== addAcDept.id);
-          //   if (!data.acDepts.some(x => x.id === addAcDept.id)) {
-          //     data.acDepts.push(addAcDept);
-          //   }
-          //   store.writeQuery({ query: GET_AC_DEPTS, data });
-          // }
-        })
-      );
+      this.$mutate({
+        mutation: UPSERT_DEPARTMENT,
+        variables: {
+          ...this.department
+        }
+      });
     },
     reset: function() {
       if (this.$route.query.id) {

@@ -14,14 +14,14 @@
         </div>
         <div class="column is-6"></div>
         <BtnGroup :loading="loading" @reset="reset" />
-      <b-loading :is-full-page="true" :active.sync="loading" :can-cancel="false"></b-loading>
+        <b-loading :is-full-page="true" :active.sync="loading" :can-cancel="false"></b-loading>
       </div>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/category";
+import { GET_CATEGORY_BY_ID, UPSERT_CATEGORY } from "@/graphql/shared";
 
 export default {
   name: "Category",
@@ -36,22 +36,21 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$observe(
-        this.$apollo.mutate({
-          mutation: UPSERT_CATEGORY,
-          variables: {
-            ...this.category
-          }
-        })
-      ).then(
-        ({
-          data: {
-            addCategory: { id }
-          }
-        }) => {
-          this.category.id = id;
+      this.$mutate({
+        mutation: UPSERT_CATEGORY,
+        variables: {
+          ...this.category
         }
-      );
+      });
+      // .then(
+      //   ({
+      //     data: {
+      //       addCategory: { id }
+      //     }
+      //   }) => {
+      //     this.category.id = id;
+      //   }
+      // );
     },
     reset: function() {
       if (this.$route.query.id) {

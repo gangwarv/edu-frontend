@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { GET_FEETYPES, DELETE_FEEITEM } from "@/graphql/fee-item";
+import { GET_FEETYPES, DELETE_FEEITEM } from "@/graphql/fee";
 
 export default {
   name: "FeeItemList",
@@ -32,7 +32,7 @@ export default {
         this.$mutate({
           mutation: DELETE_FEEITEM,
           variables: { id },
-          update: GET_FEETYPES,
+          updateQuery: GET_FEETYPES,
           message: "d"
         });
     }

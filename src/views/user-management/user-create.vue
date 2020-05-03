@@ -92,11 +92,10 @@ export default {
   name: "UserCreate",
   methods: {
     onSubmit() {
-      this.$observe(this.$apollo.mutate({
-          mutation: UPSERT_USER,
-          variables: this.user
-        })
-      );
+      this.$mutate({
+        mutation: UPSERT_USER,
+        variables: this.user
+      });
     },
     reset() {
       if (this.$route.query.id) {

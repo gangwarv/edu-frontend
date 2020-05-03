@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { GET_CATEGORIES } from "@/graphql/category";
+import { GET_CATEGORIES } from "@/graphql/shared";
 
 export default {
   name: "HelloWorld",

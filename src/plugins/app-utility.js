@@ -2,36 +2,36 @@
 
 export default {
   install(Vue) {
-    Vue.prototype.$observe = function(httpPromise, msg = "") {
-      let self = this;
-      self.loading = true;
-      let message =
-        msg.toLowerCase() === "delete" || msg === "D"
-          ? "Record deleted successfully!"
-          : msg == ""
-          ? "Data saved successfully!"
-          : msg;
+    // Vue.prototype.$observe = function(httpPromise, msg = "") {
+    //   let self = this;
+    //   self.loading = true;
+    //   let message =
+    //     msg.toLowerCase() === "delete" || msg === "D"
+    //       ? "Record deleted successfully!"
+    //       : msg == ""
+    //       ? "Data saved successfully!"
+    //       : msg;
 
-      return httpPromise
-        .then(function(res) {
-          self.loading = false;
-          alert(message);
-          return res;
-        })
-        .catch(function(err) {
-          self.loading = false;
-          let message = "";
-          try {
-            message = err.networkError.result.errors[0].message;
-          } catch (error) {
-            message = err.message.split(":")[0];
-            message += ": ";
-            message += err.message.split(":")[1];
-          }
+    //   return httpPromise
+    //     .then(function(res) {
+    //       self.loading = false;
+    //       alert(message);
+    //       return res;
+    //     })
+    //     .catch(function(err) {
+    //       self.loading = false;
+    //       let message = "";
+    //       try {
+    //         message = err.networkError.result.errors[0].message;
+    //       } catch (error) {
+    //         message = err.message.split(":")[0];
+    //         message += ": ";
+    //         message += err.message.split(":")[1];
+    //       }
 
-          alert(message);
-        });
-    };
+    //       alert(message);
+    //     });
+    // };
 
     Vue.prototype.$clear = function(obj) {
       //   const obj = { ...object };
@@ -60,7 +60,7 @@ export default {
       let self = this;
       self.loading = true;
 
-      let { message, update, ...option } = options;
+      let { message, updateQuery, ...option } = options;
       message =
         message === "d" //|| message === "D"
           ? "Record deleted successfully!"
@@ -68,7 +68,7 @@ export default {
           ? "Data saved successfully!"
           : message;
 
-      if (update) option.update = customUpdate(update);
+      if (updateQuery) option.update = customUpdate(updateQuery);
 
       return this.$apollo
         .mutate(option)
@@ -96,13 +96,10 @@ export default {
 
 function customUpdate(query) {
   return function(store, { data }) {
-    console.log("plugin 0.1");
     const deletedObjKey = Object.keys(data)[0];
-    console.log("deletedobj", data);
     const id = data[deletedObjKey].id;
     data = store.readQuery({ query });
     const collectionArrayKey = Object.keys(data);
-    console.log("collection", data);
     data[collectionArrayKey] = data[collectionArrayKey].filter(
       (x) => x.id !== id
     );

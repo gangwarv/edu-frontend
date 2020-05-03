@@ -39,7 +39,7 @@ import {
   GET_FEEITEM_BY_ID,
   UPSERT_FEEITEM,
   GET_FEETYPES
-} from "@/graphql/fee-item";
+} from "@/graphql/fee";
 
 export default {
   name: "FeeItemCreate",

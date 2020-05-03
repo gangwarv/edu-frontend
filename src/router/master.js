@@ -1,12 +1,12 @@
 
-const Course = () => import('@/views/master/course-create')
-const Courses = () => import('@/views/master/course-list')
-const AcDepts = () => import('@/views/master/department-list')
-const AcDept = () => import('@/views/master/department-create')
-const Categories = () => import('@/views/master/category-list')
-const Category = () => import('@/views/master/category-create')
-const Sessions = () => import('@/views/master/session-list')
-const Session = () => import('@/views/master/session-create')
+const Course = () => import('@/views/shared/course-create')
+const Courses = () => import('@/views/shared/course-list')
+const AcDepts = () => import('@/views/shared/department-list')
+const AcDept = () => import('@/views/shared/department-create')
+const Categories = () => import('@/views/shared/category-list')
+const Category = () => import('@/views/shared/category-create')
+const Sessions = () => import('@/views/shared/session-list')
+const Session = () => import('@/views/shared/session-create')
 
 
 export default [

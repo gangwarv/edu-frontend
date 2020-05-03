@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { GET_ALL_SESSIONS } from "@/graphql/session";
+import { GET_ALL_SESSIONS } from "@/graphql/shared";
 
 export default {
   name: "SessionList",

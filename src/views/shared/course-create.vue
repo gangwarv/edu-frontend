@@ -5,7 +5,7 @@
       <Loader v-if="$apollo.queries.course.loading" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
-          <ValidationProvider name="code" rules="" v-slot="{ errors }">
+          <ValidationProvider name="code" rules v-slot="{ errors }">
             <c-input v-model="course.code" label="Code" type="text" :errors="errors" />
           </ValidationProvider>
         </div>
@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/course";
-import { GET_ALL_DEPARTMENTS } from "@/graphql/department";
+import { GET_COURSE_BY_ID, UPSERT_COURSE } from "@/graphql/shared";
+import { GET_ALL_DEPARTMENTS } from "@/graphql/shared";
 
 export default {
   name: "Course",
@@ -71,13 +71,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$observe(this.$apollo.mutate({
-          mutation: UPSERT_COURSE,
-          variables: {
-            ...this.course
-          }
-        })
-      );
+      this.$mutate({
+        mutation: UPSERT_COURSE,
+        variables: {
+          ...this.course
+        }
+      });
     },
     reset() {
       if (this.$route.query.id) {

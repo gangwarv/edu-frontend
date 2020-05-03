@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { GET_ALL_DEPARTMENTS, REMOVE_DEPARTMENT } from "@/graphql/department";
+import { GET_ALL_DEPARTMENTS, REMOVE_DEPARTMENT } from "@/graphql/shared";
 
 export default {
   name: "AcDeptList",
@@ -29,7 +29,7 @@ export default {
         this.$mutate({
           mutation: REMOVE_DEPARTMENT,
           variables: { id },
-          update: GET_ALL_DEPARTMENTS,
+          updateQuery: GET_ALL_DEPARTMENTS,
           message: "d"
         });
     },
