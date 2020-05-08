@@ -7,6 +7,7 @@ export const GET_COURSES = gql`
       code
       type
       name
+      duration
       departmentName
     }
   }

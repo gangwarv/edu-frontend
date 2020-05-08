@@ -19,7 +19,7 @@ export default {
   name: "FeeItemList",
   data: function() {
     return {
-      columns: ["id", "name", "typeName", "isActive"],
+      columns: ["id", "name", "groupName", "isActive"],
       error: null
     };
   },

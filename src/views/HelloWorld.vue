@@ -20,7 +20,7 @@
       </b-field>
       <c-multiselect label="Fruits" :options="options" :isLoading="loading" v-model="fruit" />
       <c-timepicker label="Time" :max-time="new Date()" v-model="date" />
-      <c-datepicker label="Date" :max-date="new Date()" v-model="date" />
+      <c-datepicker label="Date" :max-date="new Date()"  />
       <div class="field">
         <label class="label">Username</label>
         <div class="control has-icons-left has-icons-right">
@@ -155,7 +155,7 @@ export default {
   },
   data() {
     return {
-      date: new Date().toJSON(),
+      date: new Date(),
       fruit: ["Ant"],
       options: ["Apple", "Ant", "Ball", "Bowl"],
       loading: true,

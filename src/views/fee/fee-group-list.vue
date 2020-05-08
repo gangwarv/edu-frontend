@@ -1,10 +1,10 @@
 <template>
   <div class="box">
-    <PageHeader header-text="Fee Type List" to="/feetype" link-text="Add New" />
+    <PageHeader header-text="Fee Group List" to="/feegroup" link-text="Add New" />
     <c-table
-      :loading="$apollo.queries.feeTypes.loading"
+      :loading="$apollo.queries.feeGroups.loading"
       :columns="columns"
-      :data="feeTypes"
+      :data="feeGroups"
       :buttons="['edit', 'remove']"
       @edit="edit"
       @remove="remove"
@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import { GET_FEETYPES, DELETE_FEEITEM } from "@/graphql/fee";
+import { GET_FEEGROUPS, DELETE_FEEGROUP } from "@/graphql/fee";
 
 export default {
-  name: "FeeItemList",
+  name: "FeeGroupList",
   data: function() {
     return {
       columns: ["id", "name"],
@@ -25,20 +25,20 @@ export default {
   },
   methods: {
     edit({ id, name }) {
-      this.$router.push({ path: "feetype", query: { id, name } });
+      this.$router.push({ path: "feegroup", query: { id, name } });
     },
     remove({ id }) {
       if (confirm("Are you sure?"))
         this.$mutate({
-          mutation: DELETE_FEEITEM,
+          mutation: DELETE_FEEGROUP,
           variables: { id },
-          updateQuery: GET_FEETYPES,
+          updateQuery: GET_FEEGROUPS,
           message: "d"
         });
     }
   },
   apollo: {
-    feeTypes: GET_FEETYPES
+    feeGroups: GET_FEEGROUPS
   }
 };
 </script>

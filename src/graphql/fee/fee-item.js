@@ -5,7 +5,6 @@ export const GET_FEEITEMS = gql`
     feeItems(isActive: true) {
       id
       name
-      typeName
     }
   }
 `;
@@ -16,8 +15,8 @@ export const GET_ALL_FEEITEMS = gql`
       id
       name
       isActive
-      type
-      typeName
+      group
+      groupName
     }
   }
 `;
@@ -28,8 +27,8 @@ export const GET_FEEITEM_BY_ID = gql`
       id
       name
       isActive
-      type
-      typeName
+      group
+      groupName
     }
   }
 `;
@@ -41,12 +40,12 @@ export const UPSERT_FEEITEM = gql`
     $isActive: Boolean!
     $type: String!
   ) {
-    addFeeItem(id: $id, name: $name, isActive: $isActive, type: $type) {
+    addFeeItem(id: $id, name: $name, isActive: $isActive, group: $type) {
       id
       name
       isActive
-      type
-      typeName
+      group
+      groupName
     }
   }
 `;
@@ -60,25 +59,25 @@ export const DELETE_FEEITEM = gql`
 
 /// FeeType
 
-export const GET_FEETYPES = gql`
-  query GetFeeTypes {
-    feeTypes {
+export const GET_FEEGROUPS = gql`
+  query GetFeeGroups {
+    feeGroups {
       id
       name
     }
   }
 `;
-export const DELETE_FEETYPE = gql`
-  mutation DeleteFeeType($id: String!) {
-    deleteFeeType(id: $id) {
+export const DELETE_FEEGROUP = gql`
+  mutation DeleteFeeGroup($id: String!) {
+    deleteFeeGroup(id: $id) {
       id
       name
     }
   }
 `;
-export const UPSERT_FEETYPE = gql`
-  mutation AddFeeType($id: String, $name: String!) {
-    addFeeType(id: $id, name: $name) {
+export const UPSERT_FEEGROUP = gql`
+  mutation AddFeeGroup($id: String, $name: String!) {
+    addFeeGroup(id: $id, name: $name) {
       id
       name
     }

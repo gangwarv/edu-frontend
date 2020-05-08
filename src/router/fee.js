@@ -1,6 +1,6 @@
 
-const FeeTypeList = () => import('@/views/fee/fee-type-list')
-const FeeTypeCreate = () => import('@/views/fee/fee-type-create')
+const FeeGroupList = () => import('@/views/fee/fee-group-list')
+const FeeGroupCreate = () => import('@/views/fee/fee-group-create')
 const FeeItemList = () => import('@/views/fee/fee-item-list')
 const FeeItemCreate = () => import('@/views/fee/fee-item-create')
 
@@ -11,14 +11,14 @@ const FeeStructCreate = () => import('@/views/fee/fee-structure-create')
 
 export default [
     {
-        path: 'feetypes',
-        name: 'feetypes',
-        component: FeeTypeList
+        path: 'feegroups',
+        name: 'feegroups',
+        component: FeeGroupList
     },
     {
-        path: 'feetype',
-        name: 'feetype',
-        component: FeeTypeCreate
+        path: 'feegroup/:id?',
+        name: 'feegroup',
+        component: FeeGroupCreate
     },
     {
         path: 'feeitems',
@@ -36,7 +36,7 @@ export default [
         component: FeeStructList
     },
     {
-        path: 'feestructure',
+        path: 'feestructure/:id?',
         name: 'feestructure',
         component: FeeStructCreate
     },

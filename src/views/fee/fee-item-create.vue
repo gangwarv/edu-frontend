@@ -12,12 +12,12 @@
         <div class="column is-3">
           <ValidationProvider name="Fee Type" rules="required" v-slot="{ errors }">
             <c-select
-              label="FeeType"
+              label="Fee Group"
               v-model="obj.type"
-              :options="[feeTypes, 'id', 'name']"
+              :options="[feeGroups, 'id', 'name']"
               :errors="errors"
             >
-            <router-link class="button" to="/feetype">+</router-link>
+            <!-- <router-link class="button" to="/feegroups">+</router-link> -->
             </c-select>
           </ValidationProvider>
           <div class="field">
@@ -38,7 +38,7 @@
 import {
   GET_FEEITEM_BY_ID,
   UPSERT_FEEITEM,
-  GET_FEETYPES
+  GET_FEEGROUPS
 } from "@/graphql/fee";
 
 export default {
@@ -87,7 +87,7 @@ export default {
         return !this.$route.query.id;
       }
     },
-    feeTypes: GET_FEETYPES
+    feeGroups: GET_FEEGROUPS
   }
 };
 </script>

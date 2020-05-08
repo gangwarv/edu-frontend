@@ -2,37 +2,6 @@
 
 export default {
   install(Vue) {
-    // Vue.prototype.$observe = function(httpPromise, msg = "") {
-    //   let self = this;
-    //   self.loading = true;
-    //   let message =
-    //     msg.toLowerCase() === "delete" || msg === "D"
-    //       ? "Record deleted successfully!"
-    //       : msg == ""
-    //       ? "Data saved successfully!"
-    //       : msg;
-
-    //   return httpPromise
-    //     .then(function(res) {
-    //       self.loading = false;
-    //       alert(message);
-    //       return res;
-    //     })
-    //     .catch(function(err) {
-    //       self.loading = false;
-    //       let message = "";
-    //       try {
-    //         message = err.networkError.result.errors[0].message;
-    //       } catch (error) {
-    //         message = err.message.split(":")[0];
-    //         message += ": ";
-    //         message += err.message.split(":")[1];
-    //       }
-
-    //       alert(message);
-    //     });
-    // };
-
     Vue.prototype.$clear = function(obj) {
       //   const obj = { ...object };
       // console.log('apollo in plugin',this.$apollo.mutate)

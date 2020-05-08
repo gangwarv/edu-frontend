@@ -33,9 +33,9 @@ export default {
   props: {
     label: String,
     required: { type: Boolean, default: true },
-    value: Date | String,
-    minTime: Date | String,
-    maxTime: Date | String,
+    value: Date,
+    minTime: Date,
+    maxTime: Date,
     placeholder: String,
     errors: Array
   },

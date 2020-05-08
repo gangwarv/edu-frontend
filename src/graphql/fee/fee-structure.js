@@ -23,10 +23,11 @@ export const GET_FEECATEGORIES = gql`
 
 // fee strct get
 export const GET_FEESTRUCTURE = gql`
-  query GetFs($fsSession: String!, $fsCategory: String!, $course: String!) {
+  query GetFs($fsSession: String!, $fsCategory: String, $feeType: String, $course: String) {
     feeStructure(
       fsSession: $fsSession
       fsCategory: $fsCategory
+      feeType: $feeType
       course: $course
     ) {
       id

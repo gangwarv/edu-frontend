@@ -3,7 +3,7 @@
   <div class="field">
     <label class="label">{{ label }}</label>
     <div class="field">
-      <b-checkbox :value="value" @input.native="handleInput">{{ value ? 'Yes': 'No' }}</b-checkbox>
+      <b-checkbox :value="value" @input.native="handleInput">{{ label == null ? '' : value ? 'Yes': 'No' }}</b-checkbox>
     </div>
   </div>
 </template>

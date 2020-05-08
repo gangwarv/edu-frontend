@@ -1,17 +1,17 @@
 
 <template>
   <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
-    <b-field>
-      <b-select expanded placeholder="Select" :value="value || null" @input="handleInput">
+    <!-- <b-field> -->
+      <b-select :size="size" expanded placeholder="Select" :value="value" @input="handleInput" :disabled="disabled">
+        <option v-if="defaultLabel" value="">{{ defaultLabel }}</option>
         <option
-          :selected="value==item[val] || item"
-          :key="item[val] || item"
-          v-for="item in items"
-          :value="item[val]||item"
-        >{{ item[text]||item }}</option>
+          :key="i"
+          v-for="(item, i) in items"
+          :value="item[val] || item"
+        >{{ item[text] || item}}</option>
       </b-select>
-      <slot></slot>
-    </b-field>
+      <!-- <slot></slot> -->
+    <!-- </b-field> -->
   </b-field>
 </template>
 
@@ -21,19 +21,21 @@ export default {
   props: {
     options: Array,
     label: String,
+    disabled: Boolean,
     required: { type: Boolean, default: true },
     errors: Array,
     defaultLabel: {
       type: String,
-      default: "Select"
+      // default: "Select"
     },
     value: String,
     multiple: Boolean,
-    size: Number
+    size: String
   },
   methods: {
     handleInput: function(e) {
       this.$emit("input", e);
+      this.$emit("change", e);
     }
   },
   computed: {

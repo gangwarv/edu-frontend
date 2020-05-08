@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
-      <PageHeader header-text="Fee Group" to="/feetypes" link-text="Fee Groups List" />
+      <PageHeader header-text="Fee Group" to="/feegroups" link-text="Fee Groups List" />
       <Loader v-if="$apollo.queries.loading" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
@@ -18,11 +18,11 @@
 
 <script>
 import {
-  UPSERT_FEETYPE
+  UPSERT_FEEGROUP
 } from "@/graphql/fee";
 
 export default {
-  name: "FeeTypeCreate",
+  name: "FeeGroupCreate",
   data: function() {
     return {
       obj: {
@@ -34,7 +34,7 @@ export default {
   methods: {
     onSubmit() {
       this.$mutate({
-        mutation: UPSERT_FEETYPE,
+        mutation: UPSERT_FEEGROUP,
         variables: {
           ...this.obj
         }
@@ -42,7 +42,7 @@ export default {
     },
     reset: function() {
       if (this.$route.query.id) {
-        return this.$router.push("/feetypes");
+        return this.$router.push("/feegroups");
       }
       this.$refs.observer.reset();
       this.$clear(this.obj);

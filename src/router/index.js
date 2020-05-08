@@ -88,7 +88,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   let path = "";
-  if (to.path !== "/") path = "?path=" + to.fullPath;
+  if (to.path !== "/") path = "?path=" + escape (to.fullPath);
 
   next("/login" + path);
 });

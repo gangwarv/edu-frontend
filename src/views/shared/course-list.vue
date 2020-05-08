@@ -29,6 +29,7 @@ export default {
         "code",
         "name",
         "departmentName",
+        "duration",
         "isActive",
         "admissionOpen",
         "admissionLastDate"
