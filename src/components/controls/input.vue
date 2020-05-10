@@ -1,7 +1,7 @@
 
 <template>
   <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
-    <b-input :size="size" :type="type" :disabled="disabled" :placeholder="placeholder" :readonly="readonly" :value="value" @input="handleInput"></b-input>
+    <b-input :size="size" :type="type" :placeholder="placeholder" :readonly="readonly" :value="value" @input="handleInput"></b-input>
   </b-field>
 </template>
 
@@ -11,12 +11,11 @@ export default {
   props: {
     label: String,
     size: String,
-    disabled: Boolean,
+    // disabledc: Boolean,
     readonly: Boolean,
-    required: { type: Boolean, default: true },
     isLoading: Boolean,
     type: String,
-    value: String,
+    value: [String, Number],
     placeholder: String,
     errors: Array
   },

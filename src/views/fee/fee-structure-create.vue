@@ -10,13 +10,17 @@
         <div class="column is-3">
           <strong>Session:</strong>
         </div>
-        <div class="column is-3">{{ query.fsSession }}</div>
+        <div class="column is-3">
+          <b-tag size="is-medium">{{ query.fsSession }}</b-tag>
+        </div>
         <div class="column is-3">
           <strong>Category:</strong>
         </div>
-        <div class="column is-3">{{ query.fsCategory }}</div>
+        <div class="column is-3">
+          <b-tag size="is-medium">{{ query.fsCategory }}</b-tag>
+        </div>
       </div>
-      <ValidationObserver v-slot="{ passes }" ref="observer">
+      <!-- <ValidationObserver v-slot="{ passes }" ref="observer">
         <form @submit.prevent="passes(onSubmit)">
           <div class="columns is-multiline">
             <div class="column is-3" v-if="isAcademic || isOther">
@@ -87,7 +91,7 @@
               </ValidationProvider>
             </div>
             <div class="column is-3" v-if="isAcademic">
-              <!-- All fee is not Academic by default optional (true) -->
+              All fee is not Academic by default optional (true)
               <c-check label="IsOptional" v-model="obj.isOptional"></c-check>
             </div>
           </div>
@@ -102,145 +106,227 @@
             </div>
           </div>
         </form>
-      </ValidationObserver>
+      </ValidationObserver>-->
     </div>
-    <!-- <hr />
-
-    <div class="table-container">
-      <table class="table is-fullwidth" v-if="!$apollo.loading">
-        <tr>
-          <th>Year</th>
-          <th>Even/Odd</th>
-          <th>FeeItem</th>
-          <th>Amount</th>
-          <th>FromDate</th>
-          <th>DueDate</th>
-          <th>isOptional</th>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-             <c-select
-              size="is-small"
-              :options="[[{id:'',name:'Yearly'},{id:'odd',name:'Odd'},{id:'even',name:'Even'}], 'id', 'name']"
-            ></c-select>
-            <b-field>
-               <b-radio-button
-                size="is-small"
-                v-model="oddEven"
-                native-value
-                type="is-light is-success"
-              >
-                <b-icon icon="circle" pack="fa"></b-icon>
-                <span>Yearly</span>
-              </b-radio-button>
-              <b-radio-button
-                size="is-small"
-                v-model="oddEven"
-                native-value="Odd"
-                type="is-link is-light"
-              >
-                <b-icon icon="adjust" pack="fa"></b-icon>
-                <span>Odd</span>
-              </b-radio-button>
-              <b-radio-button
-                size="is-small"
-                v-model="oddEven"
-                native-value="Even"
-                type="is-link is-light"
-              >
-                <b-icon icon="adjust" custom-class="fa-flip-horizontal" pack="fa"></b-icon>
-                <span>Even</span>
-              </b-radio-button>
-            </b-field>
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-      <div style="height:360px"></div>
-    </div>-->
-
-    <c-table
-      :loading="$apollo.queries.feeStructure.loading"
-      :columns="columns"
-      :data="feeStructure"
-      :buttons="['edit', 'remove']"
-    />
+    <hr />
+    <ValidationObserver v-slot="{ passes }" ref="observer">
+      <form @submit.prevent="passes(onSubmit)">
+        <div class="table-container">
+          <table class="table is-fullwidth is-striped is-narrow" v-if="!$apollo.loading">
+            <tr>
+              <td colspan="2">
+                <a class="is-link" @click="addNew">Add New</a>
+              </td>
+            </tr>
+            <tr>
+              <th style="width:10px">#</th>
+              <th v-if="isAcademic || isOther">Course</th>
+              <th v-if="isAcademic">Year</th>
+              <th v-if="isAcademic">Label</th>
+              <th>FeeItem</th>
+              <th style="width:150px">Amount</th>
+              <th>FromDate</th>
+              <th>DueDate</th>
+              <th v-if="isAcademic">isOptional</th>
+              <th>x</th>
+            </tr>
+            <tr
+              :key="obj.id"
+              v-for="(obj,i) in activeFeeStructure"
+              class="has-background-light newTr"
+            >
+              <td>{{ i+1 }}</td>
+              <td v-if="isAcademic || isOther">
+                <v-select
+                  :name="`Course ${i}`"
+                  rules="required"
+                  size="is-small"
+                  v-model="obj.course"
+                  :options="[courses]"
+                  :readonly="isAcademic"
+                  :disabled="isAcademic"
+                />
+              </td>
+              <td v-if="isAcademic">
+                <v-select
+                  :name="`Year ${i}`"
+                  rules="required"
+                  size="is-small"
+                  v-model="obj.year"
+                  :options="[getYears(obj.course)]"
+                />
+              </td>
+              <td v-if="isAcademic">
+                <v-input size="is-small" v-model="obj.label" placeholder="Label" />
+              </td>
+              <td>
+                <v-select
+                  :name="`Fee Item ${i}`"
+                  rules="required"
+                  size="is-small"
+                  v-model="obj.feeItem"
+                  :options="[feeItems]"
+                />
+              </td>
+              <td>
+                <v-input
+                  :name="`Fee Amount ${i}`"
+                  rules="required"
+                  size="is-small"
+                  v-model="obj.feeAmount"
+                  type="number"
+                  placeholder="Amount"
+                />
+              </td>
+              <td>
+                <v-datepicker
+                  :name="`From Date ${i}`"
+                  :id="'FromDate'+i"
+                  rules=""
+                  size="is-small"
+                  v-model="obj.fromDate"
+                  :min-date="new Date()"
+                />
+              </td>
+              <td>
+                <v-datepicker
+                  :name="`Due Date ${i}`"
+                  rules=""
+                  size="is-small"
+                  v-model="obj.dueDate"
+                  :min-date="new Date()"
+                />
+              </td>
+              <td v-if="isAcademic">
+                <v-check v-model="obj.isOptional" />
+              </td>
+              <td>
+                <span style="cursor:pointer" class="icon has-text-link" @click="remove(obj)">
+                  <i class="fa fa-times"></i>
+                </span>
+              </td>
+            </tr>
+          </table>
+          <div style="height:360px">
+            <btn-group @reset="reset" @submit="onSubmit" />
+          </div>
+        </div>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
-import { GET_ALL_FEEITEMS, GET_FEESTRUCTURE } from "@/graphql/fee";
+import {
+  GET_ALL_FEEITEMS,
+  GET_FEESTRUCTURE,
+  ADD_FEESTRUCTURE
+} from "@/graphql/fee";
 import { GET_COURSES } from "@/graphql/shared";
 
 export default {
   name: "FeeStructCreate",
   data: function() {
-    const { fsSession, fsCategory } = this.$route.query;
+    const { fsSession, fsCategory, course } = this.$route.query;
     let feeTypes = ["academic", "non-academic", "other"];
     return {
-      query: { fsSession, fsCategory, feeType: feeTypes[2] },
-      obj: {
-        id: null,
-        feeType: null,
-        fsCategory,
-        fsSession,
-        course: null,
-        feeAmount: null,
-        feeItem: null,
-        feeDate: new Date(),
-        dueDate: new Date(),
-        isOptional: false,
-        label: null,
-        year: null
-      },
-      columns: ["id", "course", "feeItem", "year"],
-      // feeTypes: ["academic", "non-academic", "other"],
-      years: [],
-      error: null
+      query: { fsSession, fsCategory, course, feeType: feeTypes[0] },
+      feeStructure: [],
+      feeStructurePersisted: []
     };
   },
   methods: {
-    courseChange(e) {
+    addNew() {
+      this.feeStructure.unshift({
+        id: null,
+        feeType: null,
+        fsCategory: null,
+        fsSession: null,
+        feeAmount: null,
+        feeItem: null,
+        fromDate: new Date(),
+        dueDate: null,
+        isOptional: false,
+        label: null,
+        year: null,
+        course: null,
+        ...this.query
+      });
+    },
+    remove(obj) {
+      if (!obj.id)
+        return this.feeStructure.splice(this.feeStructure.indexOf(obj), 1);
+
+      obj.isDeleted = true;
+      obj.label = "true";
+    },
+    reset() {
+      this.$refs.observer.reset();
+      this.feeStructure = this.feeStructurePersisted.map(x => ({ ...x }));
+    },
+    getYears(e) {
       if (!e) {
-        this.years = [];
-        return;
+        return [];
       }
       let duration = this.courses.find(x => x.id === e).duration.split("-");
       let years = parseInt(duration[0]);
       years = duration[1] === "Y" ? years : years / 2;
-      years = new Array(years)
-        .fill(0)
-        .map((x, id) => ({ id: (id + 1).toString(), name: `${id + 1}-Year` }));
-      this.years = years;
+
+      return this.years.slice(0, years);
     },
-    edit() {},
-    onAddOrUpdate() {},
-    reset() {}
-    // onSearch() {
-    //   console.log("search");
-    // },
-    // typeChange(type) {
-    //   console.log(type);
-    //   if (type === "non-academic") {
-    //     this.obj.course = null;
-    //     this.obj.year = null;
-    //     this.years = [];
-    //   }
-    // }
+    onSubmit() {
+      const rows = this.activeFeeStructure.map(
+        x => x.course + x.year + x.label + x.feeItem
+      );
+      let dup = rows.filter((x, i, a) => i == a.lastIndexOf(x));
+      let dupComb = dup
+        .map(d =>
+          rows.reduce((acc, s, i) => {
+            if (d === s) acc.push(i);
+            return acc;
+          }, [])
+        )
+        .filter(l => l.length > 1);
+      if (dupComb.length) {
+        const msg = dupComb
+          .map(x => `(${x.map(i => i + 1).toString()})`)
+          .join(" & ");
+        alert("Please check these combination of rows. " + msg);
+        return;
+      }
+      console.log("submit", rows, this.feeStructure);
+      this.$mutate({
+        mutation: ADD_FEESTRUCTURE,
+        variables:{
+            fs: JSON.stringify(this.feeStructure,null,5)
+          }
+      });
+    }
   },
   apollo: {
     feeStructure: {
       query: GET_FEESTRUCTURE,
       variables() {
         return { ...this.$route.query };
+      },
+      manual: true,
+      result({ loading, data }) {
+        if (!loading) {
+          this.feeStructure = data.feeStructure.map(x => ({
+            ...x,
+            isDeleted: false
+          }));
+          this.feeStructurePersisted = this.feeStructure.map(x => ({ ...x }));
+        }
       }
     },
-    feeItems: GET_ALL_FEEITEMS,
+    feeItems: {
+      query: GET_ALL_FEEITEMS
+      // result({ loading, data }) {
+      //   if (!loading)
+      //     console.log(data.feeItems, this.feeStructure, this.courses);
+      // }
+    },
     courses: GET_COURSES
   },
   computed: {
@@ -252,8 +338,28 @@ export default {
     },
     isOther() {
       return this.query.feeType === "other";
+    },
+    years() {
+      return this.$store.getters.years;
+    },
+    activeFeeStructure() {
+      return this.feeStructure.filter(x => !x.isDeleted);
     }
   }
 };
 </script>
-
+<style scoped>
+.newTr {
+  animation: slide-up 0.4s ease;
+}
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

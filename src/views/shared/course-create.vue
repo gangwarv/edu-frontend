@@ -40,7 +40,7 @@
           </ValidationProvider>
         </div>
         <div class="column is-3">
-          <c-check v-model="course.isActive" id="s" label="Active" indeterminate />
+          <c-check v-model="course.isActive" label="Active" />
         </div>
         <div class="column is-3"></div>
         <BtnGroup :loading="loading" @reset="reset" />

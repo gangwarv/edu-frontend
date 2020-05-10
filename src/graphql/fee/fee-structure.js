@@ -23,7 +23,12 @@ export const GET_FEECATEGORIES = gql`
 
 // fee strct get
 export const GET_FEESTRUCTURE = gql`
-  query GetFs($fsSession: String!, $fsCategory: String, $feeType: String, $course: String) {
+  query GetFeeStructure(
+    $fsSession: String!
+    $fsCategory: String!
+    $feeType: String!
+    $course: String
+  ) {
     feeStructure(
       fsSession: $fsSession
       fsCategory: $fsCategory
@@ -37,7 +42,24 @@ export const GET_FEESTRUCTURE = gql`
       fsCategory
       feeItem
       feeAmount
-      oddEven
+      label
+      isOptional
+    }
+  }
+`;
+export const ADD_FEESTRUCTURE = gql`
+  mutation AddFeeStructure($fs:String!) {
+    addFeeStructure(
+      fs:$fs
+    ) {
+      id
+      fsSession
+      course
+      year
+      fsCategory
+      feeItem
+      feeAmount
+      label
       isOptional
     }
   }

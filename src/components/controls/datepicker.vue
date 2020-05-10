@@ -2,6 +2,7 @@
 <template>
   <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
     <b-datepicker
+    :id="id"
       :size="size"
       :value="value"
       :min-date="minDate"
@@ -16,18 +17,14 @@
     </b-datepicker>
   </b-field>
 </template>
-<style>
-/* .datepicker.is-danger input {
-  border: 1px solid #ff3860;
-} */
-</style>
+
 <script>
 export default {
   name: "CDatepicker",
   props: {
+    id:String,
     label: String,
     size: String,
-    // required: { type: Boolean, default: true },
     value: Date,
     minDate: Date,
     maxDate: Date,

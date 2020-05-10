@@ -13,102 +13,124 @@ export default new Vuex.Store({
     auth: JSON.parse(sessionStorage.getItem("e1d2u3e4r5p6")),
     courseTypes: [
       {
-        text: "UG",
-        value: "UG",
+        name: "UG",
+        id: "UG",
         isActive: true,
       },
       {
-        text: "PG",
-        value: "PG",
+        name: "PG",
+        id: "PG",
         isActive: true,
       },
       {
-        text: "INT",
-        value: "INT",
+        name: "INT",
+        id: "INT",
         isActive: true,
       },
-      // {
-      //     text: "PHD",
-      //     value: "PHD",
-      //     isActive: false
-      // },
       {
-        text: "DIPLOMA",
-        value: "UGD",
+        name: "DIPLOMA",
+        id: "UGD",
         isActive: false,
       },
       {
-        text: "PG DIPLOMA",
-        value: "PGD",
+        name: "PG DIPLOMA",
+        id: "PGD",
         isActive: false,
       },
       {
-        text: "DOCTORATE",
-        value: "PHD",
+        name: "DOCTORATE",
+        id: "PHD",
         isActive: false,
       },
     ],
     courseDurations: [
       {
-        text: "1-Year",
-        value: "1-Y",
+        name: "1-Year",
+        id: "1-Y",
         isActive: false,
       },
       {
-        text: "2-Year",
-        value: "2-Y",
+        name: "2-Year",
+        id: "2-Y",
         isActive: false,
       },
       {
-        text: "3-Year",
-        value: "3-Y",
+        name: "3-Year",
+        id: "3-Y",
         isActive: true,
       },
       {
-        text: "4-Year",
-        value: "4-Y",
+        name: "4-Year",
+        id: "4-Y",
         isActive: false,
       },
       {
-        text: "5-Year",
-        value: "5-Y",
+        name: "5-Year",
+        id: "5-Y",
         isActive: true,
       },
       {
-        text: "4-Semester",
-        value: "4-S",
+        name: "4-Semester",
+        id: "4-S",
         isActive: true,
       },
       {
-        text: "6-Semester",
-        value: "6-S",
+        name: "6-Semester",
+        id: "6-S",
         isActive: true,
       },
       {
-        text: "8-Semester",
-        value: "8-S",
+        name: "8-Semester",
+        id: "8-S",
         isActive: true,
       },
       {
-        text: "10-Semester",
-        value: "10-S",
+        name: "10-Semester",
+        id: "10-S",
         isActive: false,
       },
     ],
     genders: [
       {
-        text: "Male",
-        value: "Male",
+        name: "Male",
+        id: "Male",
         isActive: true,
       },
       {
-        text: "Female",
-        value: "Female",
+        name: "Female",
+        id: "Female",
         isActive: true,
       },
       {
-        text: "Other",
-        value: "Other",
+        name: "Other",
+        id: "Other",
+        isActive: true,
+      },
+    ],
+    years: [
+      {
+        name: "1-Year",
+        id: "1",
+        isActive: true,
+      },
+      {
+        name: "2-Year",
+        id: "2",
+        isActive: true,
+      },
+      {
+        name: "3-Year",
+        id: "3",
+        isActive: true,
+      },
+      {
+        name: "4-Year",
+        id: "4",
+        isActive: true,
+      },
+      {
+        name: "5-Year",
+        id: "5",
         isActive: true,
       },
     ],
@@ -126,24 +148,26 @@ export default new Vuex.Store({
     topMenus(state, getters) {
       return getters.menus.filter((x) => x.position === "top");
     },
-    // leftMenus(state, getters) {
-    //   return getters.menus.filter((x) => x.position === "left");
-    // },
     modules(state, getters) {
       return getters.menus
         .map((x) => x.module)
         .filter((m, i, ar) => ar.indexOf(m) === i)
         .map((module) => ({
           name: module,
-          menus: getters.menus.filter((lm) => lm.module === module && lm.position == 'left'),
+          menus: getters.menus.filter(
+            (lm) => lm.module === module && lm.position == "left"
+          ),
         }))
-        .filter(x=>x.menus.length);
+        .filter((x) => x.menus.length);
     },
     courseTypes(state) {
       return state.courseTypes.filter((x) => x.isActive);
     },
     courseDurations(state) {
       return state.courseDurations.filter((x) => x.isActive);
+    },
+    years(state) {
+      return state.years;
     },
   },
   mutations: {

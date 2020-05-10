@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     edit({ course, fsSession, fsCategory }) {
-      this.$router.push({ path: "feestructure", query: { course, fsSession, fsCategory } });
+      this.$router.push({ path: "feestructure", query: { course, fsSession, fsCategory, feeType:'academic' } });
     }
   },
   apollo: {
@@ -51,10 +51,9 @@ export default {
     },
     feeCategories: {
       query: GET_FEECATEGORIES,
-    //   result({ data, loading }) {
-    //     console.log(data, loading);
-    //     if (!loading && data.feeCategories) this.fsCategory = data.feeCategories[0].id;
-    //   }
+      result({ data, loading }) {
+        if (!loading && data.feeCategories) this.fsCategory = data.feeCategories[0].id;
+      }
     }
   }
 };
