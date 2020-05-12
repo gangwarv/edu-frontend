@@ -3,11 +3,22 @@ import gql from "graphql-tag";
 export const GET_COURSES_FEESTRUCTURE = gql`
   query GetList($fsSession: String!, $fsCategory: String!) {
     feeStructures(fsSession: $fsSession, fsCategory: $fsCategory) {
-      id
       fsSession
       course
       courseName
       fsCategory
+      academic {
+        sum
+        count
+      }
+      nonAcademic {
+        sum
+        count
+      }
+      other {
+        sum
+        count
+      }
     }
   }
 `;
@@ -37,30 +48,34 @@ export const GET_FEESTRUCTURE = gql`
     ) {
       id
       fsSession
+      fsCategory
+      feeType
       course
       year
-      fsCategory
       feeItem
       feeAmount
       label
       isOptional
+      fromDate
+      dueDate
     }
   }
 `;
 export const ADD_FEESTRUCTURE = gql`
-  mutation AddFeeStructure($fs:String!) {
-    addFeeStructure(
-      fs:$fs
-    ) {
+  mutation AddFeeStructure($fs: [FeeStructureInput!]!) {
+    addFeeStructure(fs: $fs) {
       id
       fsSession
+      fsCategory
+      feeType
       course
       year
-      fsCategory
       feeItem
       feeAmount
       label
       isOptional
+      fromDate
+      dueDate
     }
   }
 `;

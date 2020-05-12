@@ -1,6 +1,11 @@
 <template>
-  <div class="control">
-    <button class="button is-primary is-relative is-outlined is-pulled-right" @click="$emit('click')" style="top:30px">
+  <div class="control" 
+      style="top:30px">
+    <button
+      :class="['button is-primary is-outlined is-pulled-right', {'is-loading': loading }]"
+      :disabled="loading"
+      @click="$emit('click')"
+    >
       <span class="icon">
         <i class="fas fa-search"></i>
       </span>
@@ -11,6 +16,7 @@
 
 <script>
 export default {
-  name: "BtnSearch"
+  name: "BtnSearch",
+  props: ["loading"]
 };
 </script>

@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-one-quarters-mobile" v-if="actions.length">
+      <div class="column is-one-quarters-mobile" v-if="actionParsed.length">
         <b-dropdown
           aria-role="list"
           :mobile-modal="false"
@@ -31,11 +31,11 @@
           </button>
 
           <b-dropdown-item
-            :key="action"
-            v-for="action in actions"
-            @click="actionPerformed(action)"
+            :key="action.text"
+            v-for="action in actionParsed"
+            @click="actionPerformed(action.eventName)"
             aria-role="listitem"
-          >{{ action }}</b-dropdown-item>
+          >{{ action.text }}</b-dropdown-item>
         </b-dropdown>
       </div>
     </div>
@@ -77,7 +77,7 @@
             <span v-else>{{ props.row[col.field] }}</span>
           </b-table-column>
 
-          <b-table-column label="Action">
+          <b-table-column label="Action" v-if="buttons.length">
             <span
               v-for="btn in buttons"
               :key="btn"
@@ -95,9 +95,11 @@
           : {{ checkedRows.length }}
         </template>
         <template slot="empty">
-          <b-message title="No Records" type="is-primary" :closable="false" >
-            Sorry! No data to display.
-        </b-message>
+          <b-message
+            title="No Records"
+            type="is-primary"
+            :closable="false"
+          >Sorry! No data to display.</b-message>
         </template>
       </b-table>
     </div>
@@ -170,6 +172,14 @@ export default {
             numeric: typeof d[k] === "number" ? true : undefined
           };
         });
+    },
+    actionParsed() {
+      if (!this.actions) return [];
+      return this.actions.map(x => {
+        if (typeof x == "string") return { text: x, eventName: x };
+
+        return x;
+      });
     }
   },
   data() {
@@ -198,7 +208,8 @@ export default {
       else
         this.$emit("change", {
           type: action.toLowerCase(),
-          data: this.checkedRows
+          data: this.checkedRows,
+          count: this.checkedRows.length === this.data.length ? -1 : this.checkedRows.length
         });
     }
   },

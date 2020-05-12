@@ -5,7 +5,8 @@
       to="/feestructures"
       link-text="Fee Structure"
     />
-    <div v-if="!$apollo.loading">
+    <Loader v-if="$apollo.loading" />
+    <div v-else>
       <div class="columns is-multiline is-mobile">
         <div class="column is-3">
           <strong>Session:</strong>
@@ -20,199 +21,116 @@
           <b-tag size="is-medium">{{ query.fsCategory }}</b-tag>
         </div>
       </div>
-      <!-- <ValidationObserver v-slot="{ passes }" ref="observer">
+      <hr />
+      <b-notification v-if="isNonAcademic"
+        type="is-warning"
+        aria-close-label="Close notification"
+        role="alert"
+      >NOTE: Non-Academic fees will be same for all courses.</b-notification>
+      <ValidationObserver v-slot="{ passes }" ref="observer">
         <form @submit.prevent="passes(onSubmit)">
-          <div class="columns is-multiline">
-            <div class="column is-3" v-if="isAcademic || isOther">
-              <ValidationProvider name="Course" rules="required" v-slot="{ errors }">
-                <c-select
-                  v-model="obj.course"
-                  :options="[courses, 'id', 'name']"
-                  defaultLabel="All"
-                  @change="courseChange"
-                  label="Course"
-                  :errors="errors"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="column is-3" v-if="isAcademic">
-              <ValidationProvider name="Year" rules="required" v-slot="{ errors }">
-                <c-select
-                  label="Year"
-                  v-model="obj.year"
-                  defaultLabel="Select"
-                  :options="[years, 'id', 'name']"
-                  :errors="errors"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="column is-3" v-if="isAcademic">
-              <c-input label="Assign a Label" v-model="obj.label" placeholder="Label"></c-input>
-            </div>
-            <div class="column is-3">
-              <ValidationProvider name="Fee Item" rules="required" v-slot="{ errors }">
-                <c-select
-                  label="Fee Item"
-                  v-model="obj.feeItem"
-                  :options="[feeItems, 'id', 'name']"
-                  :errors="errors"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="column is-3">
-              <ValidationProvider name="Fee Amount" rules="required" v-slot="{ errors }">
-                <c-input
-                  label="Fee Amount"
-                  v-model="obj.amount"
-                  type="number"
-                  placeholder="Amount"
-                  :errors="errors"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="column is-3">
-              <ValidationProvider name="From Date" rules="required" v-slot="{ errors }">
-                <c-datepicker
-                  label="From Date"
-                  v-model="obj.fromDate"
-                  :min-date="new Date()"
-                  :errors="errors"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="column is-3">
-              <ValidationProvider name="Due Date" rules="required" v-slot="{ errors }">
-                <c-datepicker
-                  label="Due Date"
-                  v-model="obj.dueDate"
-                  :min-date="new Date()"
-                  :errors="errors"
-                />
-              </ValidationProvider>
-            </div>
-            <div class="column is-3" v-if="isAcademic">
-              All fee is not Academic by default optional (true)
-              <c-check label="IsOptional" v-model="obj.isOptional"></c-check>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-3 is-offset-9">
-              <BtnGroup
-                @reset="reset"
-                @submit="onAddOrUpdate"
-                css-class="is-pulled-right"
-                :btn-submit="obj.id ? 'Update' : 'Add'"
-              />
+          <div class="table-container">
+            <table class="table is-fullwidth is-striped is-narrow">
+              <tr>
+                <td colspan="2">
+                  <a class="is-link" @click="addNew">Add New</a>
+                </td>
+              </tr>
+              <tr>
+                <th style="width:10px">#</th>
+                <th v-if="isAcademic || isOther">Course</th>
+                <th v-if="isAcademic">Year</th>
+                <th v-if="isAcademic">Label</th>
+                <th>FeeItem</th>
+                <th style="width:150px">Amount</th>
+                <th>FromDate</th>
+                <th>DueDate</th>
+                <th v-if="isAcademic">isOptional</th>
+                <th></th>
+              </tr>
+              <tr
+                :key="obj.localId"
+                v-for="(obj,i) in activeFeeStructure"
+                class="has-background-light newTr"
+              >
+                <td>{{ i+1 }}</td>
+                <td v-if="isAcademic || isOther">
+                  <v-select
+                    :name="`Course ${i}`"
+                    rules="required"
+                    size="is-small"
+                    v-model="obj.course"
+                    :options="[courses]"
+                    :readonly="isAcademic"
+                    :disabled="isAcademic"
+                  />
+                </td>
+                <td v-if="isAcademic">
+                  <v-select
+                    :name="`Year ${i}`"
+                    rules="required"
+                    size="is-small"
+                    v-model="obj.year"
+                    :options="[getYears(obj.course)]"
+                  />
+                </td>
+                <td v-if="isAcademic">
+                  <v-input size="is-small" v-model="obj.label" placeholder="Label" />
+                </td>
+                <td>
+                  <v-select
+                    :name="`Fee Item ${i}`"
+                    rules="required"
+                    size="is-small"
+                    v-model="obj.feeItem"
+                    :options="[feeItems]"
+                  />
+                </td>
+                <td>
+                  <v-input
+                    :name="`Fee Amount ${i}`"
+                    rules="required|min_value:1"
+                    size="is-small"
+                    v-model="obj.feeAmount"
+                    type="number"
+                    placeholder="Amount"
+                  />
+                </td>
+                <td>
+                  <v-datepicker
+                    :name="`From Date ${i}`"
+                    :id="'FromDate'+i"
+                    rules="required"
+                    size="is-small"
+                    v-model="obj.fromDate"
+                  />
+                </td>
+                <td>
+                  <v-datepicker
+                    :name="`Due Date ${i}`"
+                    rules="required"
+                    size="is-small"
+                    v-model="obj.dueDate"
+                    :min-date="new Date()"
+                  />
+                </td>
+                <td v-if="isAcademic">
+                  <v-check v-model="obj.isOptional" />
+                </td>
+                <td>
+                  <span style="cursor:pointer" class="icon has-text-link" @click="remove(obj)">
+                    <i class="fa fa-times"></i>
+                  </span>
+                </td>
+              </tr>
+            </table>
+            <div style="height:360px">
+              <btn-group @reset="reset" @submit="onSubmit" />
             </div>
           </div>
         </form>
-      </ValidationObserver>-->
+      </ValidationObserver>
     </div>
-    <hr />
-    <ValidationObserver v-slot="{ passes }" ref="observer">
-      <form @submit.prevent="passes(onSubmit)">
-        <div class="table-container">
-          <table class="table is-fullwidth is-striped is-narrow" v-if="!$apollo.loading">
-            <tr>
-              <td colspan="2">
-                <a class="is-link" @click="addNew">Add New</a>
-              </td>
-            </tr>
-            <tr>
-              <th style="width:10px">#</th>
-              <th v-if="isAcademic || isOther">Course</th>
-              <th v-if="isAcademic">Year</th>
-              <th v-if="isAcademic">Label</th>
-              <th>FeeItem</th>
-              <th style="width:150px">Amount</th>
-              <th>FromDate</th>
-              <th>DueDate</th>
-              <th v-if="isAcademic">isOptional</th>
-              <th>x</th>
-            </tr>
-            <tr
-              :key="obj.id"
-              v-for="(obj,i) in activeFeeStructure"
-              class="has-background-light newTr"
-            >
-              <td>{{ i+1 }}</td>
-              <td v-if="isAcademic || isOther">
-                <v-select
-                  :name="`Course ${i}`"
-                  rules="required"
-                  size="is-small"
-                  v-model="obj.course"
-                  :options="[courses]"
-                  :readonly="isAcademic"
-                  :disabled="isAcademic"
-                />
-              </td>
-              <td v-if="isAcademic">
-                <v-select
-                  :name="`Year ${i}`"
-                  rules="required"
-                  size="is-small"
-                  v-model="obj.year"
-                  :options="[getYears(obj.course)]"
-                />
-              </td>
-              <td v-if="isAcademic">
-                <v-input size="is-small" v-model="obj.label" placeholder="Label" />
-              </td>
-              <td>
-                <v-select
-                  :name="`Fee Item ${i}`"
-                  rules="required"
-                  size="is-small"
-                  v-model="obj.feeItem"
-                  :options="[feeItems]"
-                />
-              </td>
-              <td>
-                <v-input
-                  :name="`Fee Amount ${i}`"
-                  rules="required"
-                  size="is-small"
-                  v-model="obj.feeAmount"
-                  type="number"
-                  placeholder="Amount"
-                />
-              </td>
-              <td>
-                <v-datepicker
-                  :name="`From Date ${i}`"
-                  :id="'FromDate'+i"
-                  rules=""
-                  size="is-small"
-                  v-model="obj.fromDate"
-                  :min-date="new Date()"
-                />
-              </td>
-              <td>
-                <v-datepicker
-                  :name="`Due Date ${i}`"
-                  rules=""
-                  size="is-small"
-                  v-model="obj.dueDate"
-                  :min-date="new Date()"
-                />
-              </td>
-              <td v-if="isAcademic">
-                <v-check v-model="obj.isOptional" />
-              </td>
-              <td>
-                <span style="cursor:pointer" class="icon has-text-link" @click="remove(obj)">
-                  <i class="fa fa-times"></i>
-                </span>
-              </td>
-            </tr>
-          </table>
-          <div style="height:360px">
-            <btn-group @reset="reset" @submit="onSubmit" />
-          </div>
-        </div>
-      </form>
-    </ValidationObserver>
   </div>
 </template>
 
@@ -227,10 +145,9 @@ import { GET_COURSES } from "@/graphql/shared";
 export default {
   name: "FeeStructCreate",
   data: function() {
-    const { fsSession, fsCategory, course } = this.$route.query;
-    let feeTypes = ["academic", "non-academic", "other"];
+    const { fsSession, fsCategory, course, feeType } = this.$route.query;
     return {
-      query: { fsSession, fsCategory, course, feeType: feeTypes[0] },
+      query: { fsSession, fsCategory, course, feeType },
       feeStructure: [],
       feeStructurePersisted: []
     };
@@ -250,15 +167,15 @@ export default {
         label: null,
         year: null,
         course: null,
+        // addition
+        isDeleted: false,
+        localId: Math.random().toString(),
         ...this.query
       });
     },
     remove(obj) {
-      if (!obj.id)
-        return this.feeStructure.splice(this.feeStructure.indexOf(obj), 1);
-
-      obj.isDeleted = true;
-      obj.label = "true";
+      if (!obj.id) this.feeStructure.splice(this.feeStructure.indexOf(obj), 1);
+      else obj.isDeleted = true;
     },
     reset() {
       this.$refs.observer.reset();
@@ -273,6 +190,15 @@ export default {
       years = duration[1] === "Y" ? years : years / 2;
 
       return this.years.slice(0, years);
+    },
+    setFeeStructure(fs) {
+      this.feeStructure = fs.map(x => ({
+        ...x,
+        localId: Math.random().toString(),
+        isDeleted: false
+      }));
+      // deep copy
+      this.feeStructurePersisted = this.feeStructure.map(x => ({ ...x }));
     },
     onSubmit() {
       const rows = this.activeFeeStructure.map(
@@ -294,13 +220,16 @@ export default {
         alert("Please check these combination of rows. " + msg);
         return;
       }
-      console.log("submit", rows, this.feeStructure);
       this.$mutate({
         mutation: ADD_FEESTRUCTURE,
-        variables:{
-            fs: JSON.stringify(this.feeStructure,null,5)
-          }
-      });
+        variables: {
+          fs: this.feeStructure.map(x => {
+            delete x.__typename;
+            delete x.localId;
+            return x;
+          })
+        }
+      }).then(this.setFeeStructure);
     }
   },
   apollo: {
@@ -312,20 +241,12 @@ export default {
       manual: true,
       result({ loading, data }) {
         if (!loading) {
-          this.feeStructure = data.feeStructure.map(x => ({
-            ...x,
-            isDeleted: false
-          }));
-          this.feeStructurePersisted = this.feeStructure.map(x => ({ ...x }));
+          this.setFeeStructure(data.feeStructure);
         }
       }
     },
     feeItems: {
       query: GET_ALL_FEEITEMS
-      // result({ loading, data }) {
-      //   if (!loading)
-      //     console.log(data.feeItems, this.feeStructure, this.courses);
-      // }
     },
     courses: GET_COURSES
   },
@@ -343,13 +264,18 @@ export default {
       return this.$store.getters.years;
     },
     activeFeeStructure() {
+      
+      console.log({...this.feeStructure})
       return this.feeStructure.filter(x => !x.isDeleted);
     }
   }
 };
 </script>
 <style scoped>
-.newTr {
+table tr:nth-child(3) {
+  animation: slide-up 0.4s ease;
+}
+.newTrs {
   animation: slide-up 0.4s ease;
 }
 @keyframes slide-up {

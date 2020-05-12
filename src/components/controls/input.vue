@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     handleInput: function(e) {
-      this.$emit("input", e);
+      this.$emit("input", this.type =="number" ?  parseInt(e) : e);
     }
   },
   computed: {

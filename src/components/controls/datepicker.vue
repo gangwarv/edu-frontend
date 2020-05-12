@@ -2,9 +2,9 @@
 <template>
   <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
     <b-datepicker
-    :id="id"
+      :id="id"
       :size="size"
-      :value="value"
+      :value="parsedDate"
       :min-date="minDate"
       :max-date="maxDate"
       :placeholder="placeholder"
@@ -22,10 +22,10 @@
 export default {
   name: "CDatepicker",
   props: {
-    id:String,
+    id: String,
     label: String,
     size: String,
-    value: Date,
+    value: [Date, String],
     minDate: Date,
     maxDate: Date,
     placeholder: String,
@@ -37,6 +37,9 @@ export default {
     }
   },
   computed: {
+    parsedDate() {
+      return this.value && new Date(this.value);
+    },
     hasError() {
       return this.errors && this.errors.length > 0;
     }

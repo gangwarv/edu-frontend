@@ -2,7 +2,7 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Cast Category" to="/categories" link-text="Category List" />
-      <Loader v-if="$apollo.queries.loading" />
+      <Loader v-if="$apollo.queries.category.loading" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
           <ValidationProvider name="Name" rules="required" v-slot="{ errors }">

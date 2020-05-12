@@ -44,7 +44,8 @@ export default {
         .then(function(res) {
           self.loading = false;
           alert(message);
-          return res;
+          // console.log(res.data[Object.keys(res.data)[0]])
+          return res.data[Object.keys(res.data)[0]];
         })
         .catch(function(err) {
           self.loading = false;

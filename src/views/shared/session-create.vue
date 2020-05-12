@@ -2,7 +2,7 @@
   <ValidationObserver class="box" v-slot="{ passes }" ref="observer">
     <form @submit.prevent="passes(onSubmit)">
       <PageHeader header-text="Session Create/Edit" to="/sessions" link-text="Session List" />
-      <Loader v-if="$apollo.queries.loading" />
+      <Loader v-if="$apollo.queries.session.loading" />
       <div class="columns is-multiline" v-else>
         <div class="column is-3">
           <c-input :value="name" label="Name" readonly type="text" />
@@ -19,7 +19,7 @@
           </ValidationProvider>
         </div>
         <div class="column is-9"></div>
-        <BtnGroup :loading="loading" @reset="reset" />
+        <BtnGroup :loading="loading" :submit-disabled="$route.query.id" @reset="reset" />
         <b-loading :is-full-page="true" :active.sync="loading" :can-cancel="false"></b-loading>
       </div>
     </form>

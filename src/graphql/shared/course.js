@@ -92,7 +92,7 @@ export const UPSERT_COURSE = gql`
 
 export const MODIFY_COURSES = gql`
   mutation ModifyCourses($ids: [String!]!, $command: String!, $data: String) {
-    modifyCourses(ids: $ids, command: $command, data: $data) {
+    updateCourses(ids: $ids, command: $command, data: $data) {
       id
       isActive
       admissionOpen
