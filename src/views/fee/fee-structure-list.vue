@@ -52,7 +52,8 @@ export default {
     return {
       fsSession: "",
       fsCategory: "",
-      columns: ["fsSession", "course", "courseName", "academicCount"],
+      columns: ["fsSession", "course", "courseName", "academicCount","nonAcademicCount",
+      "otherCount"],
       error: null,
       feeStructures: null
     };
@@ -79,8 +80,6 @@ export default {
       else if (type !== "academic")
         if (count != -1) return alert("please select ALL course.");
       // push
-      // console.log(query)
-
       this.$router.push({
         path: "feestructure",
         query

@@ -24,6 +24,7 @@
           :mobile-modal="false"
           class="is-pulled-right"
           position="is-bottom-left"
+          :disabled="checkedRows.length == 0"
         >
           <button class="button" slot="trigger" slot-scope="{ active }">
             <span>Action</span>
@@ -48,7 +49,7 @@
         aria-current-label="Current page"
         :paginated="isPaginated"
         :per-page="perPage"
-        :checkable="!!actions.length"
+        :checkable="!!actionParsed.length"
         :checkbox-position="checkboxPosition"
         :checked-rows.sync="checkedRows"
         :sticky-header="stickyHeaders"
@@ -204,8 +205,6 @@ export default {
       );
     },
     actionPerformed(action) {
-      if (!this.checkedRows.length) alert("Please select one or more rows.");
-      else
         this.$emit("change", {
           type: action.toLowerCase(),
           data: this.checkedRows,
