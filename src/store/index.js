@@ -134,6 +134,18 @@ export default new Vuex.Store({
         isActive: true,
       },
     ],
+    feeTypes:[
+      {
+        name: "type-1 (Course-Fee)",
+        id: "type-1",
+        isActive: true,
+      },
+      {
+        name: "type-2 (Other-Fee)",
+        id: "type-2",
+        isActive: true,
+      },
+    ]
   },
   getters: {
     auth(state) {
@@ -169,6 +181,9 @@ export default new Vuex.Store({
     years(state) {
       return state.years;
     },
+    feeTypes(state){
+      return state.feeTypes;
+    }
   },
   mutations: {
     [AUTH_SET](state, { data: data, menus }) {

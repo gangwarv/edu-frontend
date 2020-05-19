@@ -56,7 +56,8 @@ export default {
           message: `Last Date?`,
           inputAttrs: {
             type: "datetime-local",
-            min: new Date().toISOString()
+            min: new Date().toISOString(),
+            value: new Date().toISOString().substr(0,11)+'00:00'
           },
           trapFocus: true,
           onConfirm: value =>

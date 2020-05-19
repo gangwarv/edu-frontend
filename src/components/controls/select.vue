@@ -5,7 +5,7 @@
     <b-select
       :size="size"
       expanded
-      placeholder="Select"
+      :placeholder="defaultLabel || 'Select'"
       :value="value"
       @input="handleInput"
       :disabled="readonly"

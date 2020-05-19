@@ -109,6 +109,11 @@
 
 <script>
 export default {
+  watch: {
+    data() {
+      this.checkedRows = [];
+    }
+  },
   name: "CTable",
   props: {
     data: {
@@ -205,11 +210,14 @@ export default {
       );
     },
     actionPerformed(action) {
-        this.$emit("change", {
-          type: action.toLowerCase(),
-          data: this.checkedRows,
-          count: this.checkedRows.length === this.data.length ? -1 : this.checkedRows.length
-        });
+      this.$emit("change", {
+        type: action.toLowerCase(),
+        data: this.checkedRows,
+        count:
+          this.checkedRows.length === this.data.length
+            ? -1
+            : this.checkedRows.length
+      });
     }
   },
   filters: {

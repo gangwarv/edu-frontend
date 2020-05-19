@@ -36,7 +36,8 @@ export default [
         component: FeeStructList
     },
     {
-        path: 'feestructure/:id?',
+        path: 'feestructure',
+        props: (route) => ({ coursex: route.query.course }),
         name: 'feestructure',
         component: FeeStructCreate
     },

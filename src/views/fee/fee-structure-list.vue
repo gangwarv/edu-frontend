@@ -35,6 +35,7 @@
         :columns="columns"
         :data="feeStructures"
         @edit="edit"
+        :buttons="['edit']"
         :actions="[{text:'Edit-Academic-Fee', eventName:'academic'},{text:'Edit-Non-Academic-Fee', eventName:'non-academic'},{text:'Edit-Other-Fee', eventName:'other'}]"
         @change="change"
       />
@@ -62,7 +63,7 @@ export default {
     edit({ course, fsSession, fsCategory }) {
       this.$router.push({
         path: "feestructure",
-        query: { course, fsSession, fsCategory, feeType: "academic" }
+        query: { course, fsSession, fsCategory, feeType: "type-1" }
       });
     },
     change({ type, data, count }) {
@@ -80,9 +81,10 @@ export default {
       else if (type !== "academic")
         if (count != -1) return alert("please select ALL course.");
       // push
+      //console.log(query)
       this.$router.push({
-        path: "feestructure",
-        query
+        name: "feestructure",
+        query,
       });
     }
   },

@@ -39,12 +39,14 @@ export const GET_FEESTRUCTURE = gql`
     $fsCategory: String!
     $feeType: String!
     $course: String
+    $feeItem: String
   ) {
     feeStructure(
       fsSession: $fsSession
       fsCategory: $fsCategory
       feeType: $feeType
       course: $course
+      feeItem: $feeItem
     ) {
       id
       fsSession
