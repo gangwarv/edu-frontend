@@ -19,11 +19,6 @@ export default {
   name: "CategoryList",
   data: function() {
     return {
-      // columns: [
-      //   ["Id", "id"],
-      //   ["Name", "name"],
-      //   ["Active", "isActive", "boolean"]
-      // ],
       columns: ["id", "name", "isActive"],
       error: null
     };

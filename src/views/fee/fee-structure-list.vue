@@ -36,9 +36,12 @@
         :data="feeStructures"
         @edit="edit"
         :buttons="['edit']"
-        :actions="[{text:'Edit-Academic-Fee', eventName:'academic'},{text:'Edit-Non-Academic-Fee', eventName:'non-academic'},{text:'Edit-Other-Fee', eventName:'other'}]"
         @change="change"
-      />
+      >
+      <template slot="detail" slot-scope="props">
+           <span>{{JSON.stringify(props)}}</span>JJj
+         </template>
+      </c-table>
     </div>
   </div>
 </template>
@@ -53,8 +56,7 @@ export default {
     return {
       fsSession: "",
       fsCategory: "",
-      columns: ["fsSession", "course", "courseName", "academicCount","nonAcademicCount",
-      "otherCount"],
+      columns: ["fsSession", "course", "courseName"],
       error: null,
       feeStructures: null
     };
@@ -105,10 +107,7 @@ export default {
       result({ loading, data }) {
         if (!loading)
           this.feeStructures = data.feeStructures.map(x => ({
-            ...x,
-            academicCount: x.academic.count,
-            nonAcademicCount: x.nonAcademic.count,
-            otherCount: x.other.count
+            ...x
           }));
       }
     },

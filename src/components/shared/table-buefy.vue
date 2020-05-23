@@ -41,9 +41,8 @@
       </div>
     </div>
     <div class="column">
-      <Loader v-if="loading && data == null" />
+      <!-- <Loader v-if="loading && data == null" /> -->
       <b-table
-        v-else
         :data="filteredData"
         aria-page-label="Page"
         aria-current-label="Current page"
@@ -54,8 +53,9 @@
         :checked-rows.sync="checkedRows"
         :sticky-header="stickyHeaders"
         :mobile-cards="false"
-        :loading="false"
+        :loading="loading"
         narrowed
+        :detailed="!!$scopedSlots.detail"
       >
         <template slot-scope="props">
           <!-- add auto type checking of number field if needed in future-->
@@ -96,11 +96,13 @@
           : {{ checkedRows.length }}
         </template>
         <template slot="empty">
-          <b-message
-            title="No Records"
-            type="is-primary"
-            :closable="false"
-          >Sorry! No data to display.</b-message>
+          <b-notification v-if="loading" :closable="false">Loading...</b-notification>
+          <!-- <Loader v-if="loading" /> -->
+          <b-notification v-else-if="!searchText" :closable="false">Sorry! No data to display.</b-notification>
+        </template>
+        <!--Detail-->
+        <template slot="detail" slot-scope="props">
+          <slot name="detail" v-bind="props" />
         </template>
       </b-table>
     </div>
@@ -136,7 +138,7 @@ export default {
   },
   computed: {
     filteredData() {
-      if (this.data == null) return [];
+      if (this.data == null) return;
       return this.data.filter(
         x =>
           !this.searchText ||
@@ -187,6 +189,10 @@ export default {
         return x;
       });
     }
+  },
+  mounted(){
+    
+    console.log(this.$slots, this.$scopedSlots )
   },
   data() {
     return {
@@ -242,6 +248,7 @@ export default {
 <style >
 .b-table .table-wrapper.has-sticky-header {
   max-height: 500px !important;
+  min-height: 200px !important;
   height: unset;
 }
 </style>

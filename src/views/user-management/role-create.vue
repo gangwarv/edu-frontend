@@ -141,6 +141,10 @@ export default {
         },
         {
           module: "Fee Management",
+          name: "fee-structure-view"
+        },
+        {
+          module: "Fee Management",
           name: "fee-structure-crud"
         }
       ]

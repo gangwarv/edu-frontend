@@ -1,6 +1,6 @@
 <template>
   <div class="control" 
-      style="top:30px">
+       >
     <button
       :class="['button is-primary is-outlined is-pulled-right', {'is-loading': loading }]"
       :disabled="loading || disabled"

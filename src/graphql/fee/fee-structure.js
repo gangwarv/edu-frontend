@@ -7,18 +7,6 @@ export const GET_COURSES_FEESTRUCTURE = gql`
       course
       courseName
       fsCategory
-      academic {
-        sum
-        count
-      }
-      nonAcademic {
-        sum
-        count
-      }
-      other {
-        sum
-        count
-      }
     }
   }
 `;
@@ -39,6 +27,7 @@ export const GET_FEESTRUCTURE = gql`
     $fsCategory: String!
     $feeType: String!
     $course: String
+    $year: String
     $feeItem: String
   ) {
     feeStructure(
@@ -46,6 +35,7 @@ export const GET_FEESTRUCTURE = gql`
       fsCategory: $fsCategory
       feeType: $feeType
       course: $course
+      year: $year
       feeItem: $feeItem
     ) {
       id
@@ -57,9 +47,10 @@ export const GET_FEESTRUCTURE = gql`
       feeItem
       feeAmount
       label
-      isOptional
       fromDate
       dueDate
+      courseName
+      feeItemName
     }
   }
 `;
@@ -75,7 +66,6 @@ export const ADD_FEESTRUCTURE = gql`
       feeItem
       feeAmount
       label
-      isOptional
       fromDate
       dueDate
     }

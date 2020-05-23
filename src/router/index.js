@@ -13,6 +13,7 @@ const Dash = () => import("@/components/layout/dash");
 const NotFound = () => import("@/views/404");
 
 // routes
+import appSetupRoutes from "./app-setup";
 import masterRoutes from "./master";
 import userMgmtRoutes from "./user-management";
 import admissionRoutes from "./admission";
@@ -43,6 +44,7 @@ const router = new Router({
           component: HelloWorld,
           name: "Hello",
         },
+        ...appSetupRoutes,
         ...admissionRoutes,
         ...userMgmtRoutes,
         ...masterRoutes,

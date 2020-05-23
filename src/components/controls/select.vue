@@ -1,9 +1,15 @@
 
 <template>
-  <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
+  <b-field
+    :horizontal="horizontal"
+    :label="label"
+    :type="{ 'is-danger': hasError }"
+    :message="errors && errors[0]"
+  >
     <!-- <b-field> -->
     <b-select
       :size="size"
+      :horizontal="horizontal"
       expanded
       :placeholder="defaultLabel || 'Select'"
       :value="value"
@@ -26,7 +32,7 @@ export default {
     label: String,
     // disabled: Boolean,
     readonly: Boolean,
-    required: { type: Boolean, default: true },
+    horizontal: Boolean,
     errors: Array,
     defaultLabel: {
       type: String

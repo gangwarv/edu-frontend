@@ -1,6 +1,6 @@
 
 <template>
-  <b-field :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
+  <b-field :horizontal="horizontal" :label="label" :type="{ 'is-danger': hasError }" :message="errors && errors[0]">
     <b-input :size="size" :type="type" :placeholder="placeholder" :readonly="readonly" :value="value" @input="handleInput"></b-input>
   </b-field>
 </template>
@@ -12,6 +12,7 @@ export default {
     label: String,
     size: String,
     // disabledc: Boolean,
+    horizontal: Boolean,
     readonly: Boolean,
     isLoading: Boolean,
     type: String,

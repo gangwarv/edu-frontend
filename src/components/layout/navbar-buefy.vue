@@ -68,8 +68,8 @@
           </li>
         </ul>
       </nav>
-      <transition name="slide-right">
-        <router-view></router-view>
+      <transition name="fade">
+        <router-view />
       </transition>
     </section>
   </div>
@@ -115,6 +115,16 @@ export default {
 }
 
 .box {
-  min-height: 300px;
+  min-height: 500px;
+}
+.fade-enter-active {
+ transition: all .3s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.fade-enter  /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateX(20px);
 }
 </style>

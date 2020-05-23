@@ -1,4 +1,5 @@
 // import { DialogProgrammatic as Dialog } from "buefy";
+import store from '../store'
 
 export default {
   install(Vue) {
@@ -61,6 +62,8 @@ export default {
           alert(message);
         });
     };
+
+    Vue.prototype.$hasRole = hasRole
   },
 };
 
@@ -75,6 +78,9 @@ function customUpdate(query) {
     );
     store.writeQuery({ query, data });
   };
+}
+function hasRole(role){
+  return store.state.auth && store.state.auth.data.privileges.includes(role)
 }
 /*
           // Dialog.alert({
