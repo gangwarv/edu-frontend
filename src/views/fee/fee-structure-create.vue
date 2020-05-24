@@ -79,7 +79,7 @@
       <Loader v-if="$apollo.queries.feeStructure.loading" />
       <ValidationObserver v-else v-slot="{ passes }" ref="observer">
         <form @submit.prevent="passes(onSubmit)">
-          <div class="table-container">
+          <div class="table-container" style="min-height:500px">
             <table class="table is-fullwidth is-striped is-narrow">
               <tr>
                 <td colspan="2">
