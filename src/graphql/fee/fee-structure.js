@@ -2,11 +2,21 @@ import gql from "graphql-tag";
 
 export const GET_COURSES_FEESTRUCTURE = gql`
   query GetList($fsSession: String!, $fsCategory: String!) {
-    feeStructures(fsSession: $fsSession, fsCategory: $fsCategory) {
+    courseFeeStructure(fsSession: $fsSession, fsCategory: $fsCategory) {
       fsSession
-      course
-      courseName
       fsCategory
+      id
+      code
+      courseName
+      feeDetails {
+        id
+        year
+        feeItem
+        feeItemName
+        feeAmount
+        label
+        dueDate
+      }
     }
   }
 `;

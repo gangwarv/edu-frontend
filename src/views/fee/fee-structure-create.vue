@@ -2,14 +2,14 @@
   <div class="box">
     <PageHeader
       :header-text="'Fee Structure Create (' + query.feeType + ')'"
-      to="/feestructures"
+      to="/fs-courses"
       link-text="Fee Structure"
     />
     <Loader v-if="$apollo.queries.sessions.loading" />
     <div v-else>
       <ValidationObserver ref="searchObserver">
         <form>
-          <div class="columns is-multiline is-mobile">
+          <div class="columns is-mobile">
             <!-----STOP----->
             <div class="column is-4">
               <c-select
@@ -36,17 +36,18 @@
                 :options="[feeTypes, 'id', 'name']"
               ></c-select>
             </div>
-            <div class="column is-4">
+          </div>
+          <div class="columns">
+            <div class="column is-4" v-if="isAcademic">
               <c-select
                 horizontal
-                v-if="isAcademic"
                 label="Course"
                 v-model="query.course"
                 defaultLabel="All"
                 :options="[courses, 'id', 'name']"
               ></c-select>
             </div>
-            <div class="column is-4">
+            <!-- <div class="column is-4">
               <c-select
                 horizontal
                 v-if="isAcademic"
@@ -55,7 +56,7 @@
                 defaultLabel="All"
                 :options="[getYears(query.course), 'id', 'name']"
               ></c-select>
-            </div>
+            </div>-->
             <div class="column is-4">
               <c-select
                 horizontal
@@ -65,7 +66,7 @@
                 :options="[feeItems, 'id', 'name']"
               ></c-select>
             </div>
-            <div class="column is-4">
+            <div :class="['column is-4', {'is-offset-4': !isAcademic}]">
               <btn-search
                 :disabled="!queryValid"
                 :loading="$apollo.queries.feeStructure.loading"
@@ -75,11 +76,8 @@
           </div>
         </form>
       </ValidationObserver>
-      <div class="field" v-if="$hasRole('fee-structure-crud')">
-        <b-switch v-model="editMode">Edit Mode</b-switch>
-      </div>
       <Loader v-if="$apollo.queries.feeStructure.loading" />
-      <ValidationObserver v-else-if="editMode" v-slot="{ passes }" ref="observer">
+      <ValidationObserver v-else v-slot="{ passes }" ref="observer">
         <form @submit.prevent="passes(onSubmit)">
           <div class="table-container">
             <table class="table is-fullwidth is-striped is-narrow">
@@ -92,7 +90,7 @@
                   >Add New</button>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!isSearchFormDirty">
                 <th style="width:40px">#</th>
                 <th v-if="isAcademic" style="width:250px">Course</th>
                 <th v-if="isAcademic" style="width:100px">Year</th>
@@ -102,6 +100,9 @@
                 <th>FromDate</th>
                 <th>DueDate</th>
                 <th style="width:76px"></th>
+              </tr>
+              <tr v-if="feeStructure.length == 0">
+                <td colspan="3">No record found!</td>
               </tr>
               <template v-for="(obj,i) in activeFeeStructure" class="has-background-light newTr_">
                 <tr :key="i" v-if="i === editIndex">
@@ -239,12 +240,6 @@
           </div>
         </form>
       </ValidationObserver>
-      <c-table
-        v-else-if="!editMode"
-        :loading="$apollo.queries.feeStructure.loading"
-        :columns="columns"
-        :data="feeStructurePersisted"
-      />
       <b-notification
         v-if="isOther"
         type="is-warning"
@@ -266,14 +261,19 @@ import { GET_COURSES, GET_SESSIONS } from "@/graphql/shared";
 
 export default {
   name: "FeeStructure",
+  watch: {
+    "query.feeType"() {
+      this.setFeeStructure([]);
+    }
+  },
   mounted() {
     if (this.$route.query.course)
       this.$apollo.queries.feeStructure.skip = false;
   },
   data: function() {
     return {
-      editMode: true,
       editIndex: -1,
+      isSearchFormDirty: false,
       query: {
         fsSession: null,
         fsCategory: null,
@@ -315,10 +315,8 @@ export default {
       this.feeStructure.splice(i, 0, newObj);
     },
     remove(obj) {
-      // console.log("observer", this.$refs.observer.flags);
       if (!obj.id) this.feeStructure.splice(this.feeStructure.indexOf(obj), 1);
       else obj.isDeleted = true;
-      // only current row can be deleted, if so reset editIndex to none.
       this.editIndex = -1;
     },
     reset() {
@@ -423,14 +421,14 @@ export default {
     sessions: {
       query: GET_SESSIONS,
       result({ data, loading }) {
-        if (!loading && data.sessions)
+        if (!loading && data.sessions && !this.query.fsSession)
           this.query.fsSession = data.sessions[0].id;
       }
     },
     feeCategories: {
       query: GET_FEECATEGORIES,
       result({ data, loading }) {
-        if (!loading && data.feeCategories)
+        if (!loading && data.feeCategories && !this.query.fsCategory)
           this.query.fsCategory = data.feeCategories[0].id;
       }
     }, ///////////////////////End
@@ -461,19 +459,6 @@ export default {
     },
     feeTypes() {
       return this.$store.getters.feeTypes;
-    },
-    columns() {
-      if (this.query.feeType === "type-1")
-        return [
-          "courseName",
-          "year",
-          "Label",
-          "feeItemName",
-          "feeAmount",
-          "fromDate",
-          "dueDate"
-        ];
-      else return ["feeItemName", "feeAmount", "fromDate", "dueDate"];
     }
   },
   filters: {

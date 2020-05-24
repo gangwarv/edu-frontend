@@ -18,29 +18,36 @@
 
         <div class="column is-6">
           <btn-search
-            :loading="$apollo.queries.feeStructures.loading"
-            @click="$apollo.queries.feeStructures.refresh()"
+            :loading="$apollo.queries.courseFeeStructure.loading"
+            @click="$apollo.queries.courseFeeStructure.refresh()"
           ></btn-search>
         </div>
-        <!-- <div class="column is-12">
-          <a
-            @click="$emit('click')"
-          >
-            <span>Search</span>
-          </a>
-        </div>-->
       </div>
       <c-table
-        :loading="$apollo.queries.feeStructures.loading"
+        :loading="$apollo.queries.courseFeeStructure.loading"
         :columns="columns"
         :data="feeStructures"
         @edit="edit"
         :buttons="['edit']"
-        @change="change"
       >
-      <template slot="detail" slot-scope="props">
-           <span>{{JSON.stringify(props)}}</span>JJj
-         </template>
+        <template slot="detail" slot-scope="{ row: {feeDetails} }">
+          <!-- <span>{{JSON.stringify(props)}}</span>JJj -->
+          <table class="table" v-if="feeDetails.length">
+            <tr>
+              <th>Year</th>
+              <th>Label</th>
+              <th>Fee Item</th>
+              <th>Amount</th>
+            </tr>
+            <tr :key="item.id" v-for="item in feeDetails">
+              <td>{{ item.year == "0" ? 'pre-admission' :  item.year+'-Year' }}</td>
+              <td>{{ item.label }}</td>
+              <td>{{ item.feeItemName }}</td>
+              <td>{{ item.feeAmount }}</td>
+            </tr>
+          </table>
+          <span v-else>No record found</span>
+        </template>
       </c-table>
     </div>
   </div>
@@ -51,21 +58,21 @@ import { GET_COURSES_FEESTRUCTURE, GET_FEECATEGORIES } from "@/graphql/fee";
 import { GET_SESSIONS } from "@/graphql/shared";
 
 export default {
-  name: "FeeStructList",
+  name: "CourseFeeStructure",
   data: function() {
     return {
       fsSession: "",
       fsCategory: "",
-      columns: ["fsSession", "course", "courseName"],
+      columns: ["fsSession", "code", "courseName", "feeDefined"],
       error: null,
       feeStructures: null
     };
   },
   methods: {
-    edit({ course, fsSession, fsCategory }) {
+    edit({ id, fsSession, fsCategory }) {
       this.$router.push({
-        path: "feestructure",
-        query: { course, fsSession, fsCategory, feeType: "type-1" }
+        path: "fs-create",
+        query: { course: id, fsSession, fsCategory, feeType: "type-1" }
       });
     },
     change({ type, data, count }) {
@@ -86,12 +93,12 @@ export default {
       //console.log(query)
       this.$router.push({
         name: "feestructure",
-        query,
+        query
       });
     }
   },
   apollo: {
-    feeStructures: {
+    courseFeeStructure: {
       query: GET_COURSES_FEESTRUCTURE,
       variables() {
         return { fsSession: this.fsSession, fsCategory: this.fsCategory };
@@ -106,8 +113,10 @@ export default {
       manual: true,
       result({ loading, data }) {
         if (!loading)
-          this.feeStructures = data.feeStructures.map(x => ({
-            ...x
+          this.feeStructures = data.courseFeeStructure.map(x => ({
+            ...x,
+            feeDefined: x.feeDetails.length > 0,
+            feeDetails: x.feeDetails.sort((a,b)=>a.year>b.year? 1:-1)
           }));
       }
     },
